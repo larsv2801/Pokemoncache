@@ -1,0 +1,120 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Pokemon Cache</title>
+     <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css"
+     integrity="sha256-p4NxAoJBhIIN+hmNHrzRCf9tD/miZyoHS5obTRR9BMY="
+     crossorigin=""/>
+      <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"
+     integrity="sha256-20nQCchB9co0qIjJZRGuk2/Z9VM+kNiyxNV1lvTlZBo="
+     crossorigin=""></script>
+     <style>
+        body{
+            margin:0;
+            padding:0;
+        }
+        #map {
+            height:90dvh;
+        }
+     </style>
+</head>
+<body>
+    <div id="map"></div>
+    <script>
+
+        var map = L.map('map').setView([51.5, -0.09], 17);
+        L.tileLayer('https://tile.openstreetmap.org/{z}/{x}/{y}.png', {
+            maxZoom: 19,
+            attribution: '&copy; <a href="http://www.openstreetmap.org/copyright">OpenStreetMap</a>'
+        }).addTo(map);
+
+
+
+const latitudes = [
+  50.8949,
+  50.8451, 
+  50.8600, 
+  51.2086, 
+  50.9410, 
+  50.6090, 
+  50.6435, 
+  51.2093, 
+  51.2070, 
+  50.7333  
+];
+
+const longitudes = [
+  4.3416,  
+  4.3496, 
+  4.3649, 
+  4.4009,  
+  5.9720,  
+  4.8594,  
+  5.5714,  
+  3.2247, 
+  3.2240, 
+  5.3500  
+];
+
+
+for(let i = 0; i < longitudes.length; i++){
+
+        var circle = L.circle([latitudes[i], longitudes[i]], {
+            color:'red',
+            fillColor:'red',
+            fillOpacity:'0.8',
+            radius:7,
+        }).addTo(map);
+
+        //circle.bindPopup("I am a circle.");
+
+        circle.on('click', function() {
+            test(i)
+        });
+}
+
+
+function test(jef){
+            console.log("ja " + jef);
+}
+
+
+var loclat;
+var loclong;
+
+navigator.geolocation.getCurrentPosition((position) => {
+    loclat = position.coords.latitude;
+    loclong = position.coords.longitude;
+
+    console.log(loclat + " " + loclong);
+
+    if(locatiecircle){
+        locatie();
+    } else {
+    var locatiecircle = L.circle([loclat, loclong], {
+        color:'blue',
+        fillColor:'blue',
+        fillOpacity:0.5,
+        radius:10,
+    }).addTo(map);
+
+    map.setView([loclat, loclong], 13);
+    }
+    },
+    (error) => {
+    console.error("Kon locatie niet ophalen:", error);
+    },
+    { enableHighAccuracy: true, timeout: 10000 }
+);
+
+
+function locatie(){
+    locatiecircle.setLatLng([loclat, loclong]);
+    map.setView([loclat, loclong], 13);
+}
+
+    </script>
+</body>
+</html>
