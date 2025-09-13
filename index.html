@@ -83,6 +83,7 @@ function test(jef){
 
 var loclat;
 var loclong;
+var locatiecircle;
 
 navigator.geolocation.getCurrentPosition((position) => {
     loclat = position.coords.latitude;
@@ -93,29 +94,29 @@ navigator.geolocation.getCurrentPosition((position) => {
     if(locatiecircle){
         locatie();
     } else {
-    var locatiecircle = L.circle([loclat, loclong], {
+    locatiecircle = L.circle([loclat, loclong], {
         color:'blue',
         fillColor:'blue',
         fillOpacity:0.5,
-        radius:10,
+        radius:5,
     }).addTo(map);
 
-    map.setView([loclat, loclong], 13);
+    map.setView([loclat, loclong], 18);
     }
     },
     (error) => {
     console.error("Kon locatie niet ophalen:", error);
     },
-    { enableHighAccuracy: true, timeout: 10000 }
+    { enableHighAccuracy: true, timeout: 2000 }
 );
 
 
 function locatie(){
     locatiecircle.setLatLng([loclat, loclong]);
     map.setView([loclat, loclong], 18);
+    console.log("werkt");
 }
 
     </script>
 </body>
-
 </html>
