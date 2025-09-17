@@ -17,20 +17,106 @@
         }
         #map {
             height:90dvh;
+            display:flex;
+            z-index:8;
+        }
+
+        #centreer{
+            width:2vw;
+            height: 2vw;
+            border-radius: 3px;
+            outline:none;
+            background-color: #fcfcfc;
+            border:2px solid #c8c8c6b7;
+            display:flex;
+            z-index:9;
+            align-items:center;
+            justify-content:center;
+            position:absolute;
+            right:3vw;
+            top:3vw;
+            font-size:calc(1.2vw + 15px);
+            min-width:30px;
+            min-height:30px;
+        }
+
+        #centreer:focus{
+            transition:0.2s;
+            background-color: #f4f4f4;
+        }
+
+        #centreer p{
+            position:absolute;
+            left:50%;
+            transform: translate(-50%,-4%);
+        }
+
+        #unlock{
+            width:100dvw;
+            height:100dvh;
+            background-color: rgb(255, 126, 126);
+            display:flex;
+            z-index:9999999;
+            position:absolute;
+            left:50%;
+            top:50%;
+            transform: translate(-50%,-50%);
+            display:none;
+        }
+
+        #pokemon{
+            width:50dvw;
+            height:50dvw;
+            position:absolute;
+            left:50%;
+            top:50%;
+            transform: translate(-50%,-50%);
+        }
+
+        #sluit{
+           width:2vw;
+            height: 2vw;
+            border-radius: 3px;
+            outline:none;
+            background-color: #fcfcfc;
+            border:2px solid #c8c8c6b7;
+            display:flex;
+            z-index:9;
+            align-items:center;
+            justify-content:center;
+            position:absolute;
+            right:3vw;
+            top:3vw;
+            font-size:calc(1.2vw + 15px);
+            min-width:30px;
+            min-height:30px; 
         }
      </style>
 </head>
 <body>
+    <button id="centreer" onclick="locatie()"><p>x</p></button>
     <div id="map"></div>
+
+    <div id="unlock">
+        <button id="sluit" onclick="document.getElementById('unlock').style.display = 'none';"><p>x</p></button>
+        <img src="" id="pokemon">
+    </div>
+
     <script>
 
         var map = L.map('map').setView([51.5, -0.09], 17);
+
+        //zwart - wit
        L.tileLayer('https://{s}.basemaps.cartocdn.com/light_all/{z}/{x}/{y}.png', {
             attribution: '&copy; <a href="https://carto.com">CartoDB</a>'
         }).addTo(map);
+
+        //satteliet
         /*L.tileLayer('https://server.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/tile/{z}/{y}/{x}', {
             attribution: '&copy; <a href="https://www.esri.com">Esri</a>'
         }).addTo(map);*/
+
+        //standaard
         /*L.tileLayer('https://tile.openstreetmap.org/{z}/{x}/{y}.png', {
             maxZoom: 19, attribution: '&copy; <a href="http://www.openstreetmap.org/copyright">OpenStreetMap</a>' 
         }).addTo(map);*/
@@ -40,29 +126,35 @@
 
 
 const latitudes = [
-  50.8949,
-  50.8451, 
-  50.8600, 
-  51.2086, 
-  50.9410, 
-  50.6090, 
-  50.6435, 
-  51.2093, 
-  51.2070, 
-  50.7333  
+  50.8949, 50.8451, 51.2088,
+  50.7250, 50.5010, 51.3310, 50.7969,
+  50.9203, 50.0915, 50.5903, 50.3730,
+  50.8210, 51.2805, 50.9083, 50.9669,
+  51.2632, 50.7914, 51.0624, 51.2290,
+  50.7078, 51.0727, 50.5892, 51.2111,
+  51.2161, 50.9661, 50.6275, 50.7675, 50.3533, 50.9781
 ];
 
 const longitudes = [
-  4.3416,  
-  4.3496, 
-  4.3649, 
-  4.4009,  
-  5.9720,  
-  4.8594,  
-  5.5714,  
-  3.2247, 
-  3.2240, 
-  5.3500  
+  4.3416, 4.3496, 3.2241,
+  4.2830, 6.0990, 4.2750, 4.1972,
+  5.3175, 4.5565, 4.5275, 5.8720,
+  2.9310, 4.4785, 4.8072, 5.3989,
+  4.7855, 3.9192, 3.6741, 4.4330,
+  4.5931, 2.5937, 3.8836, 4.9294,
+  4.4214, 5.5205, 6.0290, 3.0060, 5.4714, 3.4709
+];
+
+
+const names = [
+  "Atomium", "Manneken Pis", "Grote Markt Brugge",
+  "Hallerbos", "Signal de Botrange", "Doel (Spookdorp)", "Kasteel van Gaasbeek",
+  "Abdijsite Herckenrode", "Fondry des Chiens", "Abdij van Villers-la-Ville", "Waterval van Coo",
+  "Palingbeek Domein", "Speelbos Peerdsbos", "Kasteel van Horst", "Bokrijk Speeltuin",
+  "De Lilse Bergen", "De Gavers", "Bourgoyen-Ossemeersen", "Park Spoor Noord",
+  "Walibi Belgium", "Plopsaland De Panne", "Pairi Daiza", "Bobbejaanland",
+  "Comics Station Antwerpen", "Karting Genk", "Indoor Karting Eupen",
+  "Ice Mountain Komen", "Adventure Valley Durbuy", "grammene test"
 ];
 
 
@@ -75,10 +167,10 @@ for(let i = 0; i < longitudes.length; i++){
             radius:7,
         }).addTo(map);
 
-        //circle.bindPopup("I am a circle.");
+        circle.bindPopup(names[i]);
 
         circle.on('click', function() {
-            test(i);
+            test(i, latitudes[i], longitudes[i]);
             circle.setStyle({
             color: 'green',
             fillColor: 'green',
@@ -88,8 +180,27 @@ for(let i = 0; i < longitudes.length; i++){
 }
 
 
-function test(jef){
-    console.log("ja " + jef);
+function test(jef, latt, longg){
+    if(loclat.toFixed(3) === latt.toFixed(3) && loclong.toFixed(3) === longg.toFixed(3)){
+
+    console.log("ja: " + loclat.toFixed(3) + " is gelijk aan " + latt + " en " + loclong.toFixed(3) + " is gelijk aan " + longg);
+    document.getElementById("unlock").style.display = "flex";
+    
+    const requestOptions = {
+        method: "GET",
+        redirect: "follow"
+    };
+
+    fetch(`https://pokeapi.co/api/v2/pokemon/${jef}`, requestOptions)
+    .then((response) => response.json())
+    .then((result) => {
+        document.getElementById("pokemon").src = result.sprites.front_default;
+    })
+    .catch((error) => console.error(error));
+
+    } else {
+        console.log("nee: " + loclat.toFixed(3) + " is niet gelijk aan " + latt.toFixed(3) + " en " + loclong.toFixed(3) + " is niet gelijk aan " + longg.toFixed(3));
+    }
 }
 
 
