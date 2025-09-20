@@ -165,8 +165,8 @@ for(let i = 0; i < longitudes.length; i++){
         let circle = L.circle([latitudes[i], longitudes[i]], {
             color:'red',
             fillColor:'red',
-            fillOpacity:'0.8',
-            radius:7,
+            fillOpacity:'0.7',
+            radius:9,
         }).addTo(map);
 
         circle.bindPopup(names[i]);
@@ -218,7 +218,7 @@ function test(jef, latt, longg){
 var loclat;
 var loclong;
 var locatiecircle;
-
+function testlocatieupdate(){
 navigator.geolocation.getCurrentPosition((position) => {
     loclat = position.coords.latitude;
     loclong = position.coords.longitude;
@@ -226,7 +226,8 @@ navigator.geolocation.getCurrentPosition((position) => {
     console.log(loclat + " " + loclong);
 
     if(locatiecircle){
-        locatie();
+        //locatie();
+        locatiecircle.setLatLng([loclat, loclong]);
     } else {
     locatiecircle = L.circleMarker([loclat, loclong], {
         color:'blue',
@@ -243,6 +244,10 @@ navigator.geolocation.getCurrentPosition((position) => {
     },
     { enableHighAccuracy: true, timeout: 2000 }
 );
+}
+setInterval(testlocatieupdate,2000);
+testlocatieupdate();
+
 
 
 function locatie(){
