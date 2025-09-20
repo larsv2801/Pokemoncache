@@ -157,6 +157,8 @@ const names = [
   "Ice Mountain Komen", "Adventure Valley Durbuy", "grammene test"
 ];
 
+const gevangenurls = [];
+
 
 for(let i = 0; i < longitudes.length; i++){
 
@@ -194,7 +196,16 @@ function test(jef, latt, longg){
     fetch(`https://pokeapi.co/api/v2/pokemon/${jef}`, requestOptions)
     .then((response) => response.json())
     .then((result) => {
-        document.getElementById("pokemon").src = result.sprites.front_default;
+        var shiny = Math.floor(Math.random() * 51);
+        console.log(shiny);
+        if(shiny === 25){
+         document.getElementById("pokemon").src = result.sprites.front_shiny;
+         gevangenurls.push(result.sprites.front_shiny); 
+        } else {
+            document.getElementById("pokemon").src = result.sprites.front_default;
+            gevangenurls.push(result.sprites.front_default); 
+        }
+        console.log(gevangenurls);
     })
     .catch((error) => console.error(error));
 
