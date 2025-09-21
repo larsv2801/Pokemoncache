@@ -16,28 +16,34 @@
             padding:0;
         }
         #map {
-            height:90dvh;
+            height:100dvh;
             display:flex;
             z-index:8;
+            transition:0.3s;
         }
 
         #centreer{
-            width:2vw;
-            height: 2vw;
-            border-radius: 3px;
+            /*width:4.6vh;
+            height: 4.6vh;*/
+            width: 30px;
+            height: 29px;
+            line-height: 26px;
+            border-radius: 4px;
             outline:none;
-            background-color: #fcfcfc;
-            border:2px solid #c8c8c6b7;
+            background:linear-gradient(135deg,rgba(255,255,255,0.2),rgba(255,255,255,0.3));
+            backdrop-filter: blur(4px);
+            border:2px solid #16161652;
             display:flex;
             z-index:9;
             align-items:center;
             justify-content:center;
             position:absolute;
-            right:3vw;
-            top:3vw;
-            font-size:calc(1.2vw + 15px);
-            min-width:30px;
-            min-height:30px;
+            left:10px;
+            top: 80px;
+            /*font-size:calc(1.2vw + 15px);*/
+            font: 18px/20px Tahoma, Verdana, sans-serif;
+            /*min-width:30px;
+            min-height:30px;*/
         }
 
         #centreer:focus{
@@ -91,10 +97,165 @@
             min-width:30px;
             min-height:30px; 
         }
+
+        #nav{
+            display:flex;
+            z-index:96;
+            position:relative;
+            gap:5vw;
+            justify-content: center;
+            align-items: center;
+            position:absolute;
+            bottom: 3vh;
+            left:50%;
+            transform: translate(-50%,-50%);
+            width:37dvw;
+            height:10vw;
+            border-radius:50px;
+            background:linear-gradient(135deg,rgba(255,255,255,0.2),rgba(255,255,255,0.3));
+            backdrop-filter: blur(4px);
+            border:1px gray solid;
+        }
+        #nav #homesvg{
+            fill:blue;
+        }
+        #nav svg{
+            width:8vw;
+            height:8vw;
+            fill:rgb(33, 33, 33);
+            transition:0.2s;
+        }
+
+        .leaflet-control{
+           background:linear-gradient(135deg,rgba(255,255,255,0.2),rgba(255,255,255,0.3));
+            backdrop-filter: blur(4px); 
+        }
+        .leaflet-bar{
+           background:linear-gradient(135deg,rgba(255,255,255,0.0),rgba(255,255,255,0.0));
+            backdrop-filter: blur(4px); 
+        }
+
+        .leaflet-bar a:active{
+           background:linear-gradient(135deg,rgba(255,255,255,0.0),rgba(255,255,255,0.0));
+            backdrop-filter: blur(4px); 
+        }
+
+        .leaflet-bar a:focus{
+           background:linear-gradient(135deg,rgba(255,255,255,0.0),rgba(255,255,255,0.0));
+            backdrop-filter: blur(4px); 
+        }
+
+        .leaflet-bar a:hover{
+           background:linear-gradient(135deg,rgba(255,255,255,0.0),rgba(255,255,255,0.0));
+            backdrop-filter: blur(4px); 
+        }
+
+        .leaflet-bar:focus{
+           background:linear-gradient(135deg,rgba(255,255,255,0.0),rgba(255,255,255,0.0));
+            backdrop-filter: blur(4px); 
+        }
+
+        .leaflet-bar:active{
+           background:linear-gradient(135deg,rgba(255,255,255,0.0),rgba(255,255,255,0.0));
+            backdrop-filter: blur(4px); 
+        }
+
+        .leaflet-bar a{
+           background:linear-gradient(135deg,rgba(255,255,255,0.2),rgba(255,255,255,0.3));
+            backdrop-filter: blur(4px); 
+        }
+
+        .leaflet-disabled{
+           background:linear-gradient(135deg,rgba(255,255,255,0.2),rgba(255,255,255,0.3)) !important;
+            backdrop-filter: blur(4px) !important; 
+        }
+
+        #settings{
+            width:96dvw;
+            padding:2vw;
+            height:100dvh;
+            background-color: rgb(233, 233, 233);
+            display:flex;
+            z-index:92;
+            justify-content:center;
+            position:relative;
+            display:none;
+        }
+        .tilesoort{
+            width:25vw;
+            height:25vw;
+            border:2px solid black;
+            border-radius: 15px;
+            transition: 0.2s;
+        }
+
+        .tilesoort:active{
+            transform: scale(1.2);
+            transition: 0.2s;
+        }
+
+        #tilecontainter{
+            height:30dvh;
+            width:96dvw;
+            display:flex;
+            flex-wrap:wrap;
+            padding:2dvw;
+            flex-direction:row;
+            gap:4vw;
+            justify-content:center;
+        }
+
+        #light{
+            background:url(/white.png);
+            background-size:cover;
+        }
+        #dark{
+            background:url(/black.png);
+            background-size:cover;
+        }
+        #voyager{
+            background:url(/voyager.png);
+            background-size:cover;
+        }
+        #satellite{
+            background:url(/satellite.png);
+            background-size:cover;
+        }
+        #standard{
+            background:url(/standard.png);
+            background-size:cover;
+        }
+
+        .leaflet-control-attribution {
+            font-size: 10px;
+            opacity: 0.7;
+            border-radius:5px;
+            background: rgba(255, 255, 255, 0.2); /* lichte achtergrond */
+            backdrop-filter: blur(4px);
+            bottom:3px;
+            right:3px;
+        }
      </style>
 </head>
 <body>
-    <button id="centreer" onclick="locatie()"><p>x</p></button>
+    <div id="nav">
+        <svg id="settingssvg" onclick="settings()" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 640 640"><path d="M269.5 156.7L283.2 96L356.8 96L370.5 156.7C372.2 164.1 377.3 170.3 384.3 173.4C395.1 178.2 405.3 184.1 414.7 191C420.8 195.5 428.8 196.9 436.1 194.6L495.6 176.1L532.4 239.9L486.6 282.2C481 287.4 478.2 294.9 479 302.4C480.3 313.9 480.3 326.1 479 337.6C478.2 345.2 481 352.7 486.6 357.8L532.4 400.1L495.6 463.9L436.1 445.4C428.8 443.1 420.9 444.5 414.7 449C405.3 455.9 395.1 461.9 384.3 466.6C377.3 469.7 372.2 475.9 370.5 483.3L356.8 544L283.2 544L269.5 483.3C267.8 475.9 262.7 469.7 255.7 466.6C244.9 461.8 234.7 455.9 225.3 449C219.2 444.5 211.2 443.1 203.9 445.4L144.4 463.9L107.6 400.1L153.4 357.8C159 352.6 161.8 345.1 161 337.6C159.7 326.1 159.7 313.9 161 302.4C161.8 294.8 159 287.3 153.4 282.2L107.6 239.9L144.4 176.1L203.9 194.6C211.2 196.9 219.1 195.5 225.3 191C234.7 184.1 244.9 178.1 255.7 173.4C262.7 170.3 267.8 164.1 269.5 156.7zM276.8 48C258.1 48 241.9 61 237.8 79.2L225.2 134.8C218.9 138 212.9 141.5 207 145.3L152.6 128.4C134.7 122.8 115.4 130.4 106.1 146.6L62.9 221.4C53.6 237.6 56.7 258.1 70.4 270.8L112.3 309.5C112 316.4 112 323.5 112.3 330.5L70.4 369.2C56.7 381.9 53.5 402.4 62.9 418.6L106.1 493.4C115.4 509.6 134.8 517.1 152.6 511.6L207.1 494.7C213 498.5 219 502 225.3 505.2L237.9 560.8C242 579 258.2 592 276.9 592L363.3 592C382 592 398.2 579 402.3 560.8L414.9 505.2C421.2 502 427.2 498.5 433.1 494.7L487.6 511.6C505.5 517.2 524.8 509.6 534.1 493.4L577.3 418.6C586.6 402.4 583.5 381.9 569.8 369.2L527.9 330.5C528.2 323.6 528.2 316.5 527.9 309.5L569.8 270.8C583.5 258.1 586.6 237.6 577.3 221.4L534 146.6C524.6 130.4 505.3 122.9 487.5 128.4L433 145.3C427.1 141.5 421.1 138 414.8 134.8L402.3 79.2C398.1 61 381.9 48 363.2 48L276.8 48zM368 320C368 346.5 346.5 368 320 368C293.5 368 272 346.5 272 320C272 293.5 293.5 272 320 272C346.5 272 368 293.5 368 320zM320 224C267 224 224 267 224 320C224 373 267 416 320 416C373 416 416 373 416 320C416 267 373 224 320 224z"/></svg>
+        <svg id="homesvg" onclick="home()" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 640 640"><path d="M304 70.1C313.1 61.9 326.9 61.9 336 70.1L568 278.1C577.9 286.9 578.7 302.1 569.8 312C560.9 321.9 545.8 322.7 535.9 313.8L527.9 306.6L527.9 511.9C527.9 547.2 499.2 575.9 463.9 575.9L175.9 575.9C140.6 575.9 111.9 547.2 111.9 511.9L111.9 306.6L103.9 313.8C94 322.6 78.9 321.8 70 312C61.1 302.2 62 287 71.8 278.1L304 70.1zM320 120.2L160 263.7L160 512C160 520.8 167.2 528 176 528L224 528L224 424C224 384.2 256.2 352 296 352L344 352C383.8 352 416 384.2 416 424L416 528L464 528C472.8 528 480 520.8 480 512L480 263.7L320 120.3zM272 528L368 528L368 424C368 410.7 357.3 400 344 400L296 400C282.7 400 272 410.7 272 424L272 528z"/></svg>
+        <svg id="collectsvg" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 640 640"><path d="M480 144C488.8 144 496 151.2 496 160L496 296L344 296L344 144L480 144zM496 344L496 480C496 488.8 488.8 496 480 496L344 496L344 344L496 344zM296 296L144 296L144 160C144 151.2 151.2 144 160 144L296 144L296 296zM144 344L296 344L296 496L160 496C151.2 496 144 488.8 144 480L144 344zM160 96C124.7 96 96 124.7 96 160L96 480C96 515.3 124.7 544 160 544L480 544C515.3 544 544 515.3 544 480L544 160C544 124.7 515.3 96 480 96L160 96z"/></svg>
+    </div>
+
+    <section id="settings">
+        <div id="tilecontainter">
+            <div class="tilesoort" id="light" onclick="changemap(white)"></div>
+            <div class="tilesoort" id="dark" onclick="changemap(black)"></div>
+            <div class="tilesoort" id="voyager" onclick="changemap(voyager)"></div>
+            <div class="tilesoort" id="satellite" onclick="changemap(satellite)"></div>
+            <div class="tilesoort" id="standard" onclick="changemap(standard)"></div>
+        </div>
+    </section>
+
+    <div id="centreer" onclick="locatie()"><p>X</p></div>
+
     <div id="map"></div>
 
     <div id="unlock">
@@ -106,24 +267,68 @@
 
         var map = L.map('map').setView([51.5, -0.09], 17);
 
-        //zwart - wit
-       L.tileLayer('https://{s}.basemaps.cartocdn.com/light_all/{z}/{x}/{y}.png', {
+        //wit - zwart
+        var white = L.tileLayer('https://{s}.basemaps.cartocdn.com/light_all/{z}/{x}/{y}.png', {
             attribution: '&copy; <a href="https://carto.com">CartoDB</a>'
-        }).addTo(map);
+        });
+
+        //zwart - wit
+        var black = L.tileLayer('https://{s}.basemaps.cartocdn.com/dark_all/{z}/{x}/{y}{r}.png', {
+            attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors &copy; <a href="https://carto.com/">CARTO</a>',
+            subdomains: 'abcd',
+            maxZoom: 20
+        });
+
+        //voyager
+        var voyager = L.tileLayer('https://{s}.basemaps.cartocdn.com/rastertiles/voyager/{z}/{x}/{y}{r}.png', {
+            attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors &copy; <a href="https://carto.com/">CARTO</a>',
+            subdomains: 'abcd',
+            maxZoom: 20
+        });
 
         //satteliet
-        /*L.tileLayer('https://server.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/tile/{z}/{y}/{x}', {
+        var satellite = L.tileLayer('https://server.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/tile/{z}/{y}/{x}', {
             attribution: '&copy; <a href="https://www.esri.com">Esri</a>'
-        }).addTo(map);*/
+        });
 
         //standaard
-        /*L.tileLayer('https://tile.openstreetmap.org/{z}/{x}/{y}.png', {
+        var standard = L.tileLayer('https://tile.openstreetmap.org/{z}/{x}/{y}.png', {
             maxZoom: 19, attribution: '&copy; <a href="http://www.openstreetmap.org/copyright">OpenStreetMap</a>' 
-        }).addTo(map);*/
+        });
 
+        standard.addTo(map);
 
+        /*var baseMaps = {
+            "Light": white,
+            "Dark": black,
+            "Voyager": voyager,
+            "Satellite": satellite,
+            "Standard": standard
+        };*/
 
+var currentLayer = standard;
 
+function changemap(jef){
+
+map.removeLayer(currentLayer); // verwijder oude
+jef.addTo(map);           // voeg nieuwe toe
+currentLayer = jef; 
+
+}
+
+function settings(){
+    document.getElementById("settings").style.display = "flex";
+    document.getElementById("homesvg").style.fill = "rgb(33, 33, 33)";
+    document.getElementById("collectsvg").style.fill = "rgb(33, 33, 33)";
+    document.getElementById("settingssvg").style.fill = "blue";
+}
+
+function home(){
+    document.getElementById("settings").style.display = "none";
+    document.getElementById("homesvg").style.fill = "blue";
+    document.getElementById("collectsvg").style.fill = "rgb(33, 33, 33)";
+    document.getElementById("settingssvg").style.fill = "rgb(33, 33, 33)";
+}
 
 const latitudes = [
   50.8949, 50.8451, 51.2088,
@@ -132,7 +337,9 @@ const latitudes = [
   50.8210, 51.2805, 50.9083, 50.9669,
   51.2632, 50.7914, 51.0624, 51.2290,
   50.7078, 51.0727, 50.5892, 51.2111,
-  51.2161, 50.9661, 50.6275, 50.7675, 50.3533, 50.9781
+  51.2161, 50.9661, 50.6275, 50.7675,
+  50.3533, 50.9781, 51.0019, 51.0506,
+  51.1753, 50.8242, 50.7417
 ];
 
 const longitudes = [
@@ -142,7 +349,9 @@ const longitudes = [
   2.9310, 4.4785, 4.8072, 5.3989,
   4.7855, 3.9192, 3.6741, 4.4330,
   4.5931, 2.5937, 3.8836, 4.9294,
-  4.4214, 5.5205, 6.0290, 3.0060, 5.4714, 3.4709
+  4.4214, 5.5205, 6.0290, 3.0060,
+  5.4714, 3.4709, 3.7090, 3.6466,
+  3.9122, 2.8851, 4.3047 
 ];
 
 
@@ -154,10 +363,13 @@ const names = [
   "De Lilse Bergen", "De Gavers", "Bourgoyen-Ossemeersen", "Park Spoor Noord",
   "Walibi Belgium", "Plopsaland De Panne", "Pairi Daiza", "Bobbejaanland",
   "Comics Station Antwerpen", "Karting Genk", "Indoor Karting Eupen",
-  "Ice Mountain Komen", "Adventure Valley Durbuy", "grammene test"
+  "Ice Mountain Komen", "Adventure Valley Durbuy", "grammene test",
+  "Sint-Amanduskerk Zwijnaarde", "Sint-Jan-de-Doperkerk Drongen", "Sint-Bavokerk Moerbeke-Waas",
+  "Sint-Martinuskerk Zillebeke", "Onze-Lieve-Vrouwkerk Alsemberg"
 ];
 
 const gevangenurls = [];
+const gevangenids = [];
 
 
 for(let i = 0; i < longitudes.length; i++){
@@ -165,8 +377,8 @@ for(let i = 0; i < longitudes.length; i++){
         let circle = L.circle([latitudes[i], longitudes[i]], {
             color:'red',
             fillColor:'red',
-            fillOpacity:'0.7',
-            radius:9,
+            fillOpacity:'0.5',
+            radius:55,
         }).addTo(map);
 
         circle.bindPopup(names[i]);
@@ -201,9 +413,11 @@ function test(jef, latt, longg){
         if(shiny === 25){
          document.getElementById("pokemon").src = result.sprites.front_shiny;
          gevangenurls.push(result.sprites.front_shiny); 
+         gevangenids.push(jef); 
         } else {
             document.getElementById("pokemon").src = result.sprites.front_default;
             gevangenurls.push(result.sprites.front_default); 
+            gevangenids.push(jef); 
         }
         console.log(gevangenurls);
     })
