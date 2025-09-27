@@ -764,6 +764,10 @@ function darkmode(){
         }
        level = parseInt(localStorage.getItem("level")) || 5;
 
+        if(level < 5){
+            level = 5
+        }
+
        document.getElementById("level").value = level;
         document.getElementById("leveltekst").innerText = ((level - 5)/100).toFixed(0);
         document.getElementById("naarleveltekst").innerText = (((level - 5)/100) + 1).toFixed(0);
