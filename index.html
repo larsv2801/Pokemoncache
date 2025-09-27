@@ -48,7 +48,7 @@
         }
 
         #centreer:focus{
-            transition:0.2s;
+            transition:0.3s;
             background-color: #f4f4f4;
         }
 
@@ -61,7 +61,8 @@
         #unlock{
             width:100dvw;
             height:100dvh;
-            background-color: rgb(255, 126, 126);
+            background:linear-gradient(135deg,rgba(78, 78, 78, 0.5),rgba(58, 58, 58, 0.7));
+            backdrop-filter: blur(4px); 
             display:flex;
             z-index:9999999;
             position:absolute;
@@ -69,6 +70,7 @@
             top:50%;
             transform: translate(-50%,-50%);
             display:none;
+            transition:0.3s;
         }
 
         #pokemon{
@@ -119,13 +121,13 @@
             border:1px gray solid;
         }
         #nav #homesvg{
-            fill:blue;
+            fill:burlywood;
         }
         #nav svg{
             width:8vw;
             height:8vw;
             fill:rgb(33, 33, 33);
-            transition:0.2s;
+            transition:0.3s;
         }
 
         .leaflet-control{
@@ -183,18 +185,19 @@
             justify-content:center;
             position:absolute;
             display:none;
+            transition:0.3s;
         }
         .tilesoort{
             width:25vw;
             height:25vw;
-            border:2px solid black;
+            border:2px solid burlywood;
             border-radius: 15px;
-            transition: 0.2s;
+            transition: 0.3s;
         }
 
         .tilesoort:active{
             transform: scale(1.2);
-            transition: 0.2s;
+            transition: 0.3s;
         }
 
         #tilecontainter{
@@ -211,26 +214,32 @@
         #light{
             background:url(white.png);
             background-size:cover;
+            user-select: none;
         }
         #dark{
             background:url(black.png);
             background-size:cover;
+            user-select: none;
         }
         #voyager{
             background:url(voyager.png);
             background-size:cover;
+            user-select: none;
         }
         #satellite{
             background:url(satellite.png);
             background-size:cover;
+            user-select: none;
         }
         #standard{
             background:url(standard.png);
             background-size:cover;
+            user-select: none;
         }
         #geel{
             background:url(geel.png);
             background-size:cover;
+            user-select: none;
         }
 
         .leaflet-control-attribution {
@@ -256,13 +265,16 @@
             top:0;
             left:0;
             overflow:hidden;
+            user-select: none;
+            transition:0.3s;
         }
         .pokémon{
             width:25vw;
             height:25vw;
-            border:2px solid black;
+            border:2px solid burlywood;
             border-radius: 15px;
-            transition: 0.2s;
+            user-select: none;
+            transition:0.3s;
         }
 
         #pokecontainter{
@@ -276,6 +288,52 @@
             justify-content:center;
             max-height:100dvh;
             overflow-y:auto;
+        }
+        
+        .toggle{
+            width:8vw;
+            height:4vw;
+            background-color: gray;
+            border: 2px solid black;
+            border-radius:50px;
+            position:absolute;
+            display:flex;
+            align-items:center;
+            right:5%;
+            transition:0.3s;
+            user-select: none;
+            cursor:pointer;
+        }
+
+        .togglecirc{
+            background-color: #eef3ef;
+            height:4vw;
+            width:4vw;
+            border-radius:50px;
+            position:absolute;
+            left:0%;
+            transition:0.3s;
+            cursor:pointer;
+            user-select: none;
+        }
+
+        #toggle1cont{
+            position:relative;
+            font-family:arial;
+            position:absolute;
+            top:50%;
+            left:50%;
+            transform:translate(-50%,-50%);
+            width:84dvw;
+            padding:4vw;
+            height:8vw;
+            display:flex;
+            align-items:center;
+            user-select: none;
+        }
+
+        h1{
+            user-select: none;
         }
      </style>
 </head>
@@ -294,6 +352,13 @@
             <div class="tilesoort" id="satellite" onclick="changemap(satellite)"></div>
             <div class="tilesoort" id="standard" onclick="changemap(standard)"></div>
             <div class="tilesoort" id="geel" onclick="changemap(geel)"></div>
+        </div>
+        <div id="toggle1cont">
+            <h1 id="dltoggleh1">Dark Mode</h1>
+            <div onclick="darkmode()" id="dltoggle" class="toggle">
+                <div id="dltogglecirc" class="togglecirc">
+            </div>
+        </div>
         </div>
     </section>
 
@@ -372,25 +437,25 @@ currentLayer = jef;
 function settings(){
     document.getElementById("settings").style.display = "flex";
     document.getElementById("collection").style.display = "none";
-    document.getElementById("homesvg").style.fill = "rgb(33, 33, 33)";
-    document.getElementById("collectsvg").style.fill = "rgb(33, 33, 33)";
-    document.getElementById("settingssvg").style.fill = "blue";
+    document.getElementById("homesvg").style.fill = "black";
+    document.getElementById("collectsvg").style.fill = "black";
+    document.getElementById("settingssvg").style.fill = "burlywood";
 }
 
 function collection(){
     document.getElementById("collection").style.display = "flex";
     document.getElementById("settings").style.display = "none";
-    document.getElementById("homesvg").style.fill = "rgb(33, 33, 33)";
-    document.getElementById("collectsvg").style.fill = "blue";
-    document.getElementById("settingssvg").style.fill = "rgb(33, 33, 33)";
+    document.getElementById("homesvg").style.fill = "black";
+    document.getElementById("collectsvg").style.fill = "burlywood";
+    document.getElementById("settingssvg").style.fill = "black";
 }
 
 function home(){
     document.getElementById("settings").style.display = "none";
     document.getElementById("collection").style.display = "none";
-    document.getElementById("homesvg").style.fill = "blue";
-    document.getElementById("collectsvg").style.fill = "rgb(33, 33, 33)";
-    document.getElementById("settingssvg").style.fill = "rgb(33, 33, 33)";
+    document.getElementById("homesvg").style.fill = "burlywood";
+    document.getElementById("collectsvg").style.fill = "black";
+    document.getElementById("settingssvg").style.fill = "black";
 }
 
 const latitudes = [
@@ -441,18 +506,20 @@ for(let i = 0; i < longitudes.length; i++){
             color:'red',
             fillColor:'red',
             fillOpacity:'0.5',
-            radius:44,
+            radius:45,
         }).addTo(map);
 
         /*circle.bindPopup(names[i]);*/
 
         circle.on('click', function() {
             test(i, latitudes[i], longitudes[i]);
-            circle.setStyle({
-            color: 'green',
-            fillColor: 'green',
-            fillOpacity:'0.8',
+            if(loclat.toFixed(3) === latitudes[i].toFixed(3) && loclong.toFixed(3) === longitudes[i].toFixed(3)){
+                circle.setStyle({
+                color: 'green',
+                fillColor: 'green',
+                fillOpacity:'0.8',
             });
+            }
         });
 }
 
@@ -464,14 +531,17 @@ function test(jef, latt, longg){
     if(loclat.toFixed(3) === latt.toFixed(3) && loclong.toFixed(3) === longg.toFixed(3)){
 
     console.log("ja: " + loclat.toFixed(3) + " is gelijk aan " + latt + " en " + loclong.toFixed(3) + " is gelijk aan " + longg);
-    document.getElementById("unlock").style.display = "flex";
+
+    var h = new Date();
+    var hh = h.getMinutes();
+    console.log(jef + hh);
     
     const requestOptions = {
         method: "GET",
         redirect: "follow"
     };
 
-    fetch(`https://pokeapi.co/api/v2/pokemon/${jef}`, requestOptions)
+    fetch(`https://pokeapi.co/api/v2/pokemon/${jef + hh}`, requestOptions)
     .then((response) => response.json())
     .then((result) => {
         var el = document.createElement('div');
@@ -480,21 +550,25 @@ function test(jef, latt, longg){
         var shiny = Math.floor(Math.random() * 51);
         console.log(shiny);
         if(shiny < 6){
+        document.getElementById("unlock").style.background = "linear-gradient(135deg,rgba(237, 250, 172, 0.5),rgba(241, 255, 114, 0.7))";
          document.getElementById("pokemon").src = result.sprites.front_shiny;
          el.style.background = `url(${result.sprites.front_shiny})`;
          el.style.backgroundSize = "cover";
+         el.style.borderColor = "rgb(251, 255, 145)";
          gevangenurls.push(result.sprites.front_shiny); 
          gevangenids.push(jef); 
         } else {
+            document.getElementById("unlock").style.background = unlockcolor;
             document.getElementById("pokemon").src = result.sprites.front_default;
             el.style.background = `url(${result.sprites.front_default})`;
             el.style.backgroundSize = "cover";
             gevangenurls.push(result.sprites.front_default); 
             gevangenids.push(jef); 
         }
+
+        document.getElementById("unlock").style.display = "flex";
  
         document.getElementById("pokecontainter").appendChild(el);
-        console.log(gevangenurls);
     })
     .catch((error) => console.error(error));
 
@@ -548,8 +622,37 @@ function locatie(){
     console.log("werkt");
 }
 
+var dark = 0;
+var bgcolor = "rgb(233, 233, 233)";
+var txcolor = "black";
+var unlockcolor = "linear-gradient(135deg,rgba(255,255,255,0.5),rgba(255,255,255,0.7))";
+function darkmode(){
+    if(dark === 0){
+        bgcolor = "rgb(44, 44, 44)";
+        txcolor = "#eef3ef";
+        unlockcolor = "linear-gradient(135deg,rgba(78, 78, 78, 0.5),rgba(58, 58, 58, 0.7))";
+        document.getElementById("dltogglecirc").style.left = "calc(100% - 4vw)";
+        document.getElementById("dltoggle").style.backgroundColor = "burlywood";
+        dark = 1;
+
+        document.getElementById("settings").style.backgroundColor = bgcolor;
+        document.getElementById("collection").style.backgroundColor = bgcolor;
+        document.getElementById("dltoggleh1").style.color = txcolor;
+
+    } else {
+        bgcolor = "rgb(233, 233, 233)";
+        txcolor = "black";
+        unlockcolor = "linear-gradient(135deg,rgba(255,255,255,0.5),rgba(255,255,255,0.7))";
+        document.getElementById("dltogglecirc").style.left = "0%";
+        document.getElementById("dltoggle").style.backgroundColor = "gray";
+        dark = 0;
+
+        document.getElementById("settings").style.backgroundColor = bgcolor;
+        document.getElementById("collection").style.backgroundColor = bgcolor;
+        document.getElementById("dltoggleh1").style.color = txcolor;
+
+    }
+}
     </script>
 </body>
 </html>
-
-
