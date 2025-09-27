@@ -626,9 +626,9 @@ function test(jef, latt, longg){
         var el = document.createElement('div');
         el.className = "pokémon";
 
-        var shiny = Math.floor(Math.random() * 51);
+        var shiny = Math.floor(Math.random() * 26);
         console.log(shiny);
-        if(shiny < 6){
+        if(shiny < 2){
         document.getElementById("unlock").style.background = "linear-gradient(135deg,rgba(237, 250, 172, 0.5),rgba(241, 255, 114, 0.7))";
          document.getElementById("pokemon").src = result.sprites.front_shiny;
          el.style.background = `url(${result.sprites.front_shiny})`;
