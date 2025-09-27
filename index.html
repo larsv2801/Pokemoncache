@@ -309,6 +309,12 @@
             transition:0.3s;
             user-select: none;
             cursor:pointer;
+            -webkit-tap-highlight-color: transparent;
+            outline:none;
+        }
+
+        .toggle:focus{
+            outline:none;
         }
 
         .togglecirc{
@@ -321,6 +327,7 @@
             transition:0.3s;
             cursor:pointer;
             user-select: none;
+            -webkit-tap-highlight-color: transparent;
         }
 
         #toggle1cont{
@@ -693,12 +700,14 @@ function darkmode(){
         document.getElementById("collection").style.backgroundColor = bgcolor;
         document.getElementById("dltoggleh1").style.color = txcolor;
     }
+    localStorage.setItem("darkmode", dark);
 }
 
     function saveeverything(){
         localStorage.setItem("ids", JSON.stringify(gevangenids));
         localStorage.setItem("urls", JSON.stringify(gevangenurls));
         localStorage.setItem("level", level);
+        localStorage.setItem("darkmode", dark);
     }
 
     function loadeverything(){
@@ -707,6 +716,20 @@ function darkmode(){
         }
         if(localStorage.getItem("urls")){
             gevangenurls = JSON.parse(localStorage.getItem("urls")); 
+        }
+        if(localStorage.getItem("darkmode") === "1"){
+        console.log("dark");
+        dark = 1;
+        bgcolor = "rgb(44, 44, 44)";
+        txcolor = "#eef3ef";
+        unlockcolor = "linear-gradient(135deg,rgba(78, 78, 78, 0.5),rgba(58, 58, 58, 0.7))";
+        document.getElementById("dltogglecirc").style.left = "calc(100% - 4vw)";
+        document.getElementById("dltoggle").style.backgroundColor = "burlywood";
+        document.getElementById("settings").style.backgroundColor = bgcolor;
+        document.getElementById("collection").style.backgroundColor = bgcolor;
+        document.getElementById("dltoggleh1").style.color = txcolor;
+        } else {
+            dark = 0;
         }
        level = parseInt(localStorage.getItem("level")) || 0;
 
