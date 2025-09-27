@@ -540,9 +540,11 @@ for(let i = 0; i < longitudes.length; i++){
             radius:45
         }
 
-        if (gevangenids.includes(i + "d" + hhh)) {
-        circleoptions.color = 'green';
-        circleoptions.fillColor = 'green';
+        if(gevangenids){
+            if (gevangenids.includes(i + "d" + hhh)) {
+                circleoptions.color = 'green';
+                circleoptions.fillColor = 'green';
+            }
         }
 
         let circle = L.circle([latitudes[i], longitudes[i]], circleoptions).addTo(map);
@@ -700,9 +702,13 @@ function darkmode(){
     }
 
     function loadeverything(){
-       gevangenids = JSON.parse(localStorage.getItem("ids")); 
-       gevangenurls = JSON.parse(localStorage.getItem("urls")); 
-       level = parseInt(localStorage.getItem("level"));
+        if(localStorage.getItem("ids")){
+            gevangenids = JSON.parse(localStorage.getItem("ids")); 
+        }
+        if(localStorage.getItem("urls")){
+            gevangenurls = JSON.parse(localStorage.getItem("urls")); 
+        }
+       level = parseInt(localStorage.getItem("level")) || 0;
 
        document.getElementById("level").value = level;
 
@@ -715,8 +721,8 @@ function darkmode(){
         el.style.borderColor = "rgb(251, 255, 145)";
         }
         document.getElementById("pokecontainter").appendChild(el);
-        makemap();
        }
+       makemap();
     }
     </script>
 </body>
