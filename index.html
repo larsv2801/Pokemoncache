@@ -285,7 +285,8 @@
         }
 
         #pokecontainter{
-            height:90dvh;
+            max-height:90dvh;
+            min-height:25vw;
             width:96dvw;
             position:absolute;
             left:50%;
@@ -780,6 +781,8 @@ function darkmode(){
         document.getElementById("settings").style.backgroundColor = bgcolor;
         document.getElementById("collection").style.backgroundColor = bgcolor;
         document.getElementById("dltoggleh1").style.color = txcolor;
+        document.getElementById("leveltekst").style.color = txcolor;
+        document.getElementById("naarleveltekst").style.color = txcolor;
     } else {
         bgcolor = "rgb(233, 233, 233)";
         txcolor = "black";
@@ -791,6 +794,8 @@ function darkmode(){
         document.getElementById("settings").style.backgroundColor = bgcolor;
         document.getElementById("collection").style.backgroundColor = bgcolor;
         document.getElementById("dltoggleh1").style.color = txcolor;
+        document.getElementById("leveltekst").style.color = txcolor;
+        document.getElementById("naarleveltekst").style.color = txcolor;
     }
     localStorage.setItem("darkmode", dark);
 }
@@ -820,6 +825,8 @@ function darkmode(){
         document.getElementById("settings").style.backgroundColor = bgcolor;
         document.getElementById("collection").style.backgroundColor = bgcolor;
         document.getElementById("dltoggleh1").style.color = txcolor;
+        document.getElementById("leveltekst").style.color = txcolor;
+        document.getElementById("naarleveltekst").style.color = txcolor;
         } else {
             dark = 0;
         }
