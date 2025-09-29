@@ -271,7 +271,7 @@
             display:none;
             top:0;
             left:0;
-            overflow:hidden;
+            overflow-x:hidden;
             user-select: none;
             transition:0.3s;
         }
@@ -282,22 +282,38 @@
             border-radius: 15px;
             user-select: none;
             transition:0.3s;
+            position:relative;
+            overflow:hidden;
+        }
+
+        .pokémon h3{
+            position:absolute;
+            bottom:0;
+            right:0;
+            transform: translate(1%,60%);
+            color:white;
+            background:burlywood;
+            padding:1vw;
+            min-width:10vw;
+            border-radius:5px;
+            font-family:arial;
+            font-size:3vw;
         }
 
         #pokecontainter{
-            max-height:90dvh;
-            min-height:25vw;
-            width:96dvw;
+            height:75dvh;
+            width:95dvw;
             position:absolute;
             left:50%;
+            top:7%;
             transform: translate(-50%,0%);
             display:flex;
             flex-wrap:wrap;
             padding:2dvw;
-            padding-top:5dvh;
+            padding-top:2dvh;
+            padding-bottom:15dvh;
             flex-direction:row;
             gap:4vw;
-            margin-top: 5vh;
             justify-content:center;
             max-height:100dvh;
             overflow-y:auto;
@@ -356,16 +372,12 @@
             user-select: none;
         }
 
-        progress::-webkit-progress-bar{
-            background-color:white;
-            border-radius:50px;
-            width:80dvw;
-        }
-        progress::-webkit-progress-value {
+        #progress {
             background-color:burlywood;
             border-radius: 50px;
+            height:3vh;
         }
-        progress{
+        #progressbar{
             background-color:white;
             border-radius:50px;
             width:80dvw;
@@ -377,9 +389,16 @@
             overflow:hidden;
         }
 
+        /*input[type=range]::-webkit-slider-thumb{
+            display:none;
+            background-color: transparent;
+            border:none;
+            outline:none;
+        }*/
+
         #collection h2{
             font-family: arial;
-            color:white;
+            color:black;
             font-size:5vw;
         }
         #leveltekst{
@@ -445,7 +464,9 @@
     <section id="collection">
         <div id="topbar">
             <h2 id="leveltekst">0</h2>
-            <progress id="level" value="5" max="105"></progress>
+            <div id="progressbar">
+                <div id="progress"></div>
+            </div>
             <h2 id="naarleveltekst">1</h2>
         </div>
         <div id="pokecontainter"></div>
@@ -574,7 +595,8 @@ const names = [
 
 let gevangenurls = [];
 let gevangenids = [];
-var level = 5;
+var level = 0;
+var xp = 0;
 
 var h = new Date();
 var hh = h.getMinutes();
@@ -675,7 +697,7 @@ function test(jef, latt, longg){
     hhh = h.getDate();
     hhhh = h.getHours();
     console.log(jef + hhh);
-    var random = (Math.floor(Math.random() * 6))-3;
+    var random = (Math.floor(Math.random() * 31))-15;
     
     const requestOptions = {
         method: "GET",
@@ -696,20 +718,22 @@ function test(jef, latt, longg){
          el.style.background = `url(${result.sprites.front_shiny})`;
          el.style.backgroundSize = "cover";
          el.style.borderColor = "rgb(251, 255, 145)";
+         //el.innerHTML = `<h3>${jef + hh + random}</h3>`;
          gevangenurls.push(result.sprites.front_shiny); 
-         gevangenids.push(jef + "d" + hhh); 
+         gevangenids.push(jef + "d" + hhh + "h" + hhhh); 
         } else {
             document.getElementById("unlock").style.background = unlockcolor;
             document.getElementById("pokemon").src = result.sprites.front_default;
             el.style.background = `url(${result.sprites.front_default})`;
             el.style.backgroundSize = "cover";
+            //el.innerHTML = `<h3>${jef + hh + random}</h3>`;
             gevangenurls.push(result.sprites.front_default); 
             gevangenids.push(jef + "d" + hhh + "h" + hhhh); 
         }
 
         document.getElementById("unlock").style.display = "flex";
-        level++;
-        document.getElementById("level").value = level;
+        xp++;
+        levelxp();
         document.getElementById("pokecontainter").appendChild(el);
         saveeverything();
     })
@@ -798,12 +822,13 @@ function darkmode(){
         document.getElementById("naarleveltekst").style.color = txcolor;
     }
     localStorage.setItem("darkmode", dark);
+    saveeverything();
 }
 
     function saveeverything(){
         localStorage.setItem("ids", JSON.stringify(gevangenids));
         localStorage.setItem("urls", JSON.stringify(gevangenurls));
-        localStorage.setItem("level", level);
+        localStorage.setItem("xp", xp);
         localStorage.setItem("darkmode", dark);
     }
 
@@ -830,15 +855,15 @@ function darkmode(){
         } else {
             dark = 0;
         }
-       level = parseInt(localStorage.getItem("level")) || 5;
-
-        if(level < 5){
-            level = 5
+        if(localStorage.getItem("xp")){
+            xp = parseInt(localStorage.getItem("xp"))
+        } else {
+            xp = 0;
+            level = 0;
+            localStorage.setItem("xp", xp);
+            window.location.reload();
         }
-
-       document.getElementById("level").value = level;
-        document.getElementById("leveltekst").innerText = ((level - 5)/100).toFixed(0);
-        document.getElementById("naarleveltekst").innerText = (((level - 5)/100) + 1).toFixed(0);
+       levelxp();
 
        for(let i = 0; i < gevangenurls.length; i++){
         var el = document.createElement('div');
@@ -851,6 +876,14 @@ function darkmode(){
         document.getElementById("pokecontainter").appendChild(el);
        }
        makemap();
+    }
+
+
+    function levelxp() {     
+        level = Math.floor(xp / 10);
+        document.getElementById("leveltekst").innerText = level;
+        document.getElementById("naarleveltekst").innerText = level + 1;
+        document.getElementById("progress").style.width = ((xp - (level * 10)) * 8) + "vw";
     }
     </script>
 </body>
