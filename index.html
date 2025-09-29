@@ -863,6 +863,9 @@ function darkmode(){
             localStorage.setItem("xp", xp);
             window.location.reload();
         }
+       if(xp < gevangenurls.length){
+       XP = gevangenurls.length;
+       }
        levelxp();
 
        for(let i = 0; i < gevangenurls.length; i++){
