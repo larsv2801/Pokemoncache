@@ -860,7 +860,11 @@ function darkmode(){
             xp = parseInt(localStorage.getItem("xp"));
         }
        if(localStorage.getItem("level")){
+           if(parseInt(localStorage.getItem("level")) > 20){
+               level = 3;
+           } else {
         level = parseInt(localStorage.getItem("level"));
+           }
        } else {
         level = Math.floor(xp / 10);
        }
@@ -897,3 +901,4 @@ function darkmode(){
     </script>
 </body>
 </html>
+
