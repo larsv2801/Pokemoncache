@@ -829,6 +829,7 @@ function darkmode(){
         localStorage.setItem("ids", JSON.stringify(gevangenids));
         localStorage.setItem("urls", JSON.stringify(gevangenurls));
         localStorage.setItem("xp", xp);
+        localStorage.setItem("level", level);
         localStorage.setItem("darkmode", dark);
     }
 
@@ -856,15 +857,12 @@ function darkmode(){
             dark = 0;
         }
         if(localStorage.getItem("xp")){
-            xp = parseInt(localStorage.getItem("xp"))
-        } else {
-            xp = 0;
-            level = 0;
-            localStorage.setItem("xp", xp);
-            window.location.reload();
+            xp = parseInt(localStorage.getItem("xp"));
         }
-        if(xp < gevangenurls.length){
-            xp = gevangenurls.length;
+       if(localStorage.getItem("level")){
+        level = parseInt(localStorage.getItem("level"));
+       } else {
+        level = Math.floor(xp / 10);
        }
        levelxp();
 
@@ -883,12 +881,19 @@ function darkmode(){
 
 
     function levelxp() {     
-        level = Math.floor(xp / 10);
+        //level = Math.floor(xp / 10);
+        if(xp * (80 / (level * 10)) > 80){
+            level++;
+            xp = 0;
+            localStorage.setItem("xp", xp);
+            localStorage.setItem("level", level);
+        }
+        document.getElementById("progress").style.width = xp * (80 / (level * 10)) + "vw";
         document.getElementById("leveltekst").innerText = level;
         document.getElementById("naarleveltekst").innerText = level + 1;
-        document.getElementById("progress").style.width = ((xp - (level * 10)) * 8) + "vw";
+        localStorage.setItem("xp", xp);
+        localStorage.setItem("level", level);
     }
     </script>
 </body>
 </html>
-
