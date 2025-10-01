@@ -42,7 +42,9 @@
             left:10px;
             top: 80px;
             /*font-size:calc(1.2vw + 15px);*/
-            font: 18px/20px Tahoma, Verdana, sans-serif;
+            /*font: 18px/20px Tahoma, Verdana, sans-serif;*/
+            font-family:monospace;
+            font-size: 20px;
             user-select: none;
             /*min-width:30px;
             min-height:30px;*/
@@ -58,6 +60,7 @@
             left:50%;
             transform: translate(-50%,-4%);
             user-select: none;
+            font-weight:500;
         }
 
         #unlock{
@@ -83,6 +86,32 @@
             top:50%;
             transform: translate(-50%,-50%);
             user-select: none;
+        }
+
+        #pokeball {
+            width:40dvw;
+            height:40dvw;
+            position:absolute;
+            background: url("https://art.ngfiles.com/images/386000/386577_stardoge_8-bit-pokeball.png?f1446737358");
+            background-size: cover;
+            left:50%;
+            top:49%;
+            transform: translate(-50%,-50%);
+            user-select: none;
+            display:none;
+        }
+
+        #kruis {
+            width:50dvw;
+            height:50dvw;
+            position:absolute;
+            background: url("https://upload.wikimedia.org/wikipedia/commons/thumb/5/5f/Red_X.svg/2048px-Red_X.svg.png");
+            background-size: cover;
+            left:50%;
+            top:50%;
+            transform: translate(-50%,-50%);
+            user-select: none;
+            display:none;
         }
 
         #sluit{
@@ -434,6 +463,34 @@
             align-items: center;
             border:2px solid black;
         }
+
+        #vangbalk{
+            background-color:rgb(255, 69, 69);
+            border-radius:50px;
+            width:80dvw;
+            height:3vh;
+            position:relative;
+            left:50%;
+            top:95dvh;
+            transform: translate(-50%,-50%);
+            overflow:hidden;
+        }
+        #hierin{
+          width:30dvw;  
+          height:3vh;
+          background-color:rgb(92, 171, 74);
+          position:absolute;
+          left:50%;
+          transform: translate(-50%,0%);
+        }
+        #slider{
+          width:1dvw; 
+          height:3vh;
+          border-radius: 50px;
+          position:absolute;
+          left:0px;
+          background-color:burlywood;
+        }
      </style>
 </head>
 <body onload="loadeverything()">
@@ -472,13 +529,19 @@
         <div id="pokecontainter"></div>
     </section>
 
-    <div id="centreer" onclick="locatie()"><p>X</p></div>
+    <div id="centreer" onclick="locatie()"><p>x</p></div>
 
     <div id="map"></div>
 
     <div id="unlock">
         <button id="sluit" onclick="document.getElementById('unlock').style.display = 'none';"><p>x</p></button>
-        <img src="" id="pokemon">
+        <img src="" id="pokemon" onclick="slide = 0; checkvang()">
+        <div id="pokeball"></div>
+        <div id="kruis"></div>
+        <div id="vangbalk">
+            <div id="hierin"></div>
+            <div id="slider"></div>
+        </div>
     </div>
 
     <script>
@@ -683,6 +746,7 @@ for(let i = 0; i < longitudes.length; i++){
 }
 }
 
+var slide = 0;
 
 function test(jef, latt, longg){
     if(gevangenids.includes(jef + "d" + hhh + "h" + hhhh) === false){
@@ -696,6 +760,10 @@ function test(jef, latt, longg){
     hh = h.getMinutes();
     hhh = h.getDate();
     hhhh = h.getHours();
+    slide = 1;
+    document.getElementById("pokemon").style.display = "flex";
+    document.getElementById("pokeball").style.display = "none";
+    document.getElementById("kruis").style.display = "none";
     console.log(jef + hhh);
     var random = (Math.floor(Math.random() * 31))-15;
     
@@ -707,35 +775,27 @@ function test(jef, latt, longg){
     fetch(`https://pokeapi.co/api/v2/pokemon/${jef + hh + random}`, requestOptions)
     .then((response) => response.json())
     .then((result) => {
-        var el = document.createElement('div');
-        el.className = "pokémon";
 
         var shiny = Math.floor(Math.random() * 26);
+        laatstepokemonshiny = shiny;
         console.log(shiny);
         if(shiny < 2){
         document.getElementById("unlock").style.background = "linear-gradient(135deg,rgba(237, 250, 172, 0.5),rgba(241, 255, 114, 0.7))";
          document.getElementById("pokemon").src = result.sprites.front_shiny;
-         el.style.background = `url(${result.sprites.front_shiny})`;
-         el.style.backgroundSize = "cover";
-         el.style.borderColor = "rgb(251, 255, 145)";
-         //el.innerHTML = `<h3>${jef + hh + random}</h3>`;
-         gevangenurls.push(result.sprites.front_shiny); 
+
+         laatstepokemonurl = result.sprites.front_shiny; 
          gevangenids.push(jef + "d" + hhh + "h" + hhhh); 
         } else {
             document.getElementById("unlock").style.background = unlockcolor;
             document.getElementById("pokemon").src = result.sprites.front_default;
-            el.style.background = `url(${result.sprites.front_default})`;
-            el.style.backgroundSize = "cover";
-            //el.innerHTML = `<h3>${jef + hh + random}</h3>`;
-            gevangenurls.push(result.sprites.front_default); 
+            
+            laatstepokemonurl = result.sprites.front_default; 
             gevangenids.push(jef + "d" + hhh + "h" + hhhh); 
         }
 
         document.getElementById("unlock").style.display = "flex";
-        xp++;
-        levelxp();
-        document.getElementById("pokecontainter").appendChild(el);
-        saveeverything();
+        
+        raritycheck(jef + hh + random, shiny)
     })
     .catch((error) => console.error(error));
 
@@ -745,6 +805,82 @@ function test(jef, latt, longg){
  }
 }
 
+var laatstepokemonurl;
+var laatstepokemonshiny;
+function raritycheck(jef, shiny) {
+    const requestOptions = {
+        method: "GET",
+        redirect: "follow"
+    };
+
+fetch(`https://pokeapi.co/api/v2/pokemon-species/${jef}`, requestOptions)
+    .then((response) => response.json())
+    .then((result) => {
+
+        laatstepokemonjef = jef;
+        laatstepokemonshiny = shiny;
+
+        var rarity = result.capture_rate;
+        if (rarity > 75){
+            rarity = 75;
+        }
+        if(shiny > 2 && rarity > 5){
+            rarity -= 3;
+        }
+        document.getElementById("hierin").style.width = rarity  + "vw";
+    })
+    .catch((error) => console.error(error));
+}
+
+animateslider();
+
+var direction = 1.5;
+var sliderpositie = 0;
+var slide = 1;
+function animateslider(){
+    if(slide === 1 ){
+            if (sliderpositie >= 79 || sliderpositie < 0){
+                direction = direction * -1;
+            }
+            sliderpositie += direction;
+            document.getElementById("slider").style.left = sliderpositie + "vw";
+    }
+    requestAnimationFrame(animateslider);
+}
+
+function checkvang(){
+    slide = 0;
+    var sliderpos = parseInt(document.getElementById("slider").style.left);
+    var breedte = parseInt(document.getElementById("hierin").style.width);
+    if(sliderpos >= (80 - breedte)/ 2 && sliderpos <= breedte + ((80 - breedte)/2)){
+        console.log("jaaa");
+        var el = document.createElement('div');
+        el.className = "pokémon";
+
+        if(laatstepokemonshiny < 2){
+    
+            el.style.background = `url(${laatstepokemonurl})`;
+            el.style.borderColor = "rgb(251, 255, 145)";
+
+        } else {
+            el.style.background = `url(${laatstepokemonurl})`;
+        }
+
+        gevangenurls.push(laatstepokemonurl);
+        el.style.backgroundSize = "cover";
+        xp++;
+        levelxp();
+        document.getElementById("pokecontainter").appendChild(el);
+
+        document.getElementById("pokemon").style.display = "none";
+        document.getElementById("pokeball").style.display = "flex";
+    } else {
+        document.getElementById("pokemon").style.display = "none";
+        document.getElementById("kruis").style.display = "flex";
+        console.log("neee");
+    }
+    saveeverything();
+}
 
 var loclat;
 var loclong;
@@ -897,5 +1033,3 @@ function darkmode(){
     </script>
 </body>
 </html>
-
-
