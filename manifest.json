@@ -11,20 +11,20 @@
     "orientation": "portrait",
     "icons": [
         {
-            "src": "pokecachenormaal192.jpg",
+            "src": "pokecachenormaal192.png",
             "sizes": "192x192",
-            "type": "image/jpg"
+            "type": "image/png"
         },
         {
-            "src": "pokecachezwart.jpg",
+            "src": "pokecachezwart.png",
             "sizes": "512x512",
-            "type": "image/jpg",
+            "type": "image/png",
             "purpose": "maskable"
         },
          {
-            "src": "pokecachenormaal144.jpg",
+            "src": "pokecachenormaal144.png",
             "sizes": "144x144",
-            "type": "image/jpg"
+            "type": "image/png"
         }
     ],
     "screenshots": [
