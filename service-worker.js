@@ -10,9 +10,9 @@ self.addEventListener('install', (event) => {
         '/Pokemoncache/standard.png',
         '/Pokemoncache/voyager.png',
         '/Pokemoncache/white.png',
-        '/Pokemoncache/pokecachenormaal144.jpg',
-        '/Pokemoncache/pokecachenormaal192.jpg',
-        '/Pokemoncache/pokecachezwart.jpg'
+        '/Pokemoncache/pokecachenormaal144.png',
+        '/Pokemoncache/pokecachenormaal192.png',
+        '/Pokemoncache/pokecachezwart.png'
       ]);
     })
   );
