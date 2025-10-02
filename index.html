@@ -620,44 +620,46 @@ function home(){
 
 const latitudes = [
   50.8949, 50.8451, 51.2088,
-  50.7250, 50.5010, 51.3310, 50.7969,
+  50.7238, 50.5010, 51.3310, 50.7969,
   50.9203, 50.0915, 50.5903, 50.3730,
   50.8210, 51.2805, 50.9083, 50.9669,
   51.2632, 50.7914, 51.0624, 51.2290,
   50.7078, 51.0727, 50.5892, 51.2111,
   51.2161, 50.9661, 50.6275, 50.7675,
   50.3533, 50.9781, 51.0019, 51.0506,
-  51.1753, 50.8242, 50.7417, 50.9758,
+  51.1753, 50.8242, 50.7432, 50.9758,
   50.9733, 50.9710, 50.9708, 50.9600,
-  50.9804
+  50.9804, 50.9598, 50.9593, 50.9603
 ];
 
 const longitudes = [
   4.3416, 4.3496, 3.2241,
-  4.2830, 6.0990, 4.2750, 4.1972,
+  4.2846, 6.0990, 4.2750, 4.1972,
   5.3175, 4.5565, 4.5275, 5.8720,
   2.9310, 4.4785, 4.8072, 5.3989,
   4.7855, 3.9192, 3.6741, 4.4330,
   4.5931, 2.5937, 3.8836, 4.9294,
   4.4214, 5.5205, 6.0290, 3.0060,
   5.4714, 3.4709, 3.7090, 3.6466,
-  3.9122, 2.8851, 4.3047, 3.4733,
+  3.9122, 2.8851, 4.2811, 3.4733,
   3.4749, 3.4722, 3.5294, 3.4852,
-  3.5177
+  3.5177, 3.4844, 3.4881, 3.4898
 ];
 
 
 const names = [
-  "Atomium", "Manneken Pis", "Grote Markt Brugge", "Hallerbos",
-  "Signal de Botrange", "Doel (Spookdorp)", "Kasteel van Gaasbeek", "Abdijsite Herckenrode",
-  "Fondry des Chiens", "Abdij van Villers-la-Ville", "Waterval van Coo", "Palingbeek Domein",
-  "Speelbos Peerdsbos", "Kasteel van Horst", "Bokrijk Speeltuin", "De Lilse Bergen",
-  "De Gavers", "Bourgoyen-Ossemeersen", "Park Spoor Noord", "Walibi Belgium",
-  "Plopsaland De Panne", "Pairi Daiza", "Bobbejaanland", "Comics Station Antwerpen",
-  "Karting Genk", "Indoor Karting Eupen", "Ice Mountain Komen", "Adventure Valley Durbuy",
-  "grammene test", "Sint-Amanduskerk Zwijnaarde", "Sint-Jan-de-Doperkerk Drongen", "Sint-Bavokerk Moerbeke-Waas",
-  "Sint-Martinuskerk Zillebeke", "Onze-Lieve-Vrouwkerk Alsemberg", "Sint-Jan-Baptistkerk", "NOOIT MEER OORLOG",
-  "Sporting Grammene", "Palaestra", "Roger Raveel Museum"
+  "Atomium", "Manneken Pis", "Grote Markt Brugge",
+   "Halle", "Signal de Botrange", "Doel (Spookdorp)", "Kasteel van Gaasbeek",
+    "Abdijsite Herckenrode", "Fondry des Chiens", "Abdij van Villers-la-Ville", "Waterval van Coo",
+  "Palingbeek Domein", "Speelbos Peerdsbos", "Kasteel van Horst", "Bokrijk Speeltuin",
+   "De Lilse Bergen", "De Gavers", "Bourgoyen-Ossemeersen", "Park Spoor Noord",
+  "Walibi Belgium", "Plopsaland De Panne", "Pairi Daiza", "Bobbejaanland",
+   "Plopsa Station Antwerpen", "Karting Genk", "Indoor Karting Eupen", "Ice Mountain Komen",
+  "Adventure Valley Durbuy", "grammene test", "Sint-Niklaaskerk Zwijnaarde", "Sint-Jan-de-Doperkerk Drongen",
+  "Sint-Bavokerk Moerbeke-Waas", "Sint-Martinuskerk Zillebeke", "Kasteel van Huizingen",
+  "Sint-Jan-Baptistkerk", "NOOIT MEER OORLOG", "Sporting Grammene", "Palaestra",
+   "Roger Raveel Museum", "Brielmeersen", "Sint-Corneliuskerk van Machelen-aan-de-Leie", "Guldepoort",
+ "K.M.E Machelen"
 ];
 
 let gevangenurls = [];
@@ -688,6 +690,8 @@ for(let i = 0; i < longitudes.length; i++){
                 circleoptions.fillColor = 'green';
             }
         }
+
+        //var popup = L.popup([latitudes[i], longitudes[i]], {content: names[i]}).addTo(map);
 
         let circle = L.circle([latitudes[i], longitudes[i]], circleoptions).addTo(map);
 
