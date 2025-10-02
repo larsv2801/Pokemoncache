@@ -627,7 +627,9 @@ const latitudes = [
   50.7078, 51.0727, 50.5892, 51.2111,
   51.2161, 50.9661, 50.6275, 50.7675,
   50.3533, 50.9781, 51.0019, 51.0506,
-  51.1753, 50.8242, 50.7417
+  51.1753, 50.8242, 50.7417, 50.9758,
+  50.9733, 50.9710, 50.9708, 50.9600,
+  50.9804
 ];
 
 const longitudes = [
@@ -639,21 +641,23 @@ const longitudes = [
   4.5931, 2.5937, 3.8836, 4.9294,
   4.4214, 5.5205, 6.0290, 3.0060,
   5.4714, 3.4709, 3.7090, 3.6466,
-  3.9122, 2.8851, 4.3047 
+  3.9122, 2.8851, 4.3047, 3.4733,
+  3.4749, 3.4722, 3.5294, 3.4852,
+  3.5177
 ];
 
 
 const names = [
-  "Atomium", "Manneken Pis", "Grote Markt Brugge",
-  "Hallerbos", "Signal de Botrange", "Doel (Spookdorp)", "Kasteel van Gaasbeek",
-  "Abdijsite Herckenrode", "Fondry des Chiens", "Abdij van Villers-la-Ville", "Waterval van Coo",
-  "Palingbeek Domein", "Speelbos Peerdsbos", "Kasteel van Horst", "Bokrijk Speeltuin",
-  "De Lilse Bergen", "De Gavers", "Bourgoyen-Ossemeersen", "Park Spoor Noord",
-  "Walibi Belgium", "Plopsaland De Panne", "Pairi Daiza", "Bobbejaanland",
-  "Comics Station Antwerpen", "Karting Genk", "Indoor Karting Eupen",
-  "Ice Mountain Komen", "Adventure Valley Durbuy", "grammene test",
-  "Sint-Amanduskerk Zwijnaarde", "Sint-Jan-de-Doperkerk Drongen", "Sint-Bavokerk Moerbeke-Waas",
-  "Sint-Martinuskerk Zillebeke", "Onze-Lieve-Vrouwkerk Alsemberg"
+  "Atomium", "Manneken Pis", "Grote Markt Brugge", "Hallerbos",
+  "Signal de Botrange", "Doel (Spookdorp)", "Kasteel van Gaasbeek", "Abdijsite Herckenrode",
+  "Fondry des Chiens", "Abdij van Villers-la-Ville", "Waterval van Coo", "Palingbeek Domein",
+  "Speelbos Peerdsbos", "Kasteel van Horst", "Bokrijk Speeltuin", "De Lilse Bergen",
+  "De Gavers", "Bourgoyen-Ossemeersen", "Park Spoor Noord", "Walibi Belgium",
+  "Plopsaland De Panne", "Pairi Daiza", "Bobbejaanland", "Comics Station Antwerpen",
+  "Karting Genk", "Indoor Karting Eupen", "Ice Mountain Komen", "Adventure Valley Durbuy",
+  "grammene test", "Sint-Amanduskerk Zwijnaarde", "Sint-Jan-de-Doperkerk Drongen", "Sint-Bavokerk Moerbeke-Waas",
+  "Sint-Martinuskerk Zillebeke", "Onze-Lieve-Vrouwkerk Alsemberg", "Sint-Jan-Baptistkerk", "NOOIT MEER OORLOG",
+  "Sporting Grammene", "Palaestra", "Roger Raveel Museum"
 ];
 
 let gevangenurls = [];
@@ -821,11 +825,11 @@ fetch(`https://pokeapi.co/api/v2/pokemon-species/${jef}`, requestOptions)
         laatstepokemonshiny = shiny;
 
         var rarity = result.capture_rate;
-        if (rarity > 75){
-            rarity = 75;
+        if (rarity > 65){
+            rarity = 65;
         }
-        if(shiny > 2 && rarity > 5){
-            rarity -= 3;
+        if(shiny > 2 && rarity > 13){
+            rarity -= 10;
         }
         document.getElementById("hierin").style.width = rarity  + "vw";
     })
