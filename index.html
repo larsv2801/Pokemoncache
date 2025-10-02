@@ -829,11 +829,11 @@ fetch(`https://pokeapi.co/api/v2/pokemon-species/${jef}`, requestOptions)
         laatstepokemonshiny = shiny;
 
         var rarity = result.capture_rate;
-        if (rarity > 65){
+        if (rarity > 55){
             rarity = 65;
         }
-        if(shiny > 2 && rarity > 13){
-            rarity -= 10;
+        if(shiny < 2 && rarity > 10){
+            rarity = rarity/2;
         }
         document.getElementById("hierin").style.width = rarity  + "vw";
     })
