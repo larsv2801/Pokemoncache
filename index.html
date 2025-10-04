@@ -307,7 +307,7 @@
         .pokémon{
             width:25vw;
             height:25vw;
-            border:2px solid burlywood;
+            border:2px solid gray;
             border-radius: 15px;
             user-select: none;
             transition:0.3s;
@@ -321,7 +321,7 @@
             right:0;
             transform: translate(1%,60%);
             color:white;
-            background:burlywood;
+            background: burlywood;
             padding:1vw;
             min-width:10vw;
             border-radius:5px;
@@ -402,7 +402,7 @@
         }
 
         #progress {
-            background-color:burlywood;
+            background-color: burlywood;
             border-radius: 50px;
             height:3vh;
         }
@@ -491,6 +491,7 @@
           left:0px;
           background-color:burlywood;
         }
+
      </style>
 </head>
 <body onload="loadeverything()">
@@ -502,12 +503,12 @@
 
     <section id="settings">
         <div id="tilecontainter">
-            <div class="tilesoort" id="light" onclick="changemap(white)"></div>
-            <div class="tilesoort" id="dark" onclick="changemap(black)"></div>
-            <div class="tilesoort" id="voyager" onclick="changemap(voyager)"></div>
-            <div class="tilesoort" id="satellite" onclick="changemap(satellite)"></div>
-            <div class="tilesoort" id="standard" onclick="changemap(standard)"></div>
-            <div class="tilesoort" id="geel" onclick="changemap(geel)"></div>
+            <div class="tilesoort" id="light" onclick="changemap(white, 'white')"></div>
+            <div class="tilesoort" id="dark" onclick="changemap(black, 'black')"></div>
+            <div class="tilesoort" id="voyager" onclick="changemap(voyager, 'voyager')"></div>
+            <div class="tilesoort" id="satellite" onclick="changemap(satellite, 'satellite')"></div>
+            <div class="tilesoort" id="standard" onclick="changemap(standard, 'standard')"></div>
+            <div class="tilesoort" id="geel" onclick="changemap(geel, 'geel')"></div>
         </div>
         <div id="toggle1cont">
             <h1 id="dltoggleh1">Dark Mode</h1>
@@ -582,17 +583,26 @@
             attribution: 'Tiles &copy; Esri &mdash; &copy; OSM'
         });
 
-        standard.addTo(map);
-
+        
+//standard.addTo(map);
 var currentLayer = standard;
+var savemap = 'standard';
 
-function changemap(jef){
-
+function changemap(jef, savemapp){
 map.removeLayer(currentLayer); 
 jef.addTo(map);    
 currentLayer = jef;
-saveeverything()
+savemap = savemapp;
+saveeverything();
 }
+
+function changemapp(jef, savemapp){
+map.removeLayer(currentLayer); 
+jef.addTo(map);    
+currentLayer = jef;
+savemap = savemapp;
+}
+
 
 function settings(){
     document.getElementById("settings").style.display = "flex";
@@ -664,6 +674,7 @@ const names = [
 
 let gevangenurls = [];
 let gevangenids = [];
+let gevangennames = [];
 var level = 0;
 var xp = 0;
 
@@ -774,13 +785,17 @@ function test(jef, latt, longg){
     document.getElementById("kruis").style.display = "none";
     console.log(jef + hhh);
     var random = (Math.floor(Math.random() * 31))-15;
+    var getid = jef + hh + random;
+    if(getid <= 0 ){
+        getid = Math.floor(Math.random() * 90);
+    }
     
     const requestOptions = {
         method: "GET",
         redirect: "follow"
     };
 
-    fetch(`https://pokeapi.co/api/v2/pokemon/${jef + hh + random}`, requestOptions)
+    fetch(`https://pokeapi.co/api/v2/pokemon/${getid}`, requestOptions)
     .then((response) => response.json())
     .then((result) => {
 
@@ -801,9 +816,10 @@ function test(jef, latt, longg){
             gevangenids.push(jef + "d" + hhh + "h" + hhhh); 
         }
 
+        laatstepokemonname = result.forms[0].name;
         document.getElementById("unlock").style.display = "flex";
         
-        raritycheck(jef + hh + random, shiny)
+        raritycheck(jef + hh + random, shiny);
     })
     .catch((error) => console.error(error));
 
@@ -815,7 +831,9 @@ function test(jef, latt, longg){
 
 var laatstepokemonurl;
 var laatstepokemonshiny;
-function raritycheck(jef, shiny) {
+var laatstepokemonname;
+
+function raritycheck(jef, shiny, gvname) {
     const requestOptions = {
         method: "GET",
         redirect: "follow"
@@ -874,8 +892,13 @@ function checkvang(){
             el.style.background = `url(${laatstepokemonurl})`;
         }
 
+        var hoeveelstemetnaam = gevangenurls.length;
         gevangenurls.push(laatstepokemonurl);
+        gevangennames[gevangenurls.length - 1] = (laatstepokemonname);
         el.style.backgroundSize = "cover";
+        el.onclick = function () {
+            console.log(gevangennames[hoeveelstemetnaam]);
+        }
         xp++;
         levelxp();
         document.getElementById("pokecontainter").appendChild(el);
@@ -972,9 +995,11 @@ function darkmode(){
     function saveeverything(){
         localStorage.setItem("ids", JSON.stringify(gevangenids));
         localStorage.setItem("urls", JSON.stringify(gevangenurls));
+        localStorage.setItem("names", JSON.stringify(gevangennames));
         localStorage.setItem("xp", xp);
         localStorage.setItem("level", level);
         localStorage.setItem("darkmode", dark);
+        localStorage.setItem("savemap", savemap);
     }
 
     function loadeverything(){
@@ -983,6 +1008,30 @@ function darkmode(){
         }
         if(localStorage.getItem("urls")){
             gevangenurls = JSON.parse(localStorage.getItem("urls")); 
+        }
+        if(localStorage.getItem("names")){
+            gevangennames = JSON.parse(localStorage.getItem("names")); 
+        }
+        if(localStorage.getItem("savemap")){
+            savemap = localStorage.getItem("savemap");
+            if(savemap === 'white'){
+                changemapp(white, 'white');
+            } else if(savemap === 'standard'){
+                changemapp(standard, 'standard');
+            } else if(savemap === 'black'){
+                changemapp(black, 'black');
+            } else if(savemap === 'voyager'){
+                changemapp(voyager, 'voyager');
+            } else if(savemap === 'satellite'){
+                changemapp(satellite, 'satellite');
+            } else if(savemap === 'geel'){
+                changemapp(geel, 'geel');
+            } else {
+                changemapp(standard, 'standard');
+            }
+            console.log(savemap);
+        } else {
+            changemapp(standard, 'standard');
         }
         if(localStorage.getItem("darkmode") === "1"){
         console.log("dark");
@@ -1015,6 +1064,9 @@ function darkmode(){
         el.className = "pokémon";
         el.style.background = `url(${gevangenurls[i]})`;
         el.style.backgroundSize = "cover";
+        el.onclick = function () {
+            console.log(gevangennames[i]);
+        }
         if(gevangenurls[i].includes("shiny")){
         el.style.borderColor = "rgb(251, 255, 145)";
         }
@@ -1038,6 +1090,7 @@ function darkmode(){
         localStorage.setItem("xp", xp);
         localStorage.setItem("level", level);
     }
+
     </script>
 </body>
 </html>
