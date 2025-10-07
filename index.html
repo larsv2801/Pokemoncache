@@ -74,8 +74,10 @@
             left:50%;
             top:50%;
             transform: translate(-50%,-50%);
-            display:none;
-            transition:0.3s;
+            display:flex;
+            opacity: 0;
+            visibility: hidden;
+            transition:0.2s;
         }
 
         #pokemon{
@@ -535,7 +537,7 @@
     <div id="map"></div>
 
     <div id="unlock">
-        <button id="sluit" onclick="document.getElementById('unlock').style.display = 'none';"><p>x</p></button>
+        <button id="sluit" onclick="document.getElementById('unlock').style.opacity = '0';document.getElementById('unlock').style.visibility = 'hidden';"><p>x</p></button>
         <img src="" id="pokemon" onclick="slide = 0; checkvang()">
         <div id="pokeball"></div>
         <div id="kruis"></div>
@@ -817,7 +819,6 @@ function test(jef, latt, longg){
         }
 
         laatstepokemonname = result.forms[0].name;
-        document.getElementById("unlock").style.display = "flex";
         
         raritycheck(jef + hh + random, shiny);
     })
@@ -843,18 +844,23 @@ fetch(`https://pokeapi.co/api/v2/pokemon-species/${jef}`, requestOptions)
     .then((response) => response.json())
     .then((result) => {
 
+        document.getElementById("hierin").style.width = "0vw";
+
         laatstepokemonjef = jef;
         laatstepokemonshiny = shiny;
 
         var rarity = result.capture_rate;
-        if (rarity > 55){
-            rarity = 65;
+        if (rarity > 97){
+            rarity = 97;
         }
         if(shiny < 2 && rarity > 10){
             rarity = rarity/2;
         }
-        document.getElementById("hierin").style.width = rarity  + "vw";
-    })
+        document.getElementById("hierin").style.width = rarity/1.5  + "vw";
+        document.getElementById("unlock").style.opacity = "1"; 
+        document.getElementById("unlock").style.visibility = "visible"; 
+
+        })
     .catch((error) => console.error(error));
 }
 
@@ -897,7 +903,7 @@ function checkvang(){
         gevangennames[gevangenurls.length - 1] = (laatstepokemonname);
         el.style.backgroundSize = "cover";
         el.onclick = function () {
-            console.log(gevangennames[hoeveelstemetnaam]);
+            getinfo(gevangennames[hoeveelstemetnaam]);
         }
         xp++;
         levelxp();
@@ -1065,7 +1071,7 @@ function darkmode(){
         el.style.background = `url(${gevangenurls[i]})`;
         el.style.backgroundSize = "cover";
         el.onclick = function () {
-            console.log(gevangennames[i]);
+            getinfo(gevangennames[i]);
         }
         if(gevangenurls[i].includes("shiny")){
         el.style.borderColor = "rgb(251, 255, 145)";
@@ -1089,6 +1095,29 @@ function darkmode(){
         document.getElementById("naarleveltekst").innerText = level + 1;
         localStorage.setItem("xp", xp);
         localStorage.setItem("level", level);
+    }
+
+    function getinfo(jef) {
+        const requestOptions = {
+            method: "GET",
+            redirect: "follow"
+        };
+
+        fetch(`https://pokeapi.co/api/v2/pokemon/${jef}`, requestOptions)
+        .then((response) => response.json())
+        .then((result) => {
+            console.log("name: " + result.name);
+            console.log("height: " + result.height);
+            console.log("weight: " + result.weight);
+            console.log("HP: " + result.stats[0].base_stat);
+            console.log("attack: " + result.stats[1].base_stat);
+            console.log("defense: " + result.stats[2].base_stat);
+            var typez = result.types;
+            for(let i = 0; i < typez.length; i++){
+                console.log("type " + (i + 1) + ": " + result.types[i].type.name);
+            }
+        })
+        .catch((error) => console.error(error));
     }
 
     </script>
