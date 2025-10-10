@@ -1092,9 +1092,13 @@ function darkmode(){
         const urlencoded = new URLSearchParams();
         urlencoded.append("data",
         `[out:json][timeout:60];(
-        node[\"amenity\"~\"cafe|restaurant|bar|fast_food|ice_cream|bank|marketplace|pharmacy|school|college|university|kindergarten|library|hospital|clinic|dentist|doctors|nursing_home|fuel|place_of_worship|cinema|theatre|community_centre|nightclub|casino|police|fire_station|townhall\"](${loclatt - 0.05},${loclongg - 0.05},${loclatt + 0.05},${loclongg + 0.05});
-        way["amenity"="place_of_worship"](${loclatt - 0.05},${loclongg - 0.05},${loclatt + 0.05},${loclongg + 0.05});
-        relation["amenity"="place_of_worship"](${loclatt - 0.05},${loclongg - 0.05},${loclatt + 0.05},${loclongg + 0.05});
+        node["amenity"~"cafe|restaurant|bar|fast_food|ice_cream|bank|marketplace|pharmacy|school|college|university|kindergarten|library|hospital|clinic|dentist|doctors|nursing_home|fuel|place_of_worship|cinema|theatre|community_centre|nightclub|casino|police|fire_station|townhall"](${loclatt - 0.05},${loclongg - 0.05},${loclatt + 0.05},${loclongg + 0.05});
+        way["amenity"~"place_of_worship|school|college|townhall|university"](${loclatt - 0.05},${loclongg - 0.05},${loclatt + 0.05},${loclongg + 0.05});
+        relation["amenity"~"place_of_worship|school|college|townhall|university"](${loclatt - 0.05},${loclongg - 0.05},${loclatt + 0.05},${loclongg + 0.05});
+
+        node["historic"="monument"](${loclatt - 0.05},${loclongg - 0.05},${loclatt + 0.05},${loclongg + 0.05});
+        way["historic"="monument"](${loclatt - 0.05},${loclongg - 0.05},${loclatt + 0.05},${loclongg + 0.05});
+        relation["historic"="monument"](${loclatt - 0.05},${loclongg - 0.05},${loclatt + 0.05},${loclongg + 0.05});
         );
         out center;`);
 
