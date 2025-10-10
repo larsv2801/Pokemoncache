@@ -1090,7 +1090,13 @@ function darkmode(){
         myHeaders.append("Content-Type", "application/x-www-form-urlencoded");
 
         const urlencoded = new URLSearchParams();
-        urlencoded.append("data", `[out:json][timeout:60];node[\"amenity\"~\"cafe|restaurant|bar|fast_food|ice_cream|bank|marketplace|pharmacy|school|college|university|kindergarten|library|hospital|clinic|dentist|doctors|nursing_home|fuel|place_of_worship|cinema|theatre|community_centre|nightclub|casino|police|fire_station|townhall\"](${loclatt - 0.05},${loclongg - 0.05},${loclatt + 0.05},${loclongg + 0.05});out;`);
+        urlencoded.append("data",
+        `[out:json][timeout:60];(
+        node[\"amenity\"~\"cafe|restaurant|bar|fast_food|ice_cream|bank|marketplace|pharmacy|school|college|university|kindergarten|library|hospital|clinic|dentist|doctors|nursing_home|fuel|place_of_worship|cinema|theatre|community_centre|nightclub|casino|police|fire_station|townhall\"](${loclatt - 0.05},${loclongg - 0.05},${loclatt + 0.05},${loclongg + 0.05});
+        way["amenity"="place_of_worship"](${loclatt - 0.05},${loclongg - 0.05},${loclatt + 0.05},${loclongg + 0.05});
+        relation["amenity"="place_of_worship"](${loclatt - 0.05},${loclongg - 0.05},${loclatt + 0.05},${loclongg + 0.05});
+        );
+        out center;`);
 
         const requestOptions = {
         method: "POST",
@@ -1100,13 +1106,18 @@ function darkmode(){
         };
 
         fetch("https://overpass-api.de/api/interpreter", requestOptions)
-        .then((response) => response.json())
+        .then((response) => response.json())    
         .then((result) => {
             for(let i = 0; i < result.elements.length; i++){
                 if(result.elements[i].tags.name != undefined){
                     nieuwenames.push(result.elements[i].tags.name);
-                    nieuwelat.push(result.elements[i].lat);
-                    nieuwelon.push(result.elements[i].lon);
+                    var lattoevoeg = result.elements[i].lat || result.elements[i].center.lat;
+                    var lontoevoeg = result.elements[i].lon || result.elements[i].center.lon;
+
+                     if (!lattoevoeg || !lontoevoeg) return;
+
+                    nieuwelat.push(lattoevoeg);
+                    nieuwelon.push(lontoevoeg);
                 }
             }
             makemap();
