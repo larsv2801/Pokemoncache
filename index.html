@@ -42,9 +42,8 @@
             left:10px;
             top: 80px;
             /*font-size:calc(1.2vw + 15px);*/
-            /*font: 18px/20px Tahoma, Verdana, sans-serif;*/
-            font-family:monospace;
-            font-size: 20px;
+            /*font: 18px/20px Tahoma, Verdana, sans-serif;
+            font-size: 55px;*/
             user-select: none;
             /*min-width:30px;
             min-height:30px;*/
@@ -55,12 +54,13 @@
             background-color: #f4f4f4;
         }
 
-        #centreer p{
+        #centreer svg{
             position:absolute;
             left:50%;
             transform: translate(-50%,-4%);
             user-select: none;
-            font-weight:500;
+            font-weight:700;
+            width:18px;
         }
 
         #unlock{
@@ -494,6 +494,82 @@
           background-color:burlywood;
         }
 
+        #pokedex{
+            width:85dvw;
+            height:60dvh;
+            border-radius: 15px;
+            display:none;
+            z-index:999;
+            position:fixed;
+            left:50%;
+            top:50%;
+            transform: translate(-50%,-50%);
+            background-color: rgba(255, 255, 255, 0.803);
+            backdrop-filter: blur(10px);
+            border-radius: 15px;
+            border:1px solid burlywood;
+        }
+
+        #dexfoto{
+            width:50dvw;
+            height:50dvw;
+            border-radius: 5px;
+            position:absolute;
+            top:23%;
+            left:50%;
+            transform: translate(-50%,-50%);
+        }
+
+        #dexnames{
+            position: absolute;
+            bottom:1%;
+            left:2%;
+            font-family:arial;
+        }
+
+        #dexnumbers{
+            position: absolute;
+            bottom:1%;
+            right:2%;
+            font-family:arial;
+            text-align:right;
+        }
+
+        #dexname {
+           position: absolute;
+           top:0%;
+           left:2%;
+           font-family:arial; 
+        }
+
+        #sluitdex{
+            width:2vw;
+            height: 2vw;
+            border-radius: 3px;
+            outline:none;
+            background:transparent;
+            border:none;
+            align-items:center;
+            justify-content:center;
+            position:absolute;
+            right:1%;
+            top:1%;
+            font-size:calc(1.1vw + 15px);
+            min-width:30px;
+            min-height:30px; 
+            user-select: none;
+            transition:0.3s;
+        }
+
+        #locatietext{
+            color:black;
+            font-family: arial;
+            position: absolute;
+            left:50%;
+            top:10%;
+            transform: translate(-50%,-50%);
+            width:90dvw;
+        }
      </style>
 </head>
 <body onload="loadeverything()">
@@ -529,15 +605,38 @@
             </div>
             <h2 id="naarleveltekst">1</h2>
         </div>
-        <div id="pokecontainter"></div>
+        <div id="pokedex">
+            <button id="sluitdex" onclick="document.getElementById('pokedex').style.display = 'none';"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 640 640"><!--!Font Awesome Free v7.1.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free Copyright 2025 Fonticons, Inc.--><path d="M183.1 137.4C170.6 124.9 150.3 124.9 137.8 137.4C125.3 149.9 125.3 170.2 137.8 182.7L275.2 320L137.9 457.4C125.4 469.9 125.4 490.2 137.9 502.7C150.4 515.2 170.7 515.2 183.2 502.7L320.5 365.3L457.9 502.6C470.4 515.1 490.7 515.1 503.2 502.6C515.7 490.1 515.7 469.8 503.2 457.3L365.8 320L503.1 182.6C515.6 170.1 515.6 149.8 503.1 137.3C490.6 124.8 470.3 124.8 457.8 137.3L320.5 274.7L183.1 137.4z"/></svg></button>
+            <h2 id="dexname"></h2>
+            <div id="dexfoto"></div>
+            <div id="dexnames">
+                <h3>HP:</h3>
+                <h3>ENERGY</h3>
+                <h3>HEIGHT</h3>
+                <h3>WEIGHT</h3>
+                <h3>ATTACK</h3>
+                <h3>DEFENSE</h3>
+            </div>
+            <div id="dexnumbers">
+                <h3 id="dexhp"></h3>
+                <h3 id="dexenergy"></h3>
+                <h3 id="dexheight"></h3>
+                <h3 id="dexweight"></h3>
+                <h3 id="dexattack"></h3>
+                <h3 id="dexdefense"></h3>
+            </div>
+        </div>
+        <div id="pokecontainter">
+        </div>
     </section>
 
-    <div id="centreer" onclick="locatie()"><p>x</p></div>
+    <div id="centreer" onclick="locatie()"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 640 640"><!--!Font Awesome Free v7.1.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free Copyright 2025 Fonticons, Inc.--><path d="M320 48C337.7 48 352 62.3 352 80L352 98.3C450.1 112.3 527.7 189.9 541.7 288L560 288C577.7 288 592 302.3 592 320C592 337.7 577.7 352 560 352L541.7 352C527.7 450.1 450.1 527.7 352 541.7L352 560C352 577.7 337.7 592 320 592C302.3 592 288 577.7 288 560L288 541.7C189.9 527.7 112.3 450.1 98.3 352L80 352C62.3 352 48 337.7 48 320C48 302.3 62.3 288 80 288L98.3 288C112.3 189.9 189.9 112.3 288 98.3L288 80C288 62.3 302.3 48 320 48zM160 320C160 408.4 231.6 480 320 480C408.4 480 480 408.4 480 320C480 231.6 408.4 160 320 160C231.6 160 160 231.6 160 320zM320 224C373 224 416 267 416 320C416 373 373 416 320 416C267 416 224 373 224 320C224 267 267 224 320 224z"/></svg></div>
 
     <div id="map"></div>
 
     <div id="unlock">
-        <button id="sluit" onclick="document.getElementById('unlock').style.opacity = '0';document.getElementById('unlock').style.visibility = 'hidden';"><p>x</p></button>
+        <button id="sluit" onclick="document.getElementById('unlock').style.opacity = '0';document.getElementById('unlock').style.visibility = 'hidden';"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 640 640"><!--!Font Awesome Free v7.1.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free Copyright 2025 Fonticons, Inc.--><path d="M183.1 137.4C170.6 124.9 150.3 124.9 137.8 137.4C125.3 149.9 125.3 170.2 137.8 182.7L275.2 320L137.9 457.4C125.4 469.9 125.4 490.2 137.9 502.7C150.4 515.2 170.7 515.2 183.2 502.7L320.5 365.3L457.9 502.6C470.4 515.1 490.7 515.1 503.2 502.6C515.7 490.1 515.7 469.8 503.2 457.3L365.8 320L503.1 182.6C515.6 170.1 515.6 149.8 503.1 137.3C490.6 124.8 470.3 124.8 457.8 137.3L320.5 274.7L183.1 137.4z"/></svg></button>
+        <h1 id="locatietext"></h1>
         <img src="" id="pokemon" onclick="slide = 0; checkvang()">
         <div id="pokeball"></div>
         <div id="kruis"></div>
@@ -643,9 +742,13 @@ var hhh = h.getDate();
 var hhhh = h.getHours();
 
 let circleIntervals = {};
+let alopkaart = [];
 
 function makemap(){
 for(let i = 0; i < nieuwelon.length; i++){
+if (!alopkaart.includes(nieuwenames[i])){
+
+alopkaart.push(nieuwenames[i]);
 
         let circleoptions = {
             color:'red',
@@ -660,6 +763,7 @@ for(let i = 0; i < nieuwelon.length; i++){
                 circleoptions.fillColor = 'green';
             }
         }
+
 
         //var popup = L.popup([latitudes[i], longitudes[i]], {content: names[i]}).addTo(map);
 
@@ -691,9 +795,10 @@ for(let i = 0; i < nieuwelon.length; i++){
         }
 
         circle.on('click', function() {
+            circle.bringToFront();
             test(i, nieuwelat[i], nieuwelon[i]);
             console.log(i + "d" + hhh + "h" + hhhh);
-            console.log(nieuwenames[i]);
+            document.getElementById("locatietext").innerHTML = nieuwenames[i];
             if(loclat.toFixed(3) === nieuwelat[i].toFixed(3) && loclong.toFixed(3) === nieuwelon[i].toFixed(3)){
                 circle.setStyle({
                 color: 'green',
@@ -722,6 +827,7 @@ for(let i = 0; i < nieuwelon.length; i++){
             }
         });
 
+}
 }
 }
 
@@ -860,8 +966,9 @@ function checkvang(){
         gevangenurls.push(laatstepokemonurl);
         gevangennames[gevangenurls.length - 1] = (laatstepokemonname);
         el.style.backgroundSize = "cover";
+        el.setAttribute("id", `pokemon${gevangennames[gevangenurls.length - 1]}${gevangenurls.length}`);
         el.onclick = function () {
-            getinfo(gevangennames[hoeveelstemetnaam]);
+            getinfo(gevangennames[hoeveelstemetnaam],gevangenurls.length);
         }
         xp++;
         levelxp();
@@ -892,6 +999,7 @@ navigator.geolocation.getCurrentPosition((position) => {
     if(locatiecircle){
         //locatie();
         locatiecircle.setLatLng([loclat, loclong]);
+        locatiecircle.bringToFront();
     } else {
     locatiecircle = L.circleMarker([loclat, loclong], {
         color:'blue',
@@ -899,6 +1007,7 @@ navigator.geolocation.getCurrentPosition((position) => {
         fillOpacity:0.5,
         radius:10,
     }).addTo(map);
+    locatiecircle.bringToFront();
 
     map.setView([loclat, loclong], 18);
     krijgalledingen(loclat,loclong);
@@ -912,7 +1021,17 @@ navigator.geolocation.getCurrentPosition((position) => {
 }
 setInterval(testlocatieupdate,2000);
 testlocatieupdate();
-setInterval(krijgalledingen(loclat, loclong), 10000);
+setInterval(function () {
+    krijgalledingen(loclat, loclong);
+    console.log("kg");
+}, 20000);
+
+setTimeout(function() {
+    setInterval(function () {
+        krijgalledingen2(loclat, loclong);
+        console.log("kg2");
+    },20000)
+},10000);
 
 
 
@@ -940,6 +1059,7 @@ function darkmode(){
         document.getElementById("dltoggleh1").style.color = txcolor;
         document.getElementById("leveltekst").style.color = txcolor;
         document.getElementById("naarleveltekst").style.color = txcolor;
+        document.getElementById("locatietext").style.color = txcolor;
     } else {
         bgcolor = "rgb(233, 233, 233)";
         txcolor = "black";
@@ -953,6 +1073,7 @@ function darkmode(){
         document.getElementById("dltoggleh1").style.color = txcolor;
         document.getElementById("leveltekst").style.color = txcolor;
         document.getElementById("naarleveltekst").style.color = txcolor;
+        document.getElementById("locatietext").style.color = txcolor;
     }
     localStorage.setItem("darkmode", dark);
     saveeverything();
@@ -1012,6 +1133,7 @@ function darkmode(){
         document.getElementById("dltoggleh1").style.color = txcolor;
         document.getElementById("leveltekst").style.color = txcolor;
         document.getElementById("naarleveltekst").style.color = txcolor;
+        document.getElementById("locatietext").style.color = txcolor;
         } else {
             dark = 0;
         }
@@ -1030,8 +1152,9 @@ function darkmode(){
         el.className = "pokémon";
         el.style.background = `url(${gevangenurls[i]})`;
         el.style.backgroundSize = "cover";
+        el.setAttribute("id", `pokemon${gevangennames[i]}${i}`);
         el.onclick = function () {
-            getinfo(gevangennames[i]);
+            getinfo(gevangennames[i],i);
         }
         if(gevangenurls[i].includes("shiny")){
         el.style.borderColor = "rgb(251, 255, 145)";
@@ -1056,7 +1179,7 @@ function darkmode(){
         localStorage.setItem("level", level);
     }
 
-    function getinfo(jef) {
+    function getinfo(jef, i) {
         const requestOptions = {
             method: "GET",
             redirect: "follow"
@@ -1065,16 +1188,23 @@ function darkmode(){
         fetch(`https://pokeapi.co/api/v2/pokemon/${jef}`, requestOptions)
         .then((response) => response.json())
         .then((result) => {
-            console.log("name: " + result.name);
-            console.log("height: " + result.height);
-            console.log("weight: " + result.weight);
-            console.log("HP: " + result.stats[0].base_stat);
-            console.log("attack: " + result.stats[1].base_stat);
-            console.log("defense: " + result.stats[2].base_stat);
+            document.getElementById("dexname").innerHTML = result.name;
+            document.getElementById("dexheight").innerHTML = result.height;
+            document.getElementById("dexweight").innerHTML = result.weight;
+            document.getElementById("dexhp").innerHTML = result.stats[0].base_stat;
+            document.getElementById("dexattack").innerHTML = result.stats[1].base_stat;
+            document.getElementById("dexdefense").innerHTML = result.stats[2].base_stat;
             var typez = result.types;
+            var typeztext = "";
             for(let i = 0; i < typez.length; i++){
-                console.log("type " + (i + 1) + ": " + result.types[i].type.name);
+                typeztext += result.types[i].type.name + " ";
             }
+            document.getElementById("dexenergy").innerHTML = typeztext;
+            document.getElementById("pokedex").style.display = "flex";
+            var foto = document.getElementById(`pokemon${jef}${i}`).style.background;
+            console.log(foto);
+            console.log(jef)
+            document.getElementById("dexfoto").style.background = foto;
         })
         .catch((error) => console.error(error));
     }
@@ -1099,6 +1229,71 @@ function darkmode(){
         node["historic"="monument"](${loclatt - 0.05},${loclongg - 0.05},${loclatt + 0.05},${loclongg + 0.05});
         way["historic"="monument"](${loclatt - 0.05},${loclongg - 0.05},${loclatt + 0.05},${loclongg + 0.05});
         relation["historic"="monument"](${loclatt - 0.05},${loclongg - 0.05},${loclatt + 0.05},${loclongg + 0.05});
+
+        node["leisure"~"park|playground|bowling_alley|sports_centre|swimming_pool|stadium|pitch|golf_course|miniature_golf"](${loclatt - 0.05},${loclongg - 0.05},${loclatt + 0.05},${loclongg + 0.05});
+        way["leisure"~"park|playground|bowling_alley|sports_centre|swimming_pool|stadium|pitch|golf_course|miniature_golf"](${loclatt - 0.05},${loclongg - 0.05},${loclatt + 0.05},${loclongg + 0.05});
+        relation["leisure"~"park|playground|bowling_alley|sports_centre|swimming_pool|stadium|pitch|golf_course|miniature_golf"](${loclatt - 0.05},${loclongg - 0.05},${loclatt + 0.05},${loclongg + 0.05});
+
+        node["building"="chapel|museum|cinema|ruins|tower|shed|shrine"](${loclatt - 0.05},${loclongg - 0.05},${loclatt + 0.05},${loclongg + 0.05});
+        way["building"="chapel|museum|cinema|ruins|tower|shed|shrine"](${loclatt - 0.05},${loclongg - 0.05},${loclatt + 0.05},${loclongg + 0.05});
+        relation["building"="chapel|museum|cinema|ruins|tower|shed|shrine"](${loclatt - 0.05},${loclongg - 0.05},${loclatt + 0.05},${loclongg + 0.05});
+        );
+        out center;`);
+
+        const requestOptions = {
+        method: "POST",
+        headers: myHeaders,
+        body: urlencoded,
+        redirect: "follow"
+        };
+
+        fetch("https://lz4.overpass-api.de/api/interpreter", requestOptions)
+        .then((response) => response.json())    
+        .then((result) => {
+            for(let i = 0; i < result.elements.length; i++){
+                if(result.elements[i].tags.name != undefined){
+                    nieuwenames.push(result.elements[i].tags.name);
+                    var lattoevoeg = result.elements[i].lat || result.elements[i].center.lat;
+                    var lontoevoeg = result.elements[i].lon || result.elements[i].center.lon;
+
+                     if (!lattoevoeg || !lontoevoeg) return;
+
+                    nieuwelat.push(lattoevoeg);
+                    nieuwelon.push(lontoevoeg);
+                }
+            }
+            makemap();
+            vorigelatlong = loclatt + " " + loclongg
+            console.log(result.elements.length);
+        })
+        .catch((error) => console.error(error));
+    }
+    }
+
+
+    function krijgalledingen2(loclatt, loclongg) {
+        if (vorigelatlong != loclatt + " " + loclongg){
+        const myHeaders = new Headers();
+        myHeaders.append("Content-Type", "application/x-www-form-urlencoded");
+
+        const urlencoded = new URLSearchParams();
+        urlencoded.append("data",
+        `[out:json][timeout:60];(
+        node["amenity"~"cafe|restaurant|bar|fast_food|ice_cream|bank|marketplace|pharmacy|school|college|university|kindergarten|library|hospital|clinic|dentist|doctors|nursing_home|fuel|place_of_worship|cinema|theatre|community_centre|nightclub|casino|police|fire_station|townhall"](${loclatt - 0.05},${loclongg - 0.05},${loclatt + 0.05},${loclongg + 0.05});
+        way["amenity"~"place_of_worship|school|college|townhall|university"](${loclatt - 0.05},${loclongg - 0.05},${loclatt + 0.05},${loclongg + 0.05});
+        relation["amenity"~"place_of_worship|school|college|townhall|university"](${loclatt - 0.05},${loclongg - 0.05},${loclatt + 0.05},${loclongg + 0.05});
+
+        node["historic"="monument"](${loclatt - 0.05},${loclongg - 0.05},${loclatt + 0.05},${loclongg + 0.05});
+        way["historic"="monument"](${loclatt - 0.05},${loclongg - 0.05},${loclatt + 0.05},${loclongg + 0.05});
+        relation["historic"="monument"](${loclatt - 0.05},${loclongg - 0.05},${loclatt + 0.05},${loclongg + 0.05});
+
+        node["leisure"~"park|playground|bowling_alley|sports_centre|swimming_pool|stadium|pitch|golf_course|miniature_golf"](${loclatt - 0.05},${loclongg - 0.05},${loclatt + 0.05},${loclongg + 0.05});
+        way["leisure"~"park|playground|bowling_alley|sports_centre|swimming_pool|stadium|pitch|golf_course|miniature_golf"](${loclatt - 0.05},${loclongg - 0.05},${loclatt + 0.05},${loclongg + 0.05});
+        relation["leisure"~"park|playground|bowling_alley|sports_centre|swimming_pool|stadium|pitch|golf_course|miniature_golf"](${loclatt - 0.05},${loclongg - 0.05},${loclatt + 0.05},${loclongg + 0.05});
+
+        node["building"="chapel|museum|cinema|ruins|tower|shed|shrine"](${loclatt - 0.05},${loclongg - 0.05},${loclatt + 0.05},${loclongg + 0.05});
+        way["building"="chapel|museum|cinema|ruins|tower|shed|shrine"](${loclatt - 0.05},${loclongg - 0.05},${loclatt + 0.05},${loclongg + 0.05});
+        relation["building"="chapel|museum|cinema|ruins|tower|shed|shrine"](${loclatt - 0.05},${loclongg - 0.05},${loclatt + 0.05},${loclongg + 0.05});
         );
         out center;`);
 
@@ -1131,7 +1326,6 @@ function darkmode(){
         .catch((error) => console.error(error));
     }
     }
-
 
     function juist (){
         for(let i = 0; i < nieuwenames.length; i++){
