@@ -831,7 +831,7 @@ alopkaart.push(nieuwenames[i]);
             test(i, nieuwelat[i], nieuwelon[i]);
             console.log(i + "d" + hhh + "h" + hhhh + "m" + hhhhh + "y" + hhhhhh);
             document.getElementById("locatietext").innerHTML = nieuwenames[i];
-            //if(loclat.toFixed(3) === nieuwelat[i].toFixed(3) && loclong.toFixed(3) === nieuwelon[i].toFixed(3)){
+            if(loclat.toFixed(3) === nieuwelat[i].toFixed(3) && loclong.toFixed(3) === nieuwelon[i].toFixed(3)){
                 circle.setStyle({
                 color: 'red',
                 fillColor: 'red',
@@ -856,7 +856,7 @@ alopkaart.push(nieuwenames[i]);
                 }
                 //console.log("werkt: " + i);
             }, 2000);
-            //}
+            }
         });
 
 }
@@ -867,10 +867,10 @@ document.getElementById("loadingscreen").style.display = "none";
 var slide = 0;
 
 function test(jef, latt, longg){
-    //if(gevangenids.includes(jef + "d" + hhh + "h" + hhhh + "m" + hhhhh + "y" + hhhhhh) === false){
+    if(gevangenids.includes(jef + "d" + hhh + "h" + hhhh + "m" + hhhhh + "y" + hhhhhh) === false){
 
    
-    //if(loclat.toFixed(3) === latt.toFixed(3) && loclong.toFixed(3) === longg.toFixed(3)){
+    if(loclat.toFixed(3) === latt.toFixed(3) && loclong.toFixed(3) === longg.toFixed(3)){
 
     console.log("ja: " + loclat.toFixed(3) + " is gelijk aan " + latt + " en " + loclong.toFixed(3) + " is gelijk aan " + longg);
 
@@ -921,10 +921,10 @@ function test(jef, latt, longg){
     })
     .catch((error) => console.error(error));
 
-    //} else {
-      // console.log("nee: " + loclat.toFixed(3) + " is niet gelijk aan " + latt.toFixed(3) + " en " + loclong.toFixed(3) + " is niet gelijk aan " + longg.toFixed(3));
-    //} 
- //}
+    } else {
+       console.log("nee: " + loclat.toFixed(3) + " is niet gelijk aan " + latt.toFixed(3) + " en " + loclong.toFixed(3) + " is niet gelijk aan " + longg.toFixed(3));
+    } 
+ }
 }
 
 var laatstepokemonurl;
