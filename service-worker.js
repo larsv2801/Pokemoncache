@@ -12,7 +12,9 @@ self.addEventListener('install', (event) => {
         '/Pokemoncache/white.png',
         '/Pokemoncache/pokecachenormaal144.png',
         '/Pokemoncache/pokecachenormaal192.png',
-        '/Pokemoncache/pokecachezwart.png'
+        '/Pokemoncache/pokecachezwart.png',
+        '/Pokemoncache/kruis.png',
+        '/Pokemoncache/pokeball.png'
       ]);
     })
   );
