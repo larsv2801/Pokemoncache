@@ -847,7 +847,7 @@
         <div id="tradedpoke"></div>
         <button class="tradebutton" id="tradebutton2" onclick = "stoptrade()">done</button>
         <video id="tradevid" muted playsinline>
-            <source src="trade.webm" type="video/webm">
+            <source src="Trade.webm" type="video/webm">
         </video>
     </div>
 
@@ -1663,20 +1663,17 @@ function darkmode(){
             document.getElementById("tradedpoke").style.opacity = 1;
         },4300);
 
-        document.getElementById(`pokemon${mijnpokemon}${i}`).style.display="none";
-
-        var el = document.createElement('div');
+        var el = document.getElementById(`pokemon${mijnpokemon}${i}`);
         el.className = "pokémon";
         el.style.background = `url(${resultaat.url})`;
         el.style.backgroundSize = "cover";
-        el.setAttribute("id", `pokemon${resultaat.name}${(gevangenurls.length + 1)}`);
+        el.setAttribute("id", `pokemon${resultaat.name}${i}`);
         el.onclick = function () {
-            getinfo(resultaat.name,(gevangenurls.length + 1));
+            getinfo(resultaat.name,i);
         }
         if(resultaat.url.includes("shiny")){
         el.style.borderColor = "rgb(251, 255, 145)";
         }
-        document.getElementById("pokecontainter").appendChild(el);
         saveeverything();
     }
 
@@ -1696,4 +1693,3 @@ function darkmode(){
     </script>
 </body>
 </html>
-
