@@ -170,45 +170,54 @@
         .leaflet-control{
            background:linear-gradient(135deg,rgba(255,255,255,0.2),rgba(255,255,255,0.3));
             backdrop-filter: blur(4px); 
+            user-select: none;
         }
         .leaflet-bar{
            background:linear-gradient(135deg,rgba(255,255,255,0.0),rgba(255,255,255,0.0));
             backdrop-filter: blur(4px); 
+            user-select: none;
         }
 
         .leaflet-bar a:active{
            background:linear-gradient(135deg,rgba(255,255,255,0.0),rgba(255,255,255,0.0));
             backdrop-filter: blur(4px); 
+            user-select: none;
         }
 
         .leaflet-bar a:focus{
            background:linear-gradient(135deg,rgba(255,255,255,0.0),rgba(255,255,255,0.0));
             backdrop-filter: blur(4px); 
+            user-select: none;
         }
 
         .leaflet-bar a:hover{
            background:linear-gradient(135deg,rgba(255,255,255,0.0),rgba(255,255,255,0.0));
             backdrop-filter: blur(4px); 
+            user-select: none;
         }
 
         .leaflet-bar:focus{
            background:linear-gradient(135deg,rgba(255,255,255,0.0),rgba(255,255,255,0.0));
             backdrop-filter: blur(4px); 
+            user-select: none;
         }
 
         .leaflet-bar:active{
            background:linear-gradient(135deg,rgba(255,255,255,0.0),rgba(255,255,255,0.0));
             backdrop-filter: blur(4px); 
+            user-select: none;
         }
 
         .leaflet-bar a{
            background:linear-gradient(135deg,rgba(255,255,255,0.2),rgba(255,255,255,0.3));
             backdrop-filter: blur(4px); 
+            user-select: none;
         }
 
         .leaflet-disabled{
            background:linear-gradient(135deg,rgba(255,255,255,0.2),rgba(255,255,255,0.3)) !important;
             backdrop-filter: blur(4px) !important; 
+            user-select: none;
         }
 
         #settings{
@@ -288,6 +297,7 @@
             backdrop-filter: blur(4px);
             bottom:3px;
             right:3px;
+            user-select: none;
         }
 
         #collection{
@@ -431,16 +441,19 @@
             font-family: arial;
             color:black;
             font-size:5vw;
+            user-select: none;
         }
         #leveltekst{
             position:absolute;
             left:1%;
             transform: translate(0%,0%);
+            user-select: none;
         }
         #naarleveltekst{
             position:absolute;
             right:1%;
             transform: translate(0%,0%);
+            user-select: none;
         }
         #topbar{
             width:100%;
@@ -496,7 +509,7 @@
 
         #pokedex{
             width:85dvw;
-            height:60dvh;
+            height:67dvh;
             border-radius: 15px;
             display:none;
             z-index:999;
@@ -515,21 +528,21 @@
             height:25dvh;
             border-radius: 5px;
             position:absolute;
-            bottom:20dvh;
+            bottom:25dvh;
             left:50%;
             transform: translate(-50%,-50%);
         }
 
         #dexnames{
             position: absolute;
-            bottom:1%;
+            bottom:10%;
             left:2%;
             font-family:arial;
         }
 
         #dexnumbers{
             position: absolute;
-            bottom:1%;
+            bottom: 10%;
             right:2%;
             font-family:arial;
             text-align:right;
@@ -561,6 +574,24 @@
             transition:0.3s;
         }
 
+        #starttradebutton{
+            border:none;
+            outline:none;
+            background-color: burlywood;
+            position:absolute;
+            bottom: 0%;
+            left:50%;
+            transform: translate(-50%,-50%);
+            width:80dvw;
+            height:5dvh;
+            border-radius:5px;
+            color:white;
+            font-size:7vw;
+            display:flex;
+            align-items:center;
+            justify-content: center;
+        }
+
         #locatietext{
             color:black;
             font-family: arial;
@@ -569,6 +600,7 @@
             top:10%;
             transform: translate(-50%,-50%);
             width:90dvw;
+            user-select: none;
         }
 
         #loadingscreen{
@@ -593,6 +625,148 @@
             display:none;
             z-index:99999999999999;
             background-color: rgba(0, 0, 0, 0.07);
+            user-select: none;
+        }
+
+        #trade{
+          display:flex;
+          z-index:999999999999999;  
+          position:fixed;
+          left:50%;
+          top:50%;
+          transform: translate(-50%,-50%);
+          border-radius:5px;
+          width:300px;
+          height:300px;
+          flex-direction: row;
+          gap:5vw;
+          align-items:center;
+          justify-content: flex-start;
+          overflow-x: scroll;
+          scroll-snap-type:x mandatory;
+        }
+
+        #reader {
+            width: 300px;
+            height: 300px;
+            border-radius: 5px;
+            overflow: hidden;
+            padding:0;
+            flex-shrink: 0;
+            scroll-snap-align:start;
+        }
+
+        #qr{
+            background-color: white;
+            width: 300px;
+            height: 300px;
+            border-radius: 5px;
+            flex-shrink: 0;
+            scroll-snap-align:center;
+            display:flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        #reader video {
+            width: 100%;
+            height: 100%;
+            object-fit: cover; /* zorgt dat het mooi vult */
+            border-radius: 5px;
+            padding:0;
+        }
+
+        #tradecontainer{
+            width:100dvw;
+            height:100dvh;
+            background-color: rgb(233, 233, 233);
+            display:flex;
+            z-index:9999999;
+            position:absolute;
+            left:50%;
+            top:50%;
+            transform: translate(-50%,-50%);
+            display:none;
+            opacity: 1;
+            /*visibility: hidden;*/
+            transition:0.2s;
+        }
+
+        #tradeani{
+            width:100dvw;
+            height:100dvh;
+            background-color: rgb(233, 233, 233);
+            display:none;
+            z-index:9999999;
+            position:fixed;
+           /* left:50%;
+            top:50%;
+            /*transform: translate(-50%,-50%);*/
+            display:none;
+            opacity: 1;
+            transition:0.2s;
+        }
+
+        #tradevid{
+            width:60dvw;
+            height:60dvh;
+            position:absolute;
+            top:50%;
+            left:50%;
+            transform: translate(-50%,-50%);
+        }
+
+        .tradebutton{
+            border:none;
+            outline:none;
+            background-color: burlywood;
+            position:absolute;
+            top:80%;
+            left:50%;
+            transform: translate(-50%,-50%);
+            width:40dvw;
+            height:15dvw;
+            border-radius:5px;
+            color:white;
+            font-size:7vw;
+            display:none;
+            align-items:center;
+            justify-content: center;
+        }
+
+        #sluittrade{
+            width:2vw;
+            height: 2vw;
+            border-radius: 3px;
+            outline:none;
+            background:transparent;
+            border:none;
+            align-items:center;
+            justify-content:center;
+            position:absolute;
+            right:1%;
+            top:1%;
+            font-size:calc(1.1vw + 15px);
+            min-width:30px;
+            min-height:30px; 
+            user-select: none;
+            transition:0.3s;   
+        }
+
+        #tradedpoke{
+            width:50vw;
+            height:50vw;
+            border:2px solid gray;
+            border-radius: 15px;
+            user-select: none;
+            transition:3s;
+            position:relative;
+            overflow:hidden;
+            display:none;
+            position:absolute;
+            left:50%;
+            top:50%;
+            transform: translate(-50%,-50%);
         }
      </style>
 </head>
@@ -653,12 +827,29 @@
                 <h3 id="dexattack"></h3>
                 <h3 id="dexdefense"></h3>
             </div>
+            <button id="starttradebutton">TRADE</button>
         </div>
         <div id="pokecontainter">
         </div>
     </section>
 
     <div id="centreer" onclick="locatie()"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 640 640"><!--!Font Awesome Free v7.1.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free Copyright 2025 Fonticons, Inc.--><path d="M320 48C337.7 48 352 62.3 352 80L352 98.3C450.1 112.3 527.7 189.9 541.7 288L560 288C577.7 288 592 302.3 592 320C592 337.7 577.7 352 560 352L541.7 352C527.7 450.1 450.1 527.7 352 541.7L352 560C352 577.7 337.7 592 320 592C302.3 592 288 577.7 288 560L288 541.7C189.9 527.7 112.3 450.1 98.3 352L80 352C62.3 352 48 337.7 48 320C48 302.3 62.3 288 80 288L98.3 288C112.3 189.9 189.9 112.3 288 98.3L288 80C288 62.3 302.3 48 320 48zM160 320C160 408.4 231.6 480 320 480C408.4 480 480 408.4 480 320C480 231.6 408.4 160 320 160C231.6 160 160 231.6 160 320zM320 224C373 224 416 267 416 320C416 373 373 416 320 416C267 416 224 373 224 320C224 267 267 224 320 224z"/></svg></div>
+    
+    <div id="tradecontainer">
+    <button id="sluittrade" onclick="stoptrade()"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 640 640"><path d="M183.1 137.4C170.6 124.9 150.3 124.9 137.8 137.4C125.3 149.9 125.3 170.2 137.8 182.7L275.2 320L137.9 457.4C125.4 469.9 125.4 490.2 137.9 502.7C150.4 515.2 170.7 515.2 183.2 502.7L320.5 365.3L457.9 502.6C470.4 515.1 490.7 515.1 503.2 502.6C515.7 490.1 515.7 469.8 503.2 457.3L365.8 320L503.1 182.6C515.6 170.1 515.6 149.8 503.1 137.3C490.6 124.8 470.3 124.8 457.8 137.3L320.5 274.7L183.1 137.4z"/></svg></button>
+    <div id="trade">
+        <div id="reader" width="100dvw"></div>
+        <div id="qr"></div>
+    </div>
+    <button id="tradebutton" class="tradebutton">ready</button>
+    </div>
+    <div id="tradeani">
+        <div id="tradedpoke"></div>
+        <button class="tradebutton" id="tradebutton2" onclick = "stoptrade()">done</button>
+        <video id="tradevid" muted playsinline>
+            <source src="Trade.webm" type="video/webm">
+        </video>
+    </div>
 
     <div id="map"></div>
 
@@ -674,6 +865,8 @@
         </div>
     </div>
 
+    <script src="https://unpkg.com/html5-qrcode" type="text/javascript"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js"></script>
     <script>
 
         var map = L.map('map').setView([51.5, -0.09], 17);
@@ -785,6 +978,7 @@ alopkaart.push(nieuwenames[i]);
             color:'burlywood',
             fillColor:'burlywood',
             fillOpacity:'0.3',
+            weight:'1',
             radius:45
         }
 
@@ -817,7 +1011,8 @@ alopkaart.push(nieuwenames[i]);
                     circle.setStyle({
                     color: 'burlywood',
                     fillColor: 'burlywood',
-                    fillOpacity:'0.3',
+                    weight:'1',
+                    fillOpacity:'0.3'
                     });
                     clearInterval(circleIntervals[i]);
                 }
@@ -835,7 +1030,7 @@ alopkaart.push(nieuwenames[i]);
                 circle.setStyle({
                 color: 'red',
                 fillColor: 'red',
-                fillOpacity:'0.3',
+                fillOpacity:'0.3'
             });
             if (circleIntervals[i]) {
                 clearInterval(circleIntervals[i]);
@@ -850,7 +1045,8 @@ alopkaart.push(nieuwenames[i]);
                     circle.setStyle({
                     color: 'burlywood',
                     fillColor: 'burlywood',
-                    fillOpacity:'0.3',
+                    weight:'1',
+                    fillOpacity:'0.3'
                     });
                     clearInterval(circleIntervals[i]);
                 }
@@ -1089,10 +1285,13 @@ function darkmode(){
 
         document.getElementById("settings").style.backgroundColor = bgcolor;
         document.getElementById("collection").style.backgroundColor = bgcolor;
+        document.getElementById("tradecontainer").style.backgroundColor = bgcolor;
+        document.getElementById("tradeani").style.backgroundColor = bgcolor;
         document.getElementById("dltoggleh1").style.color = txcolor;
         document.getElementById("leveltekst").style.color = txcolor;
         document.getElementById("naarleveltekst").style.color = txcolor;
         document.getElementById("locatietext").style.color = txcolor;
+        document.getElementById("sluittrade").style.fill = txcolor;
     } else {
         bgcolor = "rgb(233, 233, 233)";
         txcolor = "black";
@@ -1103,10 +1302,13 @@ function darkmode(){
 
         document.getElementById("settings").style.backgroundColor = bgcolor;
         document.getElementById("collection").style.backgroundColor = bgcolor;
+        document.getElementById("tradecontainer").style.backgroundColor = bgcolor;
+        document.getElementById("tradeani").style.backgroundColor = bgcolor;
         document.getElementById("dltoggleh1").style.color = txcolor;
         document.getElementById("leveltekst").style.color = txcolor;
         document.getElementById("naarleveltekst").style.color = txcolor;
         document.getElementById("locatietext").style.color = txcolor;
+        document.getElementById("sluittrade").style.fill = txcolor;
     }
     localStorage.setItem("darkmode", dark);
     saveeverything();
@@ -1163,10 +1365,13 @@ function darkmode(){
         document.getElementById("dltoggle").style.backgroundColor = "burlywood";
         document.getElementById("settings").style.backgroundColor = bgcolor;
         document.getElementById("collection").style.backgroundColor = bgcolor;
+        document.getElementById("tradecontainer").style.backgroundColor = bgcolor;
+        document.getElementById("tradeani").style.backgroundColor = bgcolor;
         document.getElementById("dltoggleh1").style.color = txcolor;
         document.getElementById("leveltekst").style.color = txcolor;
         document.getElementById("naarleveltekst").style.color = txcolor;
         document.getElementById("locatietext").style.color = txcolor;
+        document.getElementById("sluittrade").style.fill = txcolor;
         } else {
             dark = 0;
         }
@@ -1245,6 +1450,10 @@ function darkmode(){
             console.log(foto);
             console.log(jef)
             document.getElementById("dexfoto").style.background = foto;
+            document.getElementById("starttradebutton").onclick =  function () {
+                document.getElementById('pokedex').style.display = 'none';
+                starttrade(jef, i);
+            }
         })
         .catch((error) => console.error(error));
     }
@@ -1377,6 +1586,113 @@ function darkmode(){
         }
     }
 
+    var resultaat;
+    var mijnpokemon;
+    var qrcode;
+    var html5QrCode;
+
+    function starttrade(jef, i){
+    
+    mijnpokemon = jef;
+    document.getElementById("trade").style.display= "flex";
+    document.getElementById("tradecontainer").style.display= "flex";
+    document.getElementById("tradebutton").onclick = () => tradedone(i);
+    document.getElementById("reader").style.display="flex";
+    document.getElementById("reader").style.backgroundColor = "transparent";
+    document.getElementById("tradebutton").style.display="none";
+
+    if(qrcode){
+        qrcode.clear();
+        //document.getElementById("qr").innerHTML = "";
+    }
+
+    /*if (html5QrCode) {
+      html5QrCode.stop();
+    }*/
+
+    if(!html5QrCode){
+        html5QrCode = new Html5Qrcode("reader");
+    }
+
+    const qrCodeSuccessCallback = (decodedText, decodedResult) => {
+        resultaat = JSON.parse(decodedText);
+        html5QrCode.stop();
+        document.getElementById("reader").style.backgroundColor = "lightgreen";
+        setTimeout(function() {
+            document.getElementById("reader").style.display="none";
+            document.getElementById("tradebutton").style.display="flex";
+        },1000);
+    };
+
+    const config = { fps: 10, qrbox: {width: 250, height: 250} };
+    
+    html5QrCode.start({ facingMode: "environment" }, config, qrCodeSuccessCallback);
+
+    qrcode = new QRCode(document.getElementById("qr"), 
+        JSON.stringify({
+            url:gevangenurls[i],
+            name:jef
+        })
+    );
+
+    }
+
+    function tradedone(i){
+
+        gevangenurls[i] = resultaat.url;
+        gevangennames[i] = resultaat.name;
+
+        document.getElementById("tradecontainer").style.display="none";
+        document.getElementById("tradedpoke").style.background = `url(${resultaat.url})`;
+        document.getElementById("tradedpoke").style.backgroundSize = "cover";
+        document.getElementById("tradedpoke").style.display = "none";
+        document.getElementById("tradebutton2").style.display = 'none';
+        document.getElementById("tradedpoke").style.opacity = 0;
+
+        document.getElementById("tradeani").style.display="flex"; 
+        document.getElementById("tradevid").style.display="flex";
+        document.getElementById("tradevid").currentTime = 0;
+        document.getElementById("tradevid").play();
+
+        setTimeout(function () {
+            document.getElementById("tradedpoke").style.display = 'flex';
+            document.getElementById("tradebutton2").style.display = 'flex';
+            document.getElementById("tradevid").style.display= "flex";
+            document.getElementById("tradedpoke").style.opacity = 0;
+            void document.getElementById("tradedpoke").offsetWidth;
+            document.getElementById("tradedpoke").style.opacity = 1;
+        },4300);
+
+        document.getElementById(`pokemon${mijnpokemon}${i}`).style.display="none";
+
+        var el = document.createElement('div');
+        el.className = "pokémon";
+        el.style.background = `url(${resultaat.url})`;
+        el.style.backgroundSize = "cover";
+        el.setAttribute("id", `pokemon${resultaat.name}${(gevangenurls.length + 1)}`);
+        el.onclick = function () {
+            getinfo(resultaat.name,(gevangenurls.length + 1));
+        }
+        if(resultaat.url.includes("shiny")){
+        el.style.borderColor = "rgb(251, 255, 145)";
+        }
+        document.getElementById("pokecontainter").appendChild(el);
+        saveeverything();
+    }
+
+    function stoptrade(){
+    
+    document.getElementById("trade").style.display= "none";
+    document.getElementById("tradecontainer").style.display= "none";
+    document.getElementById("tradeani").style.display= "none";
+    document.getElementById("tradevid").style.display= "none";
+
+    const config = { fps: 10, qrbox: {width: 250, height: 250} };
+    
+    qrcode.clear();
+    document.getElementById("qr").innerHTML = "";
+
+    }
     </script>
 </body>
 </html>
