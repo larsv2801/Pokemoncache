@@ -1663,6 +1663,8 @@ function darkmode(){
             document.getElementById("tradedpoke").style.opacity = 1;
         },4300);
 
+        //document.getElementById(`pokemon${mijnpokemon}${i}`).style.display="none";
+
         var el = document.getElementById(`pokemon${mijnpokemon}${i}`);
         el.className = "pokémon";
         el.style.background = `url(${resultaat.url})`;
@@ -1673,6 +1675,8 @@ function darkmode(){
         }
         if(resultaat.url.includes("shiny")){
         el.style.borderColor = "rgb(251, 255, 145)";
+        } else {
+           el.style.borderColor = "gray"; 
         }
         saveeverything();
     }
