@@ -15,7 +15,8 @@ self.addEventListener('install', (event) => {
         '/Pokemoncache/pokecachezwart.png',
         '/Pokemoncache/kruis.png',
         '/Pokemoncache/pokeball.png',
-        '/Pokemoncache/NewPiskel-ezgif.com-gif-to-webm-converter.webm'
+        '/Pokemoncache/NewPiskel-ezgif.com-gif-to-webm-converter.webm',
+        '/Pokemoncache/trade.webm'
       ]);
     })
   );
