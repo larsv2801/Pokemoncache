@@ -1,18 +1,42 @@
 <!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="manifest" href="manifest.json?v=1.0.3">
-    <title>Pokemon Cache</title>
-     <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css"
-     integrity="sha256-p4NxAoJBhIIN+hmNHrzRCf9tD/miZyoHS5obTRR9BMY="
-     crossorigin=""/>
-      <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"
-     integrity="sha256-20nQCchB9co0qIjJZRGuk2/Z9VM+kNiyxNV1lvTlZBo="
-     crossorigin=""></script>
-     <style>
-        body{
+<html>
+    <head>
+        <meta charset="utf-8" />
+        <title>Pokemoncache</title>
+        <meta name="viewport" content="initial-scale=1,maximum-scale=1,user-scalable=no" />
+        <link rel="manifest" href="manifest.json?v=1.0.3">
+        <script type="text/javascript" src="//unpkg.com/maplibre-gl@5.0.1/dist/maplibre-gl.js"></script>
+        <link href="//unpkg.com/maplibre-gl@5.0.1/dist/maplibre-gl.css" rel="stylesheet" />
+        <style type="text/css">
+            body {
+              margin: 0;
+              padding: 0;
+            }
+
+            #map {
+              position: absolute;
+              top: 0;
+              bottom: 0;
+              width: 100%;
+              height:100%;
+              background: hsl(0, 0%, 2%);
+            }
+
+            #button{
+                display: block;
+                position: absolute;
+                top: 7px;
+                right: 7px;
+                width: 7dvw;
+                height: 7dvw;
+                border: none;
+                border-radius: 3px;
+                font-size: 18px;
+                text-align: center;
+                color: #fff;
+                background: burlywood;
+            }
+            body{
             margin:0;
             padding:0;
         }
@@ -33,6 +57,7 @@
             outline:none;
             background:linear-gradient(135deg,rgba(255,255,255,0.2),rgba(255,255,255,0.3));
             backdrop-filter: blur(4px);
+            /*background-color: burlywood;*/
             border:2px solid #16161652;
             display:flex;
             z-index:9;
@@ -40,18 +65,13 @@
             justify-content:center;
             position:absolute;
             left:10px;
-            top: 80px;
-            /*font-size:calc(1.2vw + 15px);*/
-            /*font: 18px/20px Tahoma, Verdana, sans-serif;
-            font-size: 55px;*/
+            top: 10px;
             user-select: none;
-            /*min-width:30px;
-            min-height:30px;*/
         }
 
         #centreer:focus{
             transition:0.3s;
-            background-color: #f4f4f4;
+            background-color: burlywood;
         }
 
         #centreer svg{
@@ -61,6 +81,7 @@
             user-select: none;
             font-weight:700;
             width:18px;
+            fill:black;
         }
 
         #unlock{
@@ -768,28 +789,35 @@
             top:50%;
             transform: translate(-50%,-50%);
         }
-     </style>
-</head>
-<body onload="loadeverything()">
-    <div id="loadingscreen"></div>
-    <video id="video" muted playsinline>
-            <source src="NewPiskel-ezgif.com-gif-to-webm-converter.webm" type="video/webm">
-            </video>
-    <div id="nav">
-        <svg id="settingssvg" onclick="settings()" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 640 640"><path d="M269.5 156.7L283.2 96L356.8 96L370.5 156.7C372.2 164.1 377.3 170.3 384.3 173.4C395.1 178.2 405.3 184.1 414.7 191C420.8 195.5 428.8 196.9 436.1 194.6L495.6 176.1L532.4 239.9L486.6 282.2C481 287.4 478.2 294.9 479 302.4C480.3 313.9 480.3 326.1 479 337.6C478.2 345.2 481 352.7 486.6 357.8L532.4 400.1L495.6 463.9L436.1 445.4C428.8 443.1 420.9 444.5 414.7 449C405.3 455.9 395.1 461.9 384.3 466.6C377.3 469.7 372.2 475.9 370.5 483.3L356.8 544L283.2 544L269.5 483.3C267.8 475.9 262.7 469.7 255.7 466.6C244.9 461.8 234.7 455.9 225.3 449C219.2 444.5 211.2 443.1 203.9 445.4L144.4 463.9L107.6 400.1L153.4 357.8C159 352.6 161.8 345.1 161 337.6C159.7 326.1 159.7 313.9 161 302.4C161.8 294.8 159 287.3 153.4 282.2L107.6 239.9L144.4 176.1L203.9 194.6C211.2 196.9 219.1 195.5 225.3 191C234.7 184.1 244.9 178.1 255.7 173.4C262.7 170.3 267.8 164.1 269.5 156.7zM276.8 48C258.1 48 241.9 61 237.8 79.2L225.2 134.8C218.9 138 212.9 141.5 207 145.3L152.6 128.4C134.7 122.8 115.4 130.4 106.1 146.6L62.9 221.4C53.6 237.6 56.7 258.1 70.4 270.8L112.3 309.5C112 316.4 112 323.5 112.3 330.5L70.4 369.2C56.7 381.9 53.5 402.4 62.9 418.6L106.1 493.4C115.4 509.6 134.8 517.1 152.6 511.6L207.1 494.7C213 498.5 219 502 225.3 505.2L237.9 560.8C242 579 258.2 592 276.9 592L363.3 592C382 592 398.2 579 402.3 560.8L414.9 505.2C421.2 502 427.2 498.5 433.1 494.7L487.6 511.6C505.5 517.2 524.8 509.6 534.1 493.4L577.3 418.6C586.6 402.4 583.5 381.9 569.8 369.2L527.9 330.5C528.2 323.6 528.2 316.5 527.9 309.5L569.8 270.8C583.5 258.1 586.6 237.6 577.3 221.4L534 146.6C524.6 130.4 505.3 122.9 487.5 128.4L433 145.3C427.1 141.5 421.1 138 414.8 134.8L402.3 79.2C398.1 61 381.9 48 363.2 48L276.8 48zM368 320C368 346.5 346.5 368 320 368C293.5 368 272 346.5 272 320C272 293.5 293.5 272 320 272C346.5 272 368 293.5 368 320zM320 224C267 224 224 267 224 320C224 373 267 416 320 416C373 416 416 373 416 320C416 267 373 224 320 224z"/></svg>
-        <svg id="homesvg" onclick="home()" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 640 640"><path d="M304 70.1C313.1 61.9 326.9 61.9 336 70.1L568 278.1C577.9 286.9 578.7 302.1 569.8 312C560.9 321.9 545.8 322.7 535.9 313.8L527.9 306.6L527.9 511.9C527.9 547.2 499.2 575.9 463.9 575.9L175.9 575.9C140.6 575.9 111.9 547.2 111.9 511.9L111.9 306.6L103.9 313.8C94 322.6 78.9 321.8 70 312C61.1 302.2 62 287 71.8 278.1L304 70.1zM320 120.2L160 263.7L160 512C160 520.8 167.2 528 176 528L224 528L224 424C224 384.2 256.2 352 296 352L344 352C383.8 352 416 384.2 416 424L416 528L464 528C472.8 528 480 520.8 480 512L480 263.7L320 120.3zM272 528L368 528L368 424C368 410.7 357.3 400 344 400L296 400C282.7 400 272 410.7 272 424L272 528z"/></svg>
-        <svg id="collectsvg" onclick="collection()" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 640 640"><path d="M480 144C488.8 144 496 151.2 496 160L496 296L344 296L344 144L480 144zM496 344L496 480C496 488.8 488.8 496 480 496L344 496L344 344L496 344zM296 296L144 296L144 160C144 151.2 151.2 144 160 144L296 144L296 296zM144 344L296 344L296 496L160 496C151.2 496 144 488.8 144 480L144 344zM160 96C124.7 96 96 124.7 96 160L96 480C96 515.3 124.7 544 160 544L480 544C515.3 544 544 515.3 544 480L544 160C544 124.7 515.3 96 480 96L160 96z"/></svg>
+
+        .maplibregl-ctrl-geolocate .maplibregl-ctrl-icon {
+        /* Gebruik een filter om de kleur van het standaard SVG-icoon te veranderen */
+        filter:brightness(20%); /* Maakt het icoon wit */
+    }
+        </style>
+    </head>
+    <body onload="loadeverything()">
+        <div id="map"></div>
+        <div id="loadingscreen"></div>
+        <div id="nav">
+            <svg id="settingssvg" onclick="settings()" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 640 640"><path d="M269.5 156.7L283.2 96L356.8 96L370.5 156.7C372.2 164.1 377.3 170.3 384.3 173.4C395.1 178.2 405.3 184.1 414.7 191C420.8 195.5 428.8 196.9 436.1 194.6L495.6 176.1L532.4 239.9L486.6 282.2C481 287.4 478.2 294.9 479 302.4C480.3 313.9 480.3 326.1 479 337.6C478.2 345.2 481 352.7 486.6 357.8L532.4 400.1L495.6 463.9L436.1 445.4C428.8 443.1 420.9 444.5 414.7 449C405.3 455.9 395.1 461.9 384.3 466.6C377.3 469.7 372.2 475.9 370.5 483.3L356.8 544L283.2 544L269.5 483.3C267.8 475.9 262.7 469.7 255.7 466.6C244.9 461.8 234.7 455.9 225.3 449C219.2 444.5 211.2 443.1 203.9 445.4L144.4 463.9L107.6 400.1L153.4 357.8C159 352.6 161.8 345.1 161 337.6C159.7 326.1 159.7 313.9 161 302.4C161.8 294.8 159 287.3 153.4 282.2L107.6 239.9L144.4 176.1L203.9 194.6C211.2 196.9 219.1 195.5 225.3 191C234.7 184.1 244.9 178.1 255.7 173.4C262.7 170.3 267.8 164.1 269.5 156.7zM276.8 48C258.1 48 241.9 61 237.8 79.2L225.2 134.8C218.9 138 212.9 141.5 207 145.3L152.6 128.4C134.7 122.8 115.4 130.4 106.1 146.6L62.9 221.4C53.6 237.6 56.7 258.1 70.4 270.8L112.3 309.5C112 316.4 112 323.5 112.3 330.5L70.4 369.2C56.7 381.9 53.5 402.4 62.9 418.6L106.1 493.4C115.4 509.6 134.8 517.1 152.6 511.6L207.1 494.7C213 498.5 219 502 225.3 505.2L237.9 560.8C242 579 258.2 592 276.9 592L363.3 592C382 592 398.2 579 402.3 560.8L414.9 505.2C421.2 502 427.2 498.5 433.1 494.7L487.6 511.6C505.5 517.2 524.8 509.6 534.1 493.4L577.3 418.6C586.6 402.4 583.5 381.9 569.8 369.2L527.9 330.5C528.2 323.6 528.2 316.5 527.9 309.5L569.8 270.8C583.5 258.1 586.6 237.6 577.3 221.4L534 146.6C524.6 130.4 505.3 122.9 487.5 128.4L433 145.3C427.1 141.5 421.1 138 414.8 134.8L402.3 79.2C398.1 61 381.9 48 363.2 48L276.8 48zM368 320C368 346.5 346.5 368 320 368C293.5 368 272 346.5 272 320C272 293.5 293.5 272 320 272C346.5 272 368 293.5 368 320zM320 224C267 224 224 267 224 320C224 373 267 416 320 416C373 416 416 373 416 320C416 267 373 224 320 224z"/></svg>
+            <svg id="homesvg" onclick="home()" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 640 640"><path d="M304 70.1C313.1 61.9 326.9 61.9 336 70.1L568 278.1C577.9 286.9 578.7 302.1 569.8 312C560.9 321.9 545.8 322.7 535.9 313.8L527.9 306.6L527.9 511.9C527.9 547.2 499.2 575.9 463.9 575.9L175.9 575.9C140.6 575.9 111.9 547.2 111.9 511.9L111.9 306.6L103.9 313.8C94 322.6 78.9 321.8 70 312C61.1 302.2 62 287 71.8 278.1L304 70.1zM320 120.2L160 263.7L160 512C160 520.8 167.2 528 176 528L224 528L224 424C224 384.2 256.2 352 296 352L344 352C383.8 352 416 384.2 416 424L416 528L464 528C472.8 528 480 520.8 480 512L480 263.7L320 120.3zM272 528L368 528L368 424C368 410.7 357.3 400 344 400L296 400C282.7 400 272 410.7 272 424L272 528z"/></svg>
+            <svg id="collectsvg" onclick="collection()" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 640 640"><path d="M480 144C488.8 144 496 151.2 496 160L496 296L344 296L344 144L480 144zM496 344L496 480C496 488.8 488.8 496 480 496L344 496L344 344L496 344zM296 296L144 296L144 160C144 151.2 151.2 144 160 144L296 144L296 296zM144 344L296 344L296 496L160 496C151.2 496 144 488.8 144 480L144 344zM160 96C124.7 96 96 124.7 96 160L96 480C96 515.3 124.7 544 160 544L480 544C515.3 544 544 515.3 544 480L544 160C544 124.7 515.3 96 480 96L160 96z"/></svg>
+        </div>
+        
+    <div id="unlock">
+        <button id="sluit" onclick="document.getElementById('unlock').style.opacity = '0';document.getElementById('unlock').style.visibility = 'hidden';"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 640 640"><!--!Font Awesome Free v7.1.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free Copyright 2025 Fonticons, Inc.--><path d="M183.1 137.4C170.6 124.9 150.3 124.9 137.8 137.4C125.3 149.9 125.3 170.2 137.8 182.7L275.2 320L137.9 457.4C125.4 469.9 125.4 490.2 137.9 502.7C150.4 515.2 170.7 515.2 183.2 502.7L320.5 365.3L457.9 502.6C470.4 515.1 490.7 515.1 503.2 502.6C515.7 490.1 515.7 469.8 503.2 457.3L365.8 320L503.1 182.6C515.6 170.1 515.6 149.8 503.1 137.3C490.6 124.8 470.3 124.8 457.8 137.3L320.5 274.7L183.1 137.4z"/></svg></button>
+        <h1 id="locatietext"></h1>
+        <img src="" id="pokemon" onclick="slide = 0; checkvang()">
+        <div id="pokeball"></div>
+        <div id="kruis"></div>
+        <div id="vangbalk">
+            <div id="hierin"></div>
+            <div id="slider"></div>
+        </div>
     </div>
 
-    <section id="settings">
-        <div id="tilecontainter">
-            <div class="tilesoort" id="light" onclick="changemap(white, 'white')"></div>
-            <div class="tilesoort" id="dark" onclick="changemap(black, 'black')"></div>
-            <div class="tilesoort" id="voyager" onclick="changemap(voyager, 'voyager')"></div>
-            <div class="tilesoort" id="satellite" onclick="changemap(satellite, 'satellite')"></div>
-            <div class="tilesoort" id="standard" onclick="changemap(standard, 'standard')"></div>
-            <div class="tilesoort" id="geel" onclick="changemap(geel, 'geel')"></div>
-        </div>
+<section id="settings">
         <div id="toggle1cont">
             <h1 id="dltoggleh1">Dark Mode</h1>
             <div onclick="darkmode()" id="dltoggle" class="toggle">
@@ -797,7 +825,7 @@
             </div>
         </div>
         </div>
-    </section>
+</section>
 
     <section id="collection">
         <div id="topbar">
@@ -807,6 +835,7 @@
             </div>
             <h2 id="naarleveltekst">1</h2>
         </div>
+
         <div id="pokedex">
             <button id="sluitdex" onclick="document.getElementById('pokedex').style.display = 'none';"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 640 640"><!--!Font Awesome Free v7.1.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free Copyright 2025 Fonticons, Inc.--><path d="M183.1 137.4C170.6 124.9 150.3 124.9 137.8 137.4C125.3 149.9 125.3 170.2 137.8 182.7L275.2 320L137.9 457.4C125.4 469.9 125.4 490.2 137.9 502.7C150.4 515.2 170.7 515.2 183.2 502.7L320.5 365.3L457.9 502.6C470.4 515.1 490.7 515.1 503.2 502.6C515.7 490.1 515.7 469.8 503.2 457.3L365.8 320L503.1 182.6C515.6 170.1 515.6 149.8 503.1 137.3C490.6 124.8 470.3 124.8 457.8 137.3L320.5 274.7L183.1 137.4z"/></svg></button>
             <h2 id="dexname"></h2>
@@ -833,8 +862,6 @@
         </div>
     </section>
 
-    <div id="centreer" onclick="locatie()"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 640 640"><!--!Font Awesome Free v7.1.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free Copyright 2025 Fonticons, Inc.--><path d="M320 48C337.7 48 352 62.3 352 80L352 98.3C450.1 112.3 527.7 189.9 541.7 288L560 288C577.7 288 592 302.3 592 320C592 337.7 577.7 352 560 352L541.7 352C527.7 450.1 450.1 527.7 352 541.7L352 560C352 577.7 337.7 592 320 592C302.3 592 288 577.7 288 560L288 541.7C189.9 527.7 112.3 450.1 98.3 352L80 352C62.3 352 48 337.7 48 320C48 302.3 62.3 288 80 288L98.3 288C112.3 189.9 189.9 112.3 288 98.3L288 80C288 62.3 302.3 48 320 48zM160 320C160 408.4 231.6 480 320 480C408.4 480 480 408.4 480 320C480 231.6 408.4 160 320 160C231.6 160 160 231.6 160 320zM320 224C373 224 416 267 416 320C416 373 373 416 320 416C267 416 224 373 224 320C224 267 267 224 320 224z"/></svg></div>
-    
     <div id="tradecontainer">
     <button id="sluittrade" onclick="stoptrade()"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 640 640"><path d="M183.1 137.4C170.6 124.9 150.3 124.9 137.8 137.4C125.3 149.9 125.3 170.2 137.8 182.7L275.2 320L137.9 457.4C125.4 469.9 125.4 490.2 137.9 502.7C150.4 515.2 170.7 515.2 183.2 502.7L320.5 365.3L457.9 502.6C470.4 515.1 490.7 515.1 503.2 502.6C515.7 490.1 515.7 469.8 503.2 457.3L365.8 320L503.1 182.6C515.6 170.1 515.6 149.8 503.1 137.3C490.6 124.8 470.3 124.8 457.8 137.3L320.5 274.7L183.1 137.4z"/></svg></button>
     <div id="trade">
@@ -850,112 +877,230 @@
             <source src="trade.webm" type="video/webm">
         </video>
     </div>
-
-    <div id="map"></div>
-
-    <div id="unlock">
-        <button id="sluit" onclick="document.getElementById('unlock').style.opacity = '0';document.getElementById('unlock').style.visibility = 'hidden';"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 640 640"><!--!Font Awesome Free v7.1.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free Copyright 2025 Fonticons, Inc.--><path d="M183.1 137.4C170.6 124.9 150.3 124.9 137.8 137.4C125.3 149.9 125.3 170.2 137.8 182.7L275.2 320L137.9 457.4C125.4 469.9 125.4 490.2 137.9 502.7C150.4 515.2 170.7 515.2 183.2 502.7L320.5 365.3L457.9 502.6C470.4 515.1 490.7 515.1 503.2 502.6C515.7 490.1 515.7 469.8 503.2 457.3L365.8 320L503.1 182.6C515.6 170.1 515.6 149.8 503.1 137.3C490.6 124.8 470.3 124.8 457.8 137.3L320.5 274.7L183.1 137.4z"/></svg></button>
-        <h1 id="locatietext"></h1>
-        <img src="" id="pokemon" onclick="slide = 0; checkvang()">
-        <div id="pokeball"></div>
-        <div id="kruis"></div>
-        <div id="vangbalk">
-            <div id="hierin"></div>
-            <div id="slider"></div>
-        </div>
-    </div>
-
-    <script src="https://unpkg.com/html5-qrcode" type="text/javascript"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js"></script>
-    <script>
-
-        var map = L.map('map').setView([51.5, -0.09], 17);
-
-        //wit - zwart
-        var white = L.tileLayer('https://{s}.basemaps.cartocdn.com/light_all/{z}/{x}/{y}.png', {
-            attribution: '&copy; <a href="https://carto.com">CartoDB</a>'
-        });
-
-        //zwart - wit
-        var black = L.tileLayer('https://{s}.basemaps.cartocdn.com/dark_all/{z}/{x}/{y}{r}.png', {
-            attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors &copy; <a href="https://carto.com/">CARTO</a>',
-            subdomains: 'abcd',
-            maxZoom: 20
-        });
-
-        //voyager
-        var voyager = L.tileLayer('https://{s}.basemaps.cartocdn.com/rastertiles/voyager/{z}/{x}/{y}{r}.png', {
-            attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors &copy; <a href="https://carto.com/">CARTO</a>',
-            subdomains: 'abcd',
-            maxZoom: 20
-        });
-
-        //satteliet
-        var satellite = L.tileLayer('https://server.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/tile/{z}/{y}/{x}', {
-            attribution: '&copy; <a href="https://www.esri.com">Esri</a>'
-        });
-
-        //standaard
-        var standard = L.tileLayer('https://tile.openstreetmap.org/{z}/{x}/{y}.png', {
-            maxZoom: 19, attribution: '&copy; <a href="http://www.openstreetmap.org/copyright">OpenStreetMap</a>' 
-        });
-
-        //opentopop?
-        var geel = L.tileLayer('https://server.arcgisonline.com/ArcGIS/rest/services/World_Street_Map/MapServer/tile/{z}/{y}/{x}', {
-            attribution: 'Tiles &copy; Esri &mdash; &copy; OSM'
-        });
-
         
-//standard.addTo(map);
-var currentLayer = standard;
-var savemap = 'standard';
+        <script src="https://cdn.jsdelivr.net/npm/@turf/turf@7/turf.min.js"></script>
+        <script src="https://unpkg.com/html5-qrcode" type="text/javascript"></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js"></script>
+        <script type="text/javascript">
 
-function changemap(jef, savemapp){
-map.removeLayer(currentLayer); 
-jef.addTo(map);    
-currentLayer = jef;
-savemap = savemapp;
-saveeverything();
-}
+            var loclat;
+            var loclong;
+            var map;
+            var loccircle = 0;
+            var currenttiles;
 
-function changemapp(jef, savemapp){
-map.removeLayer(currentLayer); 
-jef.addTo(map);    
-currentLayer = jef;
-savemap = savemapp;
-}
+            /*function changemap(url){
+                map.setStyle(url);
+                currenttiles = url;
+            }*/
 
 
-function settings(){
-    document.getElementById("settings").style.display = "flex";
-    document.getElementById("collection").style.display = "none";
-    document.getElementById("homesvg").style.fill = "black";
-    document.getElementById("collectsvg").style.fill = "black";
-    document.getElementById("settingssvg").style.fill = "burlywood";
-}
+            function settings(){
+                document.getElementById("settings").style.display = "flex";
+                document.getElementById("collection").style.display = "none";
+                document.getElementById("homesvg").style.fill = "black";
+                document.getElementById("collectsvg").style.fill = "black";
+                document.getElementById("settingssvg").style.fill = "burlywood";
+            }
 
-function collection(){
-    document.getElementById("collection").style.display = "flex";
-    document.getElementById("settings").style.display = "none";
-    document.getElementById("homesvg").style.fill = "black";
-    document.getElementById("collectsvg").style.fill = "burlywood";
-    document.getElementById("settingssvg").style.fill = "black";
-}
+            function collection(){
+                document.getElementById("collection").style.display = "flex";
+                document.getElementById("settings").style.display = "none";
+                document.getElementById("homesvg").style.fill = "black";
+                document.getElementById("collectsvg").style.fill = "burlywood";
+                document.getElementById("settingssvg").style.fill = "black";
+            }
 
-function home(){
-    document.getElementById("settings").style.display = "none";
-    document.getElementById("collection").style.display = "none";
-    document.getElementById("homesvg").style.fill = "burlywood";
-    document.getElementById("collectsvg").style.fill = "black";
-    document.getElementById("settingssvg").style.fill = "black";
-}
+            function home(){
+                document.getElementById("settings").style.display = "none";
+                document.getElementById("collection").style.display = "none";
+                document.getElementById("homesvg").style.fill = "burlywood";
+                document.getElementById("collectsvg").style.fill = "black";
+                document.getElementById("settingssvg").style.fill = "black";
+            }
+
+            function geolocationError(error) {
+            console.error("Locatie fout: ", error.message);
+            }
+
+            //function locatie(){
+                  
+            //}
+            makemap();
 
 
-let gevangenurls = [];
-let gevangenids = [];
-let gevangennames = [];
-var level = 0;
-var xp = 0;
+        function makemap(){
+            if(!map){
+                map = new maplibregl.Map({
+                    container: 'map',
+                    style: 'https://tiles.stadiamaps.com/styles/alidade_smooth_dark.json',
+                    center: [-96, 37.8],
+                    zoom: 1.2,
+                    minZoom:1.2,
+                    pitch: 0,
+                    bearing: 0,
+                    attributionControl: false,
+                    dragRotate: true,
+                    touchPitch: true
+                 })
+
+                 map.touchZoomRotate.enable();
+                 map.touchZoomRotate.enableRotation();
+          
+                const geolocateControl = new maplibregl.GeolocateControl({
+                    positionOptions: {
+                        enableHighAccuracy: true
+                    },
+                    trackUserLocation: true,
+                    showUserLocation: true
+                });
+
+                map.addControl(geolocateControl);
+
+                geolocateControl.on('geolocate', (e) => {
+                    loclat = e.coords.latitude;
+                    loclong = e.coords.longitude;
+                    krijgalledingen(loclat,loclong);
+                });
+
+                map.on('load', () => {
+                    geolocateControl.trigger();
+                });
+
+         maplibregl.setRTLTextPlugin('https://unpkg.com/@mapbox/mapbox-gl-rtl-text@0.2.3/mapbox-gl-rtl-text.min.js');
+
+         map.on('style.load', () => {
+            map.setProjection({
+                type: 'globe',
+            });
+         });
+
+         krijgalledingen(loclat,loclong);
+
+        }
+        }
+
+
+    const nieuwenames = [];
+    const nieuwelat = [];
+    const nieuwelon = [];
+    const alopkaart = [];
+    const circleintervals = [];
+    var vorigelatlong = 0;
+
+    function krijgalledingen(loclatt, loclongg) {
+        if (vorigelatlong != loclatt + " " + loclongg){
+        const myHeaders = new Headers();
+        myHeaders.append("Content-Type", "application/x-www-form-urlencoded");
+
+        const urlencoded = new URLSearchParams();
+        urlencoded.append("data",
+        `[out:json][timeout:60];(
+        node["amenity"~"cafe|restaurant|bar|fast_food|ice_cream|bank|marketplace|pharmacy|school|college|university|kindergarten|library|hospital|clinic|dentist|doctors|nursing_home|fuel|place_of_worship|cinema|theatre|community_centre|nightclub|casino|police|fire_station|townhall"](${loclatt - 0.05},${loclongg - 0.05},${loclatt + 0.05},${loclongg + 0.05});
+        way["amenity"~"place_of_worship|school|college|townhall|university|marketplace"](${loclatt - 0.05},${loclongg - 0.05},${loclatt + 0.05},${loclongg + 0.05});
+        relation["amenity"~"place_of_worship|school|college|townhall|university|marketplace"](${loclatt - 0.05},${loclongg - 0.05},${loclatt + 0.05},${loclongg + 0.05});
+
+        node["historic"="monument"](${loclatt - 0.05},${loclongg - 0.05},${loclatt + 0.05},${loclongg + 0.05});
+        way["historic"="monument"](${loclatt - 0.05},${loclongg - 0.05},${loclatt + 0.05},${loclongg + 0.05});
+        relation["historic"="monument"](${loclatt - 0.05},${loclongg - 0.05},${loclatt + 0.05},${loclongg + 0.05});
+
+        node["leisure"~"park|playground|bowling_alley|sports_centre|swimming_pool|stadium|pitch|golf_course|miniature_golf"](${loclatt - 0.05},${loclongg - 0.05},${loclatt + 0.05},${loclongg + 0.05});
+        way["leisure"~"park|playground|bowling_alley|sports_centre|swimming_pool|stadium|pitch|golf_course|miniature_golf"](${loclatt - 0.05},${loclongg - 0.05},${loclatt + 0.05},${loclongg + 0.05});
+        relation["leisure"~"park|playground|bowling_alley|sports_centre|swimming_pool|stadium|pitch|golf_course|miniature_golf"](${loclatt - 0.05},${loclongg - 0.05},${loclatt + 0.05},${loclongg + 0.05});
+
+        node["building"="chapel|museum|cinema|ruins|tower|shed|shrine"](${loclatt - 0.05},${loclongg - 0.05},${loclatt + 0.05},${loclongg + 0.05});
+        way["building"="chapel|museum|cinema|ruins|tower|shed|shrine"](${loclatt - 0.05},${loclongg - 0.05},${loclatt + 0.05},${loclongg + 0.05});
+        relation["building"="chapel|museum|cinema|ruins|tower|shed|shrine"](${loclatt - 0.05},${loclongg - 0.05},${loclatt + 0.05},${loclongg + 0.05});
+        );
+        out center;`);
+
+        const requestOptions = {
+        method: "POST",
+        headers: myHeaders,
+        body: urlencoded,
+        redirect: "follow"
+        };
+
+        fetch("https://lz4.overpass-api.de/api/interpreter", requestOptions)
+        .then((response) => response.json())    
+        .then((result) => {
+            for(let i = 0; i < result.elements.length; i++){
+                if(result.elements[i].tags.name != undefined){
+                    nieuwenames.push(result.elements[i].tags.name);
+                    var lattoevoeg = result.elements[i].lat || result.elements[i].center.lat;
+                    var lontoevoeg = result.elements[i].lon || result.elements[i].center.lon;
+
+                     if (!lattoevoeg || !lontoevoeg) return;
+
+                    nieuwelat.push(lattoevoeg);
+                    nieuwelon.push(lontoevoeg);
+                }
+                }
+                for(let i = 0; i < nieuwelat.length; i++){
+                if (!alopkaart.includes(nieuwenames[i])){
+                        alopkaart.push(nieuwenames[i]);
+                const radius = 11;
+                const options = {
+                    steps: 64,
+                    units: 'meters'
+                };
+                const circle = turf.circle([nieuwelon[i],nieuwelat[i]], radius, options);
+
+                map.addSource(`circle${i}`, {
+                    type: 'geojson',
+                    data: circle
+                });
+
+                map.addLayer({
+                    id: `circle${i}`,
+                    type: 'fill',
+                    source: `circle${i}`,
+                    paint: {
+                        'fill-color': 'burlywood',
+                        'fill-opacity': 0.6
+                    }
+                });
+
+                circleintervals[i] = setInterval(function(){
+                    h = new Date();
+                    hh = h.getMinutes();
+                    hhh = h.getDate();
+                    hhhh = h.getHours();
+                    hhhhh = h.getMonth();
+                    hhhhhh = h.getFullYear();
+                    if(!gevangenids.includes(i + "d" + hhh + "h" + hhhh + "m" + hhhhh + "y" + hhhhhh)){
+                      map.setPaintProperty(`circle${i}`, 'fill-color', 'burlywood');  
+                    } else {
+                       map.setPaintProperty(`circle${i}`, 'fill-color', 'red');  
+                    }
+                },2000)
+
+                map.on('click', `circle${i}`, (e) => {
+                    if(loclat.toFixed(4) === nieuwelat[i].toFixed(4) && loclong.toFixed(4) === nieuwelon[i].toFixed(4)){
+                        map.setPaintProperty(`circle${i}`, 'fill-color', 'red');
+                        console.log('Kleur van de cirkel is gewijzigd naar rood.');
+                        test(i, nieuwelat[i], nieuwelon[i]);
+                        document.getElementById("locatietext").innerHTML = nieuwenames[i];
+                    }
+                    console.log(nieuwelat[i].toFixed(4));
+                });
+
+                }
+                
+
+            }
+            vorigelatlong = loclatt + " " + loclongg
+            console.log(result.elements.length);
+            setTimeout(document.getElementById("loadingscreen").style.display = "none",600)
+        })
+        .catch((error) => console.error(error));
+    }
+    }
+
+
+var gevangenids = [];
+var gevangennames = [];
+var gevangenurls = [];
 
 var h = new Date();
 var hh = h.getMinutes();
@@ -963,112 +1108,17 @@ var hhh = h.getDate();
 var hhhh = h.getHours();
 var hhhhh = h.getMonth();
 var hhhhhh = h.getFullYear();
-
-let circleIntervals = {};
-let alopkaart = [];
-
-function makemap(){
-
-for(let i = 0; i < nieuwelon.length; i++){
-if (!alopkaart.includes(nieuwenames[i])){
-
-alopkaart.push(nieuwenames[i]);
-
-        let circleoptions = {
-            color:'burlywood',
-            fillColor:'burlywood',
-            fillOpacity:'0.3',
-            weight:'1',
-            radius:45
-        }
-
-        if(gevangenids){
-            if (gevangenids.includes(i + "d" + hhh + "h" + hhhh + "m" + hhhhh + "y" + hhhhhh)) {
-                circleoptions.color = 'red';
-                circleoptions.fillColor = 'red';
-            }
-        }
-
-
-        //var popup = L.popup([latitudes[i], longitudes[i]], {content: names[i]}).addTo(map);
-        let circle = L.circle([nieuwelat[i], nieuwelon[i]], circleoptions).addTo(map);
-
-        if(gevangenids){
-            if (gevangenids.includes(i + "d" + hhh + "h" + hhhh + "m" + hhhhh + "y" + hhhhhh)) {
-            
-            if (circleIntervals[i]) {
-                clearInterval(circleIntervals[i]);
-            }
-
-            circleIntervals[i] = setInterval(function() {
-                h = new Date();
-                hh = h.getMinutes();
-                hhh = h.getDate();
-                hhhh = h.getHours();
-                hhhhh = h.getMonth();
-                hhhhhh = h.getFullYear();
-                if (!gevangenids.includes(i + "d" + hhh + "h" + hhhh + "m" + hhhhh + "y" + hhhhhh)) {
-                    circle.setStyle({
-                    color: 'burlywood',
-                    fillColor: 'burlywood',
-                    weight:'1',
-                    fillOpacity:'0.3'
-                    });
-                    clearInterval(circleIntervals[i]);
-                }
-                //console.log("werkt: " + i);
-            }, 2000);
-            }
-        }
-
-        circle.on('click', function() {
-            circle.bringToFront();
-            test(i, nieuwelat[i], nieuwelon[i]);
-            console.log(i + "d" + hhh + "h" + hhhh + "m" + hhhhh + "y" + hhhhhh);
-            document.getElementById("locatietext").innerHTML = nieuwenames[i];
-            if(loclat.toFixed(3) === nieuwelat[i].toFixed(3) && loclong.toFixed(3) === nieuwelon[i].toFixed(3)){
-                circle.setStyle({
-                color: 'red',
-                fillColor: 'red',
-                fillOpacity:'0.3'
-            });
-            if (circleIntervals[i]) {
-                clearInterval(circleIntervals[i]);
-            }
-
-            circleIntervals[i] = setInterval(function() {
-                h = new Date();
-                hh = h.getMinutes();
-                hhh = h.getDate();
-                hhhh = h.getHours();
-                if (!gevangenids.includes(i + "d" + hhh + "h" + hhhh + "m" + hhhhh + "y" + hhhhhh)) {
-                    circle.setStyle({
-                    color: 'burlywood',
-                    fillColor: 'burlywood',
-                    weight:'1',
-                    fillOpacity:'0.3'
-                    });
-                    clearInterval(circleIntervals[i]);
-                }
-                //console.log("werkt: " + i);
-            }, 2000);
-            }
-        });
-
-}
-}
-document.getElementById("loadingscreen").style.display = "none";
-}
-
-var slide = 0;
+var unlockcolor = "linear-gradient(135deg,rgba(255,255,255,0.5),rgba(255,255,255,0.7))";
+var xp = 0;
+var level = 0;
 
 function test(jef, latt, longg){
     if(gevangenids.includes(jef + "d" + hhh + "h" + hhhh + "m" + hhhhh + "y" + hhhhhh) === false){
 
    
-    if(loclat.toFixed(3) === latt.toFixed(3) && loclong.toFixed(3) === longg.toFixed(3)){
+    if(loclat.toFixed(4) === latt.toFixed(4) && loclong.toFixed(4) === longg.toFixed(4)){
 
-    console.log("ja: " + loclat.toFixed(3) + " is gelijk aan " + latt + " en " + loclong.toFixed(3) + " is gelijk aan " + longg);
+    console.log("ja: " + loclat.toFixed(4) + " is gelijk aan " + latt + " en " + loclong.toFixed(4) + " is gelijk aan " + longg);
 
     h = new Date();
     hh = h.getMinutes();
@@ -1118,9 +1168,9 @@ function test(jef, latt, longg){
     .catch((error) => console.error(error));
 
     } else {
-       console.log("nee: " + loclat.toFixed(3) + " is niet gelijk aan " + latt.toFixed(3) + " en " + loclong.toFixed(3) + " is niet gelijk aan " + longg.toFixed(3));
+       console.log("nee: " + loclat.toFixed(4) + " is niet gelijk aan " + latt.toFixed(4) + " en " + loclong.toFixed(4) + " is niet gelijk aan " + longg.toFixed(4));
     } 
- }
+  }
 }
 
 var laatstepokemonurl;
@@ -1197,7 +1247,7 @@ function checkvang(){
         el.style.backgroundSize = "cover";
         el.setAttribute("id", `pokemon${gevangennames[gevangenurls.length - 1]}${gevangenurls.length}`);
         el.onclick = function () {
-            getinfo(gevangennames[hoeveelstemetnaam],gevangenurls.length);
+            getinfo(gevangennames[gevangenurls.length - 1],gevangenurls.length);
         }
         xp++;
         levelxp();
@@ -1213,67 +1263,69 @@ function checkvang(){
     saveeverything();
 }
 
-var loclat;
-var loclong;
-var locatiecircle;
+function levelxp() {     
+        if(xp * (80 / (level * 10)) > 80){
+            level++;
+            xp = 0;
+            localStorage.setItem("xp", xp);
+            localStorage.setItem("level", level);
+            setTimeout(function () {
+                document.getElementById("video").style.display = "flex";
+            document.getElementById("video").play();
+            setTimeout(function () {
+                document.getElementById("video").style.display = "none";
+            },1730);
+            }, 1000)
+        }
+        document.getElementById("progress").style.width = xp * (80 / (level * 10)) + "vw";
+        document.getElementById("leveltekst").innerText = level;
+        document.getElementById("naarleveltekst").innerText = level + 1;
+        localStorage.setItem("xp", xp);
+        localStorage.setItem("level", level);
+}
 
 
-function testlocatieupdate(){
-navigator.geolocation.getCurrentPosition((position) => {
-    loclat = position.coords.latitude;
-    loclong = position.coords.longitude;
 
-    console.log(loclat + " " + loclong);
+    function getinfo(jef, i) {
+        const requestOptions = {
+            method: "GET",
+            redirect: "follow"
+        };
 
-    if(locatiecircle){
-        //locatie();
-        locatiecircle.setLatLng([loclat, loclong]);
-        locatiecircle.bringToFront();
-    } else {
-    locatiecircle = L.circleMarker([loclat, loclong], {
-        color:'blue',
-        fillColor:'blue',
-        fillOpacity:0.5,
-        radius:10,
-    }).addTo(map);
-    locatiecircle.bringToFront();
-
-    map.setView([loclat, loclong], 18);
-    krijgalledingen(loclat,loclong);
+        fetch(`https://pokeapi.co/api/v2/pokemon/${jef}`, requestOptions)
+        .then((response) => response.json())
+        .then((result) => {
+            document.getElementById("dexname").innerHTML = result.name;
+            document.getElementById("dexheight").innerHTML = result.height;
+            document.getElementById("dexweight").innerHTML = result.weight;
+            document.getElementById("dexhp").innerHTML = result.stats[0].base_stat;
+            document.getElementById("dexattack").innerHTML = result.stats[1].base_stat;
+            document.getElementById("dexdefense").innerHTML = result.stats[2].base_stat;
+            var typez = result.types;
+            var typeztext = "";
+            for(let i = 0; i < typez.length; i++){
+                typeztext += result.types[i].type.name + " ";
+            }
+            document.getElementById("dexenergy").innerHTML = typeztext;
+            document.getElementById("pokedex").style.display = "flex";
+            var foto = document.getElementById(`pokemon${jef}${i}`).style.background;
+            console.log(foto);
+            console.log(jef)
+            document.getElementById("dexfoto").style.background = foto;
+            document.getElementById("starttradebutton").onclick =  function () {
+                document.getElementById('pokedex').style.display = 'none';
+                starttrade(jef, i);
+            }
+        })
+        .catch((error) => console.error(error));
     }
-    },
-    (error) => {
-    console.error("Kon locatie niet ophalen:", error);
-    },
-    { enableHighAccuracy: true, timeout: 2000 }
-);
-}
-setInterval(testlocatieupdate,2000);
-testlocatieupdate();
-setInterval(function () {
-    krijgalledingen(loclat, loclong);
-    console.log("kg");
-}, 20000);
-
-setTimeout(function() {
-    setInterval(function () {
-        krijgalledingen2(loclat, loclong);
-        console.log("kg2");
-    },20000)
-},10000);
 
 
-
-function locatie(){
-    locatiecircle.setLatLng([loclat, loclong]);
-    map.setView([loclat, loclong], 18);
-    console.log("werkt");
-}
-
-var dark = 0;
+    var dark = 1;
 var bgcolor = "rgb(233, 233, 233)";
 var txcolor = "black";
 var unlockcolor = "linear-gradient(135deg,rgba(255,255,255,0.5),rgba(255,255,255,0.7))";
+
 function darkmode(){
     if(dark === 0){
         bgcolor = "rgb(44, 44, 44)";
@@ -1321,7 +1373,6 @@ function darkmode(){
         localStorage.setItem("xp", xp);
         localStorage.setItem("level", level);
         localStorage.setItem("darkmode", dark);
-        localStorage.setItem("savemap", savemap);
     }
 
     function loadeverything(){
@@ -1333,27 +1384,6 @@ function darkmode(){
         }
         if(localStorage.getItem("names")){
             gevangennames = JSON.parse(localStorage.getItem("names")); 
-        }
-        if(localStorage.getItem("savemap")){
-            savemap = localStorage.getItem("savemap");
-            if(savemap === 'white'){
-                changemapp(white, 'white');
-            } else if(savemap === 'standard'){
-                changemapp(standard, 'standard');
-            } else if(savemap === 'black'){
-                changemapp(black, 'black');
-            } else if(savemap === 'voyager'){
-                changemapp(voyager, 'voyager');
-            } else if(savemap === 'satellite'){
-                changemapp(satellite, 'satellite');
-            } else if(savemap === 'geel'){
-                changemapp(geel, 'geel');
-            } else {
-                changemapp(standard, 'standard');
-            }
-            console.log(savemap);
-        } else {
-            changemapp(standard, 'standard');
         }
         if(localStorage.getItem("darkmode") === "1"){
         console.log("dark");
@@ -1401,190 +1431,6 @@ function darkmode(){
        }
     }
 
-
-    function levelxp() {     
-        //level = Math.floor(xp / 10);
-        if(xp * (80 / (level * 10)) > 80){
-            level++;
-            xp = 0;
-            localStorage.setItem("xp", xp);
-            localStorage.setItem("level", level);
-            setTimeout(function () {
-                document.getElementById("video").style.display = "flex";
-            document.getElementById("video").play();
-            setTimeout(function () {
-                document.getElementById("video").style.display = "none";
-            },1730);
-            }, 1000)
-        }
-        document.getElementById("progress").style.width = xp * (80 / (level * 10)) + "vw";
-        document.getElementById("leveltekst").innerText = level;
-        document.getElementById("naarleveltekst").innerText = level + 1;
-        localStorage.setItem("xp", xp);
-        localStorage.setItem("level", level);
-    }
-
-    function getinfo(jef, i) {
-        const requestOptions = {
-            method: "GET",
-            redirect: "follow"
-        };
-
-        fetch(`https://pokeapi.co/api/v2/pokemon/${jef}`, requestOptions)
-        .then((response) => response.json())
-        .then((result) => {
-            document.getElementById("dexname").innerHTML = result.name;
-            document.getElementById("dexheight").innerHTML = result.height;
-            document.getElementById("dexweight").innerHTML = result.weight;
-            document.getElementById("dexhp").innerHTML = result.stats[0].base_stat;
-            document.getElementById("dexattack").innerHTML = result.stats[1].base_stat;
-            document.getElementById("dexdefense").innerHTML = result.stats[2].base_stat;
-            var typez = result.types;
-            var typeztext = "";
-            for(let i = 0; i < typez.length; i++){
-                typeztext += result.types[i].type.name + " ";
-            }
-            document.getElementById("dexenergy").innerHTML = typeztext;
-            document.getElementById("pokedex").style.display = "flex";
-            var foto = document.getElementById(`pokemon${jef}${i}`).style.background;
-            console.log(foto);
-            console.log(jef)
-            document.getElementById("dexfoto").style.background = foto;
-            document.getElementById("starttradebutton").onclick =  function () {
-                document.getElementById('pokedex').style.display = 'none';
-                starttrade(jef, i);
-            }
-        })
-        .catch((error) => console.error(error));
-    }
-
-    const nieuwenames = [];
-    const nieuwelat = [];
-    const nieuwelon = [];
-    var vorigelatlong = 0;
-
-    function krijgalledingen(loclatt, loclongg) {
-        if (vorigelatlong != loclatt + " " + loclongg){
-        const myHeaders = new Headers();
-        myHeaders.append("Content-Type", "application/x-www-form-urlencoded");
-
-        const urlencoded = new URLSearchParams();
-        urlencoded.append("data",
-        `[out:json][timeout:60];(
-        node["amenity"~"cafe|restaurant|bar|fast_food|ice_cream|bank|marketplace|pharmacy|school|college|university|kindergarten|library|hospital|clinic|dentist|doctors|nursing_home|fuel|place_of_worship|cinema|theatre|community_centre|nightclub|casino|police|fire_station|townhall"](${loclatt - 0.05},${loclongg - 0.05},${loclatt + 0.05},${loclongg + 0.05});
-        way["amenity"~"place_of_worship|school|college|townhall|university|marketplace"](${loclatt - 0.05},${loclongg - 0.05},${loclatt + 0.05},${loclongg + 0.05});
-        relation["amenity"~"place_of_worship|school|college|townhall|university|marketplace"](${loclatt - 0.05},${loclongg - 0.05},${loclatt + 0.05},${loclongg + 0.05});
-
-        node["historic"="monument"](${loclatt - 0.05},${loclongg - 0.05},${loclatt + 0.05},${loclongg + 0.05});
-        way["historic"="monument"](${loclatt - 0.05},${loclongg - 0.05},${loclatt + 0.05},${loclongg + 0.05});
-        relation["historic"="monument"](${loclatt - 0.05},${loclongg - 0.05},${loclatt + 0.05},${loclongg + 0.05});
-
-        node["leisure"~"park|playground|bowling_alley|sports_centre|swimming_pool|stadium|pitch|golf_course|miniature_golf"](${loclatt - 0.05},${loclongg - 0.05},${loclatt + 0.05},${loclongg + 0.05});
-        way["leisure"~"park|playground|bowling_alley|sports_centre|swimming_pool|stadium|pitch|golf_course|miniature_golf"](${loclatt - 0.05},${loclongg - 0.05},${loclatt + 0.05},${loclongg + 0.05});
-        relation["leisure"~"park|playground|bowling_alley|sports_centre|swimming_pool|stadium|pitch|golf_course|miniature_golf"](${loclatt - 0.05},${loclongg - 0.05},${loclatt + 0.05},${loclongg + 0.05});
-
-        node["building"="chapel|museum|cinema|ruins|tower|shed|shrine"](${loclatt - 0.05},${loclongg - 0.05},${loclatt + 0.05},${loclongg + 0.05});
-        way["building"="chapel|museum|cinema|ruins|tower|shed|shrine"](${loclatt - 0.05},${loclongg - 0.05},${loclatt + 0.05},${loclongg + 0.05});
-        relation["building"="chapel|museum|cinema|ruins|tower|shed|shrine"](${loclatt - 0.05},${loclongg - 0.05},${loclatt + 0.05},${loclongg + 0.05});
-        );
-        out center;`);
-
-        const requestOptions = {
-        method: "POST",
-        headers: myHeaders,
-        body: urlencoded,
-        redirect: "follow"
-        };
-
-        fetch("https://lz4.overpass-api.de/api/interpreter", requestOptions)
-        .then((response) => response.json())    
-        .then((result) => {
-            for(let i = 0; i < result.elements.length; i++){
-                if(result.elements[i].tags.name != undefined){
-                    nieuwenames.push(result.elements[i].tags.name);
-                    var lattoevoeg = result.elements[i].lat || result.elements[i].center.lat;
-                    var lontoevoeg = result.elements[i].lon || result.elements[i].center.lon;
-
-                     if (!lattoevoeg || !lontoevoeg) return;
-
-                    nieuwelat.push(lattoevoeg);
-                    nieuwelon.push(lontoevoeg);
-                }
-            }
-            makemap();
-            vorigelatlong = loclatt + " " + loclongg
-            console.log(result.elements.length);
-        })
-        .catch((error) => console.error(error));
-    }
-    }
-
-
-    function krijgalledingen2(loclatt, loclongg) {
-        if (vorigelatlong != loclatt + " " + loclongg){
-        const myHeaders = new Headers();
-        myHeaders.append("Content-Type", "application/x-www-form-urlencoded");
-
-        const urlencoded = new URLSearchParams();
-        urlencoded.append("data",
-        `[out:json][timeout:60];(
-        node["amenity"~"cafe|restaurant|bar|fast_food|ice_cream|bank|marketplace|pharmacy|school|college|university|kindergarten|library|hospital|clinic|dentist|doctors|nursing_home|fuel|place_of_worship|cinema|theatre|community_centre|nightclub|casino|police|fire_station|townhall"](${loclatt - 0.05},${loclongg - 0.05},${loclatt + 0.05},${loclongg + 0.05});
-        way["amenity"~"place_of_worship|school|college|townhall|university"](${loclatt - 0.05},${loclongg - 0.05},${loclatt + 0.05},${loclongg + 0.05});
-        relation["amenity"~"place_of_worship|school|college|townhall|university"](${loclatt - 0.05},${loclongg - 0.05},${loclatt + 0.05},${loclongg + 0.05});
-
-        node["historic"="monument"](${loclatt - 0.05},${loclongg - 0.05},${loclatt + 0.05},${loclongg + 0.05});
-        way["historic"="monument"](${loclatt - 0.05},${loclongg - 0.05},${loclatt + 0.05},${loclongg + 0.05});
-        relation["historic"="monument"](${loclatt - 0.05},${loclongg - 0.05},${loclatt + 0.05},${loclongg + 0.05});
-
-        node["leisure"~"park|playground|bowling_alley|sports_centre|swimming_pool|stadium|pitch|golf_course|miniature_golf"](${loclatt - 0.05},${loclongg - 0.05},${loclatt + 0.05},${loclongg + 0.05});
-        way["leisure"~"park|playground|bowling_alley|sports_centre|swimming_pool|stadium|pitch|golf_course|miniature_golf"](${loclatt - 0.05},${loclongg - 0.05},${loclatt + 0.05},${loclongg + 0.05});
-        relation["leisure"~"park|playground|bowling_alley|sports_centre|swimming_pool|stadium|pitch|golf_course|miniature_golf"](${loclatt - 0.05},${loclongg - 0.05},${loclatt + 0.05},${loclongg + 0.05});
-
-        node["building"="chapel|museum|cinema|ruins|tower|shed|shrine"](${loclatt - 0.05},${loclongg - 0.05},${loclatt + 0.05},${loclongg + 0.05});
-        way["building"="chapel|museum|cinema|ruins|tower|shed|shrine"](${loclatt - 0.05},${loclongg - 0.05},${loclatt + 0.05},${loclongg + 0.05});
-        relation["building"="chapel|museum|cinema|ruins|tower|shed|shrine"](${loclatt - 0.05},${loclongg - 0.05},${loclatt + 0.05},${loclongg + 0.05});
-        );
-        out center;`);
-
-        const requestOptions = {
-        method: "POST",
-        headers: myHeaders,
-        body: urlencoded,
-        redirect: "follow"
-        };
-
-        fetch("https://overpass-api.de/api/interpreter", requestOptions)
-        .then((response) => response.json())    
-        .then((result) => {
-            for(let i = 0; i < result.elements.length; i++){
-                if(result.elements[i].tags.name != undefined){
-                    nieuwenames.push(result.elements[i].tags.name);
-                    var lattoevoeg = result.elements[i].lat || result.elements[i].center.lat;
-                    var lontoevoeg = result.elements[i].lon || result.elements[i].center.lon;
-
-                     if (!lattoevoeg || !lontoevoeg) return;
-
-                    nieuwelat.push(lattoevoeg);
-                    nieuwelon.push(lontoevoeg);
-                }
-            }
-            makemap();
-            vorigelatlong = loclatt + " " + loclongg
-            console.log(result.elements.length);
-        })
-        .catch((error) => console.error(error));
-    }
-    }
-
-    function juist (){
-        for(let i = 0; i < nieuwenames.length; i++){
-            if (!names.includes(nieuwenames[i])) {
-                names.push(nieuwenames[i]);
-                latitudes.push(nieuwelat[i]);
-                longitudes.push(nieuwelon[i]);
-            }
-        }
-    }
 
     var resultaat;
     var mijnpokemon;
@@ -1694,6 +1540,6 @@ function darkmode(){
     document.getElementById("qr").innerHTML = "";
 
     }
-    </script>
-</body>
+        </script>
+    </body>
 </html>
