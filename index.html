@@ -243,9 +243,8 @@
         }
 
         #settings{
-            width:96dvw;
-            padding:2vw;
-            height:calc(100dvh - 4vw);
+            width:100dvw;
+            height:100dvh;
             overflow:hidden;
             background-color: rgb(233, 233, 233);
             display:flex;
@@ -254,6 +253,7 @@
             position:absolute;
             display:none;
             transition:0.3s;
+            top:0;
         }
         .tilesoort{
             width:25vw;
@@ -813,8 +813,6 @@
         </style>
     </head>
     <body onload="loadeverything()">
-        <button onclick="netlifyIdentity.open()">Login / Register</button>
-<button onclick="netlifyIdentity.logout()">Logout</button>
         <div id="map"></div>
         <div id="loadingscreen"></div>
         <div id="nav">
@@ -1637,25 +1635,7 @@ saveeverything();
     document.getElementById("qr").innerHTML = "";
 
     }
-    
         </script>
-
-<script>
-  if (window.netlifyIdentity) {
-    window.netlifyIdentity.init();
-  }
-
-  // Voor automatische login detectie
-  window.netlifyIdentity.on('login', user => {
-    console.log('Ingelogd als:', user);
-    window.netlifyIdentity.close();
-  });
-
-  window.netlifyIdentity.on('logout', () => {
-    console.log('Uitgelogd');
-  });
-</script>
-
 
     </body>
 </html>
