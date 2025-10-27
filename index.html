@@ -7,6 +7,7 @@
         <link rel="manifest" href="manifest.json?v=1.0.3">
         <script type="text/javascript" src="//unpkg.com/maplibre-gl@5.0.1/dist/maplibre-gl.js"></script>
         <link href="//unpkg.com/maplibre-gl@5.0.1/dist/maplibre-gl.css" rel="stylesheet" />
+<script src="https://identity.netlify.com/v1/netlify-identity-widget.js"></script>
         <style type="text/css">
             body {
               margin: 0;
@@ -430,6 +431,21 @@
             user-select: none;
         }
 
+        #toggle2cont{
+            position:relative;
+            font-family:arial;
+            position:absolute;
+            top:60%;
+            left:50%;
+            transform:translate(-50%,-50%);
+            width:84dvw;
+            padding:4vw;
+            height:8vw;
+            display:none;
+            align-items:center;
+            user-select: none;
+        }
+
         h1{
             user-select: none;
         }
@@ -797,6 +813,8 @@
         </style>
     </head>
     <body onload="loadeverything()">
+        <button onclick="netlifyIdentity.open()">Login / Register</button>
+<button onclick="netlifyIdentity.logout()">Logout</button>
         <div id="map"></div>
         <div id="loadingscreen"></div>
         <div id="nav">
@@ -818,12 +836,17 @@
     </div>
 
 <section id="settings">
-        <div id="toggle1cont">
+        <div id="toggle1cont" onclick="darkmode()">
             <h1 id="dltoggleh1">Dark Mode</h1>
             <div onclick="darkmode()" id="dltoggle" class="toggle">
-                <div id="dltogglecirc" class="togglecirc">
+                <div onclick="darkmode()" id="dltogglecirc" class="togglecirc"></div>
             </div>
         </div>
+        <div id="toggle2cont" onclick="extradarkmode()">
+            <h1 id="edtoggleh1">Extra Dark Mode</h1>
+            <div onclick="extradarkmode()" id="edtoggle" class="toggle">
+                <div onclick="extradarkmode()" id="edtogglecirc" class="togglecirc">
+            </div>
         </div>
 </section>
 
@@ -937,12 +960,12 @@
                     center: [-96, 37.8],
                     zoom: 1.2,
                     minZoom:1.2,
-                    pitch: 0,
-                    bearing: 0,
-                    attributionControl: false,
-                    dragRotate: true,
-                    touchPitch: true,
-                    reuseTiles: true
+                    //pitch: 0,
+                    //bearing: 0,
+                    //attributionControl: false,
+                    //dragRotate: true,
+                    //touchPitch: true,
+                    //reuseTiles: true
                  })
 
                  map.touchZoomRotate.enable();
@@ -1341,16 +1364,20 @@ function darkmode(){
         document.getElementById("tradecontainer").style.backgroundColor = bgcolor;
         document.getElementById("tradeani").style.backgroundColor = bgcolor;
         document.getElementById("dltoggleh1").style.color = txcolor;
+        document.getElementById("edtoggleh1").style.color = txcolor;
         document.getElementById("leveltekst").style.color = txcolor;
         document.getElementById("naarleveltekst").style.color = txcolor;
         document.getElementById("locatietext").style.color = txcolor;
         document.getElementById("sluittrade").style.fill = txcolor;
+        document.getElementById("toggle2cont").style.display = "flex";
     } else {
         bgcolor = "rgb(233, 233, 233)";
         txcolor = "black";
         unlockcolor = "linear-gradient(135deg,rgba(255,255,255,0.5),rgba(255,255,255,0.7))";
         document.getElementById("dltogglecirc").style.left = "0%";
         document.getElementById("dltoggle").style.backgroundColor = "gray";
+        document.getElementById("edtogglecirc").style.left = "0%";
+        document.getElementById("edtoggle").style.backgroundColor = "gray";
         dark = 0;
 
         document.getElementById("settings").style.backgroundColor = bgcolor;
@@ -1358,13 +1385,60 @@ function darkmode(){
         document.getElementById("tradecontainer").style.backgroundColor = bgcolor;
         document.getElementById("tradeani").style.backgroundColor = bgcolor;
         document.getElementById("dltoggleh1").style.color = txcolor;
+        document.getElementById("edtoggleh1").style.color = txcolor;
         document.getElementById("leveltekst").style.color = txcolor;
         document.getElementById("naarleveltekst").style.color = txcolor;
         document.getElementById("locatietext").style.color = txcolor;
         document.getElementById("sluittrade").style.fill = txcolor;
+        document.getElementById("toggle2cont").style.display = "none";
     }
     localStorage.setItem("darkmode", dark);
     saveeverything();
+}
+
+function extradarkmode() {
+
+if(dark === 1 || dark === 0){
+        dark = 2;
+        bgcolor = "black";
+        txcolor = "#eef3ef";
+        unlockcolor = "linear-gradient(135deg,rgba(78, 78, 78, 0.5),rgba(58, 58, 58, 0.7))";
+        document.getElementById("edtogglecirc").style.left = "calc(100% - 4vw)";
+        document.getElementById("edtoggle").style.backgroundColor = "burlywood";
+
+        document.getElementById("settings").style.backgroundColor = bgcolor;
+        document.getElementById("collection").style.backgroundColor = bgcolor;
+        document.getElementById("tradecontainer").style.backgroundColor = bgcolor;
+        document.getElementById("tradeani").style.backgroundColor = bgcolor;
+        document.getElementById("dltoggleh1").style.color = txcolor;
+        document.getElementById("edtoggleh1").style.color = txcolor;
+        document.getElementById("leveltekst").style.color = txcolor;
+        document.getElementById("naarleveltekst").style.color = txcolor;
+        document.getElementById("locatietext").style.color = txcolor;
+        document.getElementById("sluittrade").style.fill = txcolor;
+        document.getElementById("toggle2cont").style.display = "flex";
+} else {
+        bgcolor = "rgb(44, 44, 44)";
+        txcolor = "#eef3ef";
+        unlockcolor = "linear-gradient(135deg,rgba(78, 78, 78, 0.5),rgba(58, 58, 58, 0.7))";
+        document.getElementById("edtogglecirc").style.left = "0%";
+        document.getElementById("edtoggle").style.backgroundColor = "gray";
+        dark = 1;
+
+        document.getElementById("settings").style.backgroundColor = bgcolor;
+        document.getElementById("collection").style.backgroundColor = bgcolor;
+        document.getElementById("tradecontainer").style.backgroundColor = bgcolor;
+        document.getElementById("tradeani").style.backgroundColor = bgcolor;
+        document.getElementById("dltoggleh1").style.color = txcolor;
+        document.getElementById("edtoggleh1").style.color = txcolor;
+        document.getElementById("leveltekst").style.color = txcolor;
+        document.getElementById("naarleveltekst").style.color = txcolor;
+        document.getElementById("locatietext").style.color = txcolor;
+        document.getElementById("sluittrade").style.fill = txcolor;
+        document.getElementById("toggle2cont").style.display = "flex";
+}
+localStorage.setItem("darkmode", dark);
+saveeverything();
 }
 
     function saveeverything(){
@@ -1399,13 +1473,36 @@ function darkmode(){
         document.getElementById("tradecontainer").style.backgroundColor = bgcolor;
         document.getElementById("tradeani").style.backgroundColor = bgcolor;
         document.getElementById("dltoggleh1").style.color = txcolor;
+        document.getElementById("edtoggleh1").style.color = txcolor;
         document.getElementById("leveltekst").style.color = txcolor;
         document.getElementById("naarleveltekst").style.color = txcolor;
         document.getElementById("locatietext").style.color = txcolor;
         document.getElementById("sluittrade").style.fill = txcolor;
-        } else {
-            dark = 0;
-        }
+        document.getElementById("toggle2cont").style.display = "flex";
+        } else if (localStorage.getItem("darkmode") === "2"){
+        dark = 2;
+        bgcolor = "black";
+        txcolor = "#eef3ef";
+        unlockcolor = "linear-gradient(135deg,rgba(78, 78, 78, 0.5),rgba(58, 58, 58, 0.7))";
+        document.getElementById("edtogglecirc").style.left = "calc(100% - 4vw)";
+        document.getElementById("edtoggle").style.backgroundColor = "burlywood";
+        document.getElementById("dltogglecirc").style.left = "calc(100% - 4vw)";
+        document.getElementById("dltoggle").style.backgroundColor = "burlywood";
+
+        document.getElementById("settings").style.backgroundColor = bgcolor;
+        document.getElementById("collection").style.backgroundColor = bgcolor;
+        document.getElementById("tradecontainer").style.backgroundColor = bgcolor;
+        document.getElementById("tradeani").style.backgroundColor = bgcolor;
+        document.getElementById("dltoggleh1").style.color = txcolor;
+        document.getElementById("edtoggleh1").style.color = txcolor;
+        document.getElementById("leveltekst").style.color = txcolor;
+        document.getElementById("naarleveltekst").style.color = txcolor;
+        document.getElementById("locatietext").style.color = txcolor;
+        document.getElementById("sluittrade").style.fill = txcolor;
+        document.getElementById("toggle2cont").style.display = "flex";
+        } //else {
+            //dark = 0;
+        //}
         if(localStorage.getItem("xp")){
             xp = parseInt(localStorage.getItem("xp"));
         }
@@ -1415,7 +1512,6 @@ function darkmode(){
         level = Math.floor(xp / 10);
        }
        levelxp();
-
        for(let i = 0; i < gevangenurls.length; i++){
         var el = document.createElement('div');
         el.className = "pokémon";
@@ -1541,9 +1637,25 @@ function darkmode(){
     document.getElementById("qr").innerHTML = "";
 
     }
+    
         </script>
+
+<script>
+  if (window.netlifyIdentity) {
+    window.netlifyIdentity.init();
+  }
+
+  // Voor automatische login detectie
+  window.netlifyIdentity.on('login', user => {
+    console.log('Ingelogd als:', user);
+    window.netlifyIdentity.close();
+  });
+
+  window.netlifyIdentity.on('logout', () => {
+    console.log('Uitgelogd');
+  });
+</script>
+
+
     </body>
 </html>
-
-
-
