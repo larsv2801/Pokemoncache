@@ -965,6 +965,7 @@
             }*/
 
 
+
             function settings(){
                 document.getElementById("settings").style.display = "flex";
                 document.getElementById("collection").style.display = "none";
@@ -1163,7 +1164,7 @@ function projectionmode(){
                     type: 'fill',
                     source: `circle${i}`,
                     paint: {
-                        'fill-color': 'burlywood',
+                        'fill-color': kleur,
                         'fill-opacity': 0.6
                     }
                 });
@@ -1176,7 +1177,7 @@ function projectionmode(){
                     hhhhh = h.getMonth();
                     hhhhhh = h.getFullYear();
                     if(!gevangenids.includes(i + "d" + hhh + "h" + hhhh + "m" + hhhhh + "y" + hhhhhh)){
-                      map.setPaintProperty(`circle${i}`, 'fill-color', 'burlywood');  
+                      map.setPaintProperty(`circle${i}`, 'fill-color', kleur);  
                     } else {
                        map.setPaintProperty(`circle${i}`, 'fill-color', 'red');  
                     }
@@ -1565,14 +1566,18 @@ saveeverything();
         if(localStorage.getItem("projectmode")){
             projectmode = parseInt(localStorage.getItem("projectmode"));
             if(projectmode === 0){
-                map.setProjection({
+                map.on('load', () => {
+                    map.setProjection({
                         type: 'mercator',
+                    });
                 });
                 document.getElementById("prtogglecirc").style.left = "0%";
                 document.getElementById("prtoggle").style.backgroundColor = "gray";
             } else {
-                map.setProjection({
+                map.on('load', () => {
+                    map.setProjection({
                         type: 'globe',
+                    });
                 });
                 document.getElementById("prtogglecirc").style.left = "calc(100% - 4vw)";
                 document.getElementById("prtoggle").style.backgroundColor = "var(--main-accent-color)";
