@@ -8,6 +8,11 @@
         <script type="text/javascript" src="//unpkg.com/maplibre-gl@5.0.1/dist/maplibre-gl.js"></script>
         <link href="//unpkg.com/maplibre-gl@5.0.1/dist/maplibre-gl.css" rel="stylesheet" />
         <style type="text/css">
+
+            :root {
+            --main-accent-color: red;
+            }
+
             body {
               margin: 0;
               padding: 0;
@@ -34,7 +39,7 @@
                 font-size: 18px;
                 text-align: center;
                 color: #fff;
-                background: burlywood;
+                background: var(--main-accent-color);
             }
             body{
             margin:0;
@@ -57,7 +62,7 @@
             outline:none;
             background:linear-gradient(135deg,rgba(255,255,255,0.2),rgba(255,255,255,0.3));
             backdrop-filter: blur(4px);
-            /*background-color: burlywood;*/
+            /*background-color: var(--main-accent-color);*/
             border:2px solid #16161652;
             display:flex;
             z-index:9;
@@ -71,7 +76,7 @@
 
         #centreer:focus{
             transition:0.3s;
-            background-color: burlywood;
+            background-color: var(--main-accent-color);
         }
 
         #centreer svg{
@@ -178,7 +183,7 @@
             border:1px gray solid;
         }
         #nav #homesvg{
-            fill:burlywood;
+            fill:var(--main-accent-color);
             transition:0.3s;
         }
         #nav svg{
@@ -242,12 +247,14 @@
         }
 
         #settings{
-            width:96dvw;
-            padding:2vw;
-            height:calc(100dvh - 4vw);
+            width:100dvw;
+            padding-top:2vw;
+            height:calc(100dvh - 2vw);
             overflow:hidden;
             background-color: rgb(233, 233, 233);
             display:flex;
+            flex-direction: column;
+            gap:10vw;
             z-index:92;
             justify-content:center;
             position:absolute;
@@ -257,7 +264,7 @@
         .tilesoort{
             width:25vw;
             height:25vw;
-            border:2px solid burlywood;
+            border:2px solid var(--main-accent-color);
             border-radius: 15px;
             transition: 0.3s;
             user-select: none;
@@ -354,7 +361,7 @@
             right:0;
             transform: translate(1%,60%);
             color:white;
-            background: burlywood;
+            background: var(--main-accent-color);
             padding:1vw;
             min-width:10vw;
             border-radius:5px;
@@ -418,10 +425,6 @@
         #toggle1cont{
             position:relative;
             font-family:arial;
-            position:absolute;
-            top:30%;
-            left:50%;
-            transform:translate(-50%,-50%);
             width:84dvw;
             padding:4vw;
             height:8vw;
@@ -433,10 +436,6 @@
         #toggle2cont{
             position:relative;
             font-family:arial;
-            position:absolute;
-            top:50%;
-            left:50%;
-            transform:translate(-50%,-50%);
             width:84dvw;
             padding:4vw;
             height:8vw;
@@ -448,10 +447,17 @@
         #toggle3cont{
             position:relative;
             font-family:arial;
-            position:absolute;
-            top:70%;
-            left:50%;
-            transform:translate(-50%,-50%);
+            width:84dvw;
+            padding:4vw;
+            height:8vw;
+            display:flex;
+            align-items:center;
+            user-select: none;
+        }
+
+        #toggle4cont{
+            position:relative;
+            font-family:arial;
             width:84dvw;
             padding:4vw;
             height:8vw;
@@ -465,7 +471,7 @@
         }
 
         #progress {
-            background-color: burlywood;
+            background-color: var(--main-accent-color);
             border-radius: 50px;
             height:3vh;
         }
@@ -555,7 +561,7 @@
           border-radius: 50px;
           position:absolute;
           left:0px;
-          background-color:burlywood;
+          background-color:var(--main-accent-color);
         }
 
         #pokedex{
@@ -571,7 +577,7 @@
             background-color: rgba(255, 255, 255, 0.803);
             backdrop-filter: blur(10px);
             border-radius: 15px;
-            border:1px solid burlywood;
+            border:1px solid var(--main-accent-color);
         }
 
         #dexfoto{
@@ -628,7 +634,7 @@
         #starttradebutton{
             border:none;
             outline:none;
-            background-color: burlywood;
+            background-color: var(--main-accent-color);
             position:absolute;
             bottom: 0%;
             left:50%;
@@ -770,7 +776,7 @@
         .tradebutton{
             border:none;
             outline:none;
-            background-color: burlywood;
+            background-color: var(--main-accent-color);
             position:absolute;
             top:80%;
             left:50%;
@@ -864,6 +870,11 @@
             <h1 id="prtoggleh1">Globe Mode</h1>
             <div onclick="projectionmode()" id="prtoggle" class="toggle">
                 <div onclick="projectionmode()" id="prtogglecirc" class="togglecirc"></div>
+            </div>
+        </div>
+        <div id="toggle4cont">
+            <h1 id="kltoggleh1">Accent Color</h1>
+            <input type="color" id="kleurselector" oninput="changecolor()" class="toggle">
         </div>
 </section>
 
@@ -940,21 +951,21 @@
                 document.getElementById("collection").style.display = "none";
                 document.getElementById("homesvg").style.fill = "black";
                 document.getElementById("collectsvg").style.fill = "black";
-                document.getElementById("settingssvg").style.fill = "burlywood";
+                document.getElementById("settingssvg").style.fill = "var(--main-accent-color)";
             }
 
             function collection(){
                 document.getElementById("collection").style.display = "flex";
                 document.getElementById("settings").style.display = "none";
                 document.getElementById("homesvg").style.fill = "black";
-                document.getElementById("collectsvg").style.fill = "burlywood";
+                document.getElementById("collectsvg").style.fill = "var(--main-accent-color)";
                 document.getElementById("settingssvg").style.fill = "black";
             }
 
             function home(){
                 document.getElementById("settings").style.display = "none";
                 document.getElementById("collection").style.display = "none";
-                document.getElementById("homesvg").style.fill = "burlywood";
+                document.getElementById("homesvg").style.fill = "var(--main-accent-color)";
                 document.getElementById("collectsvg").style.fill = "black";
                 document.getElementById("settingssvg").style.fill = "black";
             }
@@ -1034,11 +1045,11 @@ function projectionmode(){
                 loclong,
                 loclat
             ],
-            zoom:17,
+            zoom:16,
             essential: false
         });
         document.getElementById("prtogglecirc").style.left = "calc(100% - 4vw)";
-        document.getElementById("prtoggle").style.backgroundColor = "burlywood";
+        document.getElementById("prtoggle").style.backgroundColor = "var(--main-accent-color)";
     } else {
         projectmode = 0;
         map.setProjection({
@@ -1049,7 +1060,7 @@ function projectionmode(){
                 loclong,
                 loclat
             ],
-            zoom:17,
+            zoom:16,
             essential: false
         });
         document.getElementById("prtogglecirc").style.left = "0%";
@@ -1409,7 +1420,7 @@ function darkmode(){
         txcolor = "#eef3ef";
         unlockcolor = "linear-gradient(135deg,rgba(78, 78, 78, 0.5),rgba(58, 58, 58, 0.7))";
         document.getElementById("dltogglecirc").style.left = "calc(100% - 4vw)";
-        document.getElementById("dltoggle").style.backgroundColor = "burlywood";
+        document.getElementById("dltoggle").style.backgroundColor = "var(--main-accent-color)";
         dark = 1;
 
         document.getElementById("settings").style.backgroundColor = bgcolor;
@@ -1418,6 +1429,8 @@ function darkmode(){
         document.getElementById("tradeani").style.backgroundColor = bgcolor;
         document.getElementById("dltoggleh1").style.color = txcolor;
         document.getElementById("edtoggleh1").style.color = txcolor;
+        document.getElementById("prtoggleh1").style.color = txcolor;
+        document.getElementById("kltoggleh1").style.color = txcolor;
         document.getElementById("leveltekst").style.color = txcolor;
         document.getElementById("naarleveltekst").style.color = txcolor;
         document.getElementById("locatietext").style.color = txcolor;
@@ -1439,6 +1452,8 @@ function darkmode(){
         document.getElementById("tradeani").style.backgroundColor = bgcolor;
         document.getElementById("dltoggleh1").style.color = txcolor;
         document.getElementById("edtoggleh1").style.color = txcolor;
+        document.getElementById("prtoggleh1").style.color = txcolor;
+        document.getElementById("kltoggleh1").style.color = txcolor;
         document.getElementById("leveltekst").style.color = txcolor;
         document.getElementById("naarleveltekst").style.color = txcolor;
         document.getElementById("locatietext").style.color = txcolor;
@@ -1457,7 +1472,7 @@ if(dark === 1 || dark === 0){
         txcolor = "#eef3ef";
         unlockcolor = "linear-gradient(135deg,rgba(78, 78, 78, 0.5),rgba(58, 58, 58, 0.7))";
         document.getElementById("edtogglecirc").style.left = "calc(100% - 4vw)";
-        document.getElementById("edtoggle").style.backgroundColor = "burlywood";
+        document.getElementById("edtoggle").style.backgroundColor = "var(--main-accent-color)";
 
         document.getElementById("settings").style.backgroundColor = bgcolor;
         document.getElementById("collection").style.backgroundColor = bgcolor;
@@ -1465,6 +1480,8 @@ if(dark === 1 || dark === 0){
         document.getElementById("tradeani").style.backgroundColor = bgcolor;
         document.getElementById("dltoggleh1").style.color = txcolor;
         document.getElementById("edtoggleh1").style.color = txcolor;
+        document.getElementById("prtoggleh1").style.color = txcolor;
+        document.getElementById("kltoggleh1").style.color = txcolor;
         document.getElementById("leveltekst").style.color = txcolor;
         document.getElementById("naarleveltekst").style.color = txcolor;
         document.getElementById("locatietext").style.color = txcolor;
@@ -1484,6 +1501,8 @@ if(dark === 1 || dark === 0){
         document.getElementById("tradeani").style.backgroundColor = bgcolor;
         document.getElementById("dltoggleh1").style.color = txcolor;
         document.getElementById("edtoggleh1").style.color = txcolor;
+        document.getElementById("prtoggleh1").style.color = txcolor;
+        document.getElementById("kltoggleh1").style.color = txcolor;
         document.getElementById("leveltekst").style.color = txcolor;
         document.getElementById("naarleveltekst").style.color = txcolor;
         document.getElementById("locatietext").style.color = txcolor;
@@ -1502,6 +1521,7 @@ saveeverything();
         localStorage.setItem("level", level);
         localStorage.setItem("darkmode", dark);
         localStorage.setItem("projectmode", projectmode);
+        localStorage.setItem("kleur", kleur);
     }
 
     function loadeverything(){
@@ -1513,6 +1533,11 @@ saveeverything();
         }
         if(localStorage.getItem("names")){
             gevangennames = JSON.parse(localStorage.getItem("names")); 
+        }
+        if(localStorage.getItem("kleur")){
+            kleur = localStorage.getItem("kleur");
+            document.getElementById("kleurselector").value = kleur;
+            document.querySelector(':root').style.setProperty('--main-accent-color', kleur);
         }
         if(localStorage.getItem("projectmode")){
             projectmode = parseInt(localStorage.getItem("projectmode"));
@@ -1527,7 +1552,7 @@ saveeverything();
                         type: 'globe',
                 });
                 document.getElementById("prtogglecirc").style.left = "calc(100% - 4vw)";
-                document.getElementById("prtoggle").style.backgroundColor = "burlywood";
+                document.getElementById("prtoggle").style.backgroundColor = "var(--main-accent-color)";
             }
         }
         if(localStorage.getItem("darkmode") === "1"){
@@ -1537,7 +1562,7 @@ saveeverything();
         txcolor = "#eef3ef";
         unlockcolor = "linear-gradient(135deg,rgba(78, 78, 78, 0.5),rgba(58, 58, 58, 0.7))";
         document.getElementById("dltogglecirc").style.left = "calc(100% - 4vw)";
-        document.getElementById("dltoggle").style.backgroundColor = "burlywood";
+        document.getElementById("dltoggle").style.backgroundColor = "var(--main-accent-color)";
         document.getElementById("settings").style.backgroundColor = bgcolor;
         document.getElementById("collection").style.backgroundColor = bgcolor;
         document.getElementById("tradecontainer").style.backgroundColor = bgcolor;
@@ -1545,6 +1570,7 @@ saveeverything();
         document.getElementById("dltoggleh1").style.color = txcolor;
         document.getElementById("edtoggleh1").style.color = txcolor;
         document.getElementById("prtoggleh1").style.color = txcolor;
+        document.getElementById("kltoggleh1").style.color = txcolor;
         document.getElementById("leveltekst").style.color = txcolor;
         document.getElementById("naarleveltekst").style.color = txcolor;
         document.getElementById("locatietext").style.color = txcolor;
@@ -1556,9 +1582,9 @@ saveeverything();
         txcolor = "#eef3ef";
         unlockcolor = "linear-gradient(135deg,rgba(78, 78, 78, 0.5),rgba(58, 58, 58, 0.7))";
         document.getElementById("edtogglecirc").style.left = "calc(100% - 4vw)";
-        document.getElementById("edtoggle").style.backgroundColor = "burlywood";
+        document.getElementById("edtoggle").style.backgroundColor = "var(--main-accent-color)";
         document.getElementById("dltogglecirc").style.left = "calc(100% - 4vw)";
-        document.getElementById("dltoggle").style.backgroundColor = "burlywood";
+        document.getElementById("dltoggle").style.backgroundColor = "var(--main-accent-color)";
 
         document.getElementById("settings").style.backgroundColor = bgcolor;
         document.getElementById("collection").style.backgroundColor = bgcolor;
@@ -1567,6 +1593,7 @@ saveeverything();
         document.getElementById("dltoggleh1").style.color = txcolor;
         document.getElementById("edtoggleh1").style.color = txcolor;
         document.getElementById("prtoggleh1").style.color = txcolor;
+        document.getElementById("kltoggleh1").style.color = txcolor;
         document.getElementById("leveltekst").style.color = txcolor;
         document.getElementById("naarleveltekst").style.color = txcolor;
         document.getElementById("locatietext").style.color = txcolor;
@@ -1581,7 +1608,7 @@ saveeverything();
        if(localStorage.getItem("level")){
         level = parseInt(localStorage.getItem("level"));
        } else {
-        level = Math.floor(xp / 10);
+        level = 0;
        }
        levelxp();
        for(let i = 0; i < gevangenurls.length; i++){
@@ -1708,6 +1735,14 @@ saveeverything();
     qrcode.clear();
     document.getElementById("qr").innerHTML = "";
 
+    }
+
+    var kleur = "#9c8568";
+
+    function changecolor(){
+        kleur = document.getElementById("kleurselector").value;
+        document.querySelector(':root').style.setProperty('--main-accent-color', kleur);
+        localStorage.setItem("kleur", kleur);
     }
         </script>
 
