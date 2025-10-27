@@ -1147,9 +1147,9 @@ function projectionmode(){
                 for(let i = 0; i < nieuwelat.length; i++){
                 if (!alopkaart.includes(nieuwenames[i])){
                         alopkaart.push(nieuwenames[i]);
-                const radius = 11;
+                const radius = 111;
                 const options = {
-                    steps: 64,
+                    steps: 84,
                     units: 'meters'
                 };
                 const circle = turf.circle([nieuwelon[i],nieuwelat[i]], radius, options);
@@ -1184,7 +1184,7 @@ function projectionmode(){
                 },2000)
 
                 map.on('click', `circle${i}`, (e) => {
-                    if(loclat.toFixed(4) === nieuwelat[i].toFixed(4) && loclong.toFixed(4) === nieuwelon[i].toFixed(4)){
+                    if(loclat.toFixed(3) === nieuwelat[i].toFixed(3) && loclong.toFixed(3) === nieuwelon[i].toFixed(3)){
                         map.setPaintProperty(`circle${i}`, 'fill-color', 'red');
                         console.log('Kleur van de cirkel is gewijzigd naar rood.');
                         test(i, nieuwelat[i], nieuwelon[i]);
@@ -1224,7 +1224,7 @@ function test(jef, latt, longg){
     if(gevangenids.includes(jef + "d" + hhh + "h" + hhhh + "m" + hhhhh + "y" + hhhhhh) === false){
 
    
-    if(loclat.toFixed(4) === latt.toFixed(4) && loclong.toFixed(4) === longg.toFixed(4)){
+    if(loclat.toFixed(3) === latt.toFixed(3) && loclong.toFixed(3) === longg.toFixed(3)){
 
     console.log("ja: " + loclat.toFixed(4) + " is gelijk aan " + latt + " en " + loclong.toFixed(4) + " is gelijk aan " + longg);
 
