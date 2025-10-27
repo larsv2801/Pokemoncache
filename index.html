@@ -468,6 +468,23 @@
             user-select: none;
         }
 
+        .toggle input{
+            height:5vw;
+            width:8vw;
+            background-color: var(--main-accent-color);
+            border: 0px solid black;
+            border-radius:50px;
+            position:absolute;
+            display:flex;
+            align-items:center;
+            right:5%;
+            transition:0.3s;
+            user-select: none;
+            cursor:pointer;
+            -webkit-tap-highlight-color: transparent;
+            outline:none;
+        }
+
         h1{
             user-select: none;
         }
@@ -1540,6 +1557,10 @@ saveeverything();
             kleur = localStorage.getItem("kleur");
             document.getElementById("kleurselector").value = kleur;
             document.querySelector(':root').style.setProperty('--main-accent-color', kleur);
+        } else {
+           kleur = "#9c8568";
+           document.getElementById("kleurselector").value = kleur;
+           document.querySelector(':root').style.setProperty('--main-accent-color', kleur);
         }
         if(localStorage.getItem("projectmode")){
             projectmode = parseInt(localStorage.getItem("projectmode"));
